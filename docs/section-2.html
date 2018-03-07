@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="section-1.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>まえおき</a></li>
+<li class="chapter" data-level="1" data-path="section-1.html"><a href="section-1.html"><i class="fa fa-check"></i><b>1</b> はじめに</a><ul>
+<li class="chapter" data-level="1.1" data-path="section-1.html"><a href="section-1.html#section-1.1"><i class="fa fa-check"></i><b>1.1</b> なぜ機械学習なのか</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="section-1.html"><a href="section-1.html#section-1.1.1"><i class="fa fa-check"></i><b>1.1.1</b> 機械学習で解決可能な問題</a></li>
+<li class="chapter" data-level="1.1.2" data-path="section-1.html"><a href="section-1.html#section-1.1.2"><i class="fa fa-check"></i><b>1.1.2</b> タスクを知り、データを知る</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="section-1.html"><a href="section-1.html#python"><i class="fa fa-check"></i><b>1.2</b> なぜPythonなのか？</a></li>
+<li class="chapter" data-level="1.3" data-path="section-1.html"><a href="section-1.html#scikit-learn"><i class="fa fa-check"></i><b>1.3</b> scikit-learn</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="section-1.html"><a href="section-1.html#section-1.3.1"><i class="fa fa-check"></i><b>1.3.1</b> インストール</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="section-1.html"><a href="section-1.html#section-1.4"><i class="fa fa-check"></i><b>1.4</b> 必要なライブラリとツール</a></li>
+<li class="chapter" data-level="1.5" data-path="section-1.html"><a href="section-1.html#python-2-vs.python-3"><i class="fa fa-check"></i><b>1.5</b> Python 2 vs. Python 3</a></li>
+<li class="chapter" data-level="1.6" data-path="section-1.html"><a href="section-1.html#-"><i class="fa fa-check"></i><b>1.6</b> 最初のアプリケーション: アイリスのクラス分類</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="section-1.html"><a href="section-1.html#section-1.6.1"><i class="fa fa-check"></i><b>1.6.1</b> データを読む</a></li>
+<li class="chapter" data-level="1.6.2" data-path="section-1.html"><a href="section-1.html#-"><i class="fa fa-check"></i><b>1.6.2</b> 成功度合いの測定: 訓練データとテストデータ</a></li>
+<li class="chapter" data-level="1.6.3" data-path="section-1.html"><a href="section-1.html#-"><i class="fa fa-check"></i><b>1.6.3</b> 最初にすべきこと: データを良く観察する</a></li>
+<li class="chapter" data-level="1.6.4" data-path="section-1.html"><a href="section-1.html#-k-"><i class="fa fa-check"></i><b>1.6.4</b> 最初のモデル: k-最近傍法</a></li>
+<li class="chapter" data-level="1.6.5" data-path="section-1.html"><a href="section-1.html#section-1.6.5"><i class="fa fa-check"></i><b>1.6.5</b> 予測を行う</a></li>
+<li class="chapter" data-level="1.6.6" data-path="section-1.html"><a href="section-1.html#section-1.6.6"><i class="fa fa-check"></i><b>1.6.6</b> モデルの評価</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="section-2.html"><a href="section-2.html"><i class="fa fa-check"></i><b>2</b> 教師あり学習</a><ul>
+<li class="chapter" data-level="2.1" data-path="section-2.html"><a href="section-2.html#section-2.1"><i class="fa fa-check"></i><b>2.1</b> クラス分類と回帰</a></li>
+<li class="chapter" data-level="2.2" data-path="section-2.html"><a href="section-2.html#section-2.2"><i class="fa fa-check"></i><b>2.2</b> 汎化、過剰適合、適合不足</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="section-2.html"><a href="section-2.html#section-2.2.1"><i class="fa fa-check"></i><b>2.2.1</b> モデルの複雑さとデータセットの大きさ</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="section-2.html"><a href="section-2.html#section-2.3"><i class="fa fa-check"></i><b>2.3</b> 教師あり機械学習アルゴリズム</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="section-2.html"><a href="section-2.html#section-2.3.1"><i class="fa fa-check"></i><b>2.3.1</b> サンプルデータセット</a></li>
+<li class="chapter" data-level="2.3.2" data-path="section-2.html"><a href="section-2.html#k-"><i class="fa fa-check"></i><b>2.3.2</b> <span class="math inline">\(k\)</span>-最近傍法</a></li>
+<li class="chapter" data-level="2.3.3" data-path="section-2.html"><a href="section-2.html#section-2.3.3"><i class="fa fa-check"></i><b>2.3.3</b> 線形モデル</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="section-2" class="section level1">
+<h1><span class="header-section-number">2</span> 教師あり学習</h1>
+<p>備えます。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> numpy <span class="im">as</span> np
+<span class="im">import</span> scipy <span class="im">as</span> sp
+<span class="im">import</span> pandas <span class="im">as</span> pd
+<span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt
+<span class="im">import</span> matplotlib
+matplotlib.rc(<span class="st">&#39;font&#39;</span>, family<span class="op">=</span><span class="st">&#39;IPAexGothic&#39;</span>) <span class="co"># 日本語プロット設定</span>
+<span class="im">import</span> mglearn</code></pre></div>
+<div id="section-2.1" class="section level2">
+<h2><span class="header-section-number">2.1</span> クラス分類と回帰</h2>
+<p>教師あり学習はさらに2つに分けられる。</p>
+<ul>
+<li><strong>クラス分類</strong>: クラスラベルを予測する問題。
+<ul>
+<li>2クラス分類 (binary classification): Yes/Noみたいな2択。
+<ul>
+<li>片方を<strong>陽性</strong> (positive)、もう片方を<strong>陰性</strong> (negative)とする場合がしばしばある。</li>
+</ul></li>
+<li>他クラス分類 (multiclass classification): もっと選択肢多いやつ。</li>
+</ul></li>
+<li><strong>回帰</strong>: 連続値を予測する問題。</li>
+</ul>
+<p>2つを区別するのは<strong>出力</strong>が連続かどうか。<strong>入力</strong>はどちらの問題でも連続の場合も離散的な場合もある。</p>
+</div>
+<div id="section-2.2" class="section level2">
+<h2><span class="header-section-number">2.2</span> 汎化、過剰適合、適合不足</h2>
+<ul>
+<li><strong>汎化能力</strong>: 未知のデータ(訓練に使ってないデータ)に対する正しい値を予測する能力。</li>
+<li><strong>過剰適合</strong>: 訓練データはめっちゃ正確に予測できるけど新しいデータはてんでダメという状態。</li>
+<li><strong>適合不足</strong>: 訓練データすらちゃんと予測できてないという状態。</li>
+</ul>
+<p>一般的には<strong>モデルを複雑にする</strong>ほど訓練データに適合していく。適合不足でなく、過剰適合にならない適度なモデルの複雑さの時に汎化能力が最大になる。そこを目指そう。</p>
+<div id="section-2.2.1" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> モデルの複雑さとデータセットの大きさ</h3>
+<ul>
+<li>モデルが複雑でも、データセットが大きければ過剰適合を避けられる。</li>
+<li>適度な複雑さのモデルと十分に大きなデータセットを使うことが成功のポイント。</li>
+</ul>
+</div>
+</div>
+<div id="section-2.3" class="section level2">
+<h2><span class="header-section-number">2.3</span> 教師あり機械学習アルゴリズム</h2>
+<div id="section-2.3.1" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> サンプルデータセット</h3>
+<ul>
+<li><strong>人工的な単純なデータセット</strong>と、<strong>実世界の割と複雑なデータセット</strong>を使う。</li>
+</ul>
+<div id="section-2.3.1.1" class="section level4">
+<h4><span class="header-section-number">2.3.1.1</span> 人工的な単純なデータセット</h4>
+<p>単純なデータセットは<strong>mglearn</strong>で生成する。</p>
+<ul>
+<li><strong>forge</strong>: <code>mglearn.datasets.make_forge()</code>で生成する2クラス分類向けデータ。
+<ul>
+<li>2つの特徴量と1つの2値目的変数をもつ。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X, y <span class="op">=</span> mglearn.datasets.make_forge()
+mglearn.discrete_scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], y)
+plt.legend([<span class="st">&quot;Class 0&quot;</span>, <span class="st">&quot;Class 1&quot;</span>], loc <span class="op">=</span> <span class="dv">4</span>) <span class="co"># 凡例</span>
+plt.xlabel(<span class="st">&quot;第1特徴量&quot;</span>)
+plt.ylabel(<span class="st">&quot;第2特徴量&quot;</span>)
+plt.show()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.close()</code></pre></div>
+<ul>
+<li><strong>wave</strong>: <code>mglearn.datasets.make_wave</code>で生成する回帰向けデータ。
+<ul>
+<li>1つの特徴量と1つの目的変数を持つ。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X, y <span class="op">=</span> mglearn.datasets.make_wave(n_samples <span class="op">=</span> <span class="dv">40</span>)
+plt.plot(X, y, <span class="st">&#39;o&#39;</span>)
+plt.xlabel(<span class="st">&quot;特徴量&quot;</span>)
+plt.xlabel(<span class="st">&quot;目的変数&quot;</span>)
+plt.show()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.close()</code></pre></div>
+</div>
+<div id="section-2.3.1.2" class="section level4">
+<h4><span class="header-section-number">2.3.1.2</span> 実データ</h4>
+<p>実データは<strong>scikit-learn</strong>に入ってるものを使う。第1章でも説明したBunchクラスになっている。</p>
+<ul>
+<li><strong>cancer</strong>: ウィスコンシン乳癌データセット
+<ul>
+<li>目的変数は良性(benign)と悪性(malignant)の2値。</li>
+<li>特徴量は30。</li>
+<li>データポイントは569点。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer
+cancer <span class="op">=</span> load_breast_cancer()
+<span class="bu">print</span>(cancer.keys())
+<span class="co">## dict_keys([&#39;data&#39;, &#39;target&#39;, &#39;target_names&#39;, &#39;DESCR&#39;, &#39;feature_names&#39;])</span>
+<span class="bu">print</span>(cancer.data.shape)
+<span class="co">## (569, 30)</span>
+<span class="bu">print</span>(cancer.target_names)
+<span class="co">## [&#39;malignant&#39; &#39;benign&#39;]</span>
+<span class="bu">print</span>(np.bincount(cancer.target))
+<span class="co">## [212 357]</span></code></pre></div>
+<ul>
+<li><strong>boston_housing</strong>: 1970年代のボストン近郊の住宅価格。
+<ul>
+<li>住宅価格の中央値が目的変数。</li>
+<li>特徴量は13。</li>
+<li>データポイントは506点。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_boston
+boston <span class="op">=</span> load_boston()
+<span class="bu">print</span>(boston.data.shape)
+<span class="co">## (506, 13)</span>
+<span class="bu">print</span>(boston.feature_names)
+<span class="co">## [&#39;CRIM&#39; &#39;ZN&#39; &#39;INDUS&#39; &#39;CHAS&#39; &#39;NOX&#39; &#39;RM&#39; &#39;AGE&#39; &#39;DIS&#39; &#39;RAD&#39; &#39;TAX&#39; &#39;PTRATIO&#39;</span>
+<span class="co">##  &#39;B&#39; &#39;LSTAT&#39;]</span></code></pre></div>
+<ul>
+<li>特徴量同士の積を求めたりして、新しい特徴量を導出することを<strong>特徴量エンジニアリング</strong>と呼ぶ。</li>
+<li><strong>boston_housing</strong>に対し、重複ありで2つの特徴量の積を求め、データセットの拡張を試みる。
+<ul>
+<li>作業が面倒なので既に拡張したものが<code>mglearn.datasets.load_extended_boston()</code>で読み込めます。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X, y <span class="op">=</span> mglearn.datasets.load_extended_boston()
+<span class="bu">print</span>(X.shape)
+<span class="co">## (506, 104)</span></code></pre></div>
+</div>
+</div>
+<div id="k-" class="section level3">
+<h3><span class="header-section-number">2.3.2</span> <span class="math inline">\(k\)</span>-最近傍法</h3>
+<p>備えよう。</p>
+</div>
+<div id="section-2.3.3" class="section level3">
+<h3><span class="header-section-number">2.3.3</span> 線形モデル</h3>
+<div id="section-2.3.3.1" class="section level4">
+<h4><span class="header-section-number">2.3.3.1</span> 線形モデルによる回帰</h4>
+<p>線形モデルによる予測式は…</p>
+<p><span class="math display">\[\hat{y} = w[0]\times x[0] + w[1]\times x[1] + ... + w[p]\times x[p] + b\]</span></p>
+<ul>
+<li><span class="math inline">\(\hat{y}\)</span>は予測値で、<span class="math inline">\(w\)</span>と<span class="math inline">\(b\)</span>はモデルのパラメータ。<span class="math inline">\(x\)</span>はある一つのデータポイントの特徴量。</li>
+<li>予測値は、データポイントを適当に重み付けしたもの、と見ることもできる。</li>
+</ul>
+<p><strong>wave</strong>に線形回帰を適用してプロットしてみよう。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mglearn.plots.plot_linear_regression_wave()
+<span class="co">## w[0]: 0.393906  b: -0.031804</span>
+<span class="co">## </span>
+<span class="co">## /Users/rito/myenv/lib/python3.6/site-packages/scipy/linalg/basic.py:1226: RuntimeWarning: internal gelsd driver lwork query error, required iwork dimension not returned. This is likely the result of LAPACK bug 0038, fixed in LAPACK 3.2.2 (released July 21, 2010). Falling back to &#39;gelss&#39; driver.</span>
+<span class="co">##   warnings.warn(mesg, RuntimeWarning)</span>
+plt.show()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
+<p>線形モデルを利用した回帰にはいろいろなアルゴリズムがあって、それぞれ以下の点で異なっている。</p>
+<ul>
+<li>どのようにパラメータ<span class="math inline">\(w\)</span>と<span class="math inline">\(b\)</span>を学習するか。</li>
+<li>モデルの複雑さをどのように制御するのか。</li>
+</ul>
+</div>
+<div id="section-2.3.3.2" class="section level4">
+<h4><span class="header-section-number">2.3.3.2</span> 線形回帰(通常最小二乗法)</h4>
+<ul>
+<li>予測値と真値の<strong>平均二乗誤差</strong> (mean squared error) を最小にするようなパラメータを求める。</li>
+<li>線形回帰には複雑さを制御するパラメータがない。できない。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split
+<span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression
+X, y <span class="op">=</span> mglearn.datasets.make_wave(n_samples <span class="op">=</span> <span class="dv">60</span>)
+X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, random_state <span class="op">=</span> <span class="dv">42</span>)
+lr <span class="op">=</span> LinearRegression().fit(X_train, y_train)</code></pre></div>
+<ul>
+<li><span class="math inline">\(w\)</span>は<strong>係数</strong> (coefficient)と呼ばれ、<code>coef_</code>に格納される。</li>
+<li><span class="math inline">\(b\)</span>は<strong>切片</strong> (intercept)と呼ばれ、<code>intercept_</code>に格納される。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(lr.coef_)
+<span class="co">## [0.39390555]</span>
+<span class="bu">print</span>(lr.intercept_)
+<span class="co">## -0.03180434302675976</span></code></pre></div>
+<ul>
+<li>訓練データから得られた属性にアンダースコアを付けるのは<strong>scikit-learn</strong>の慣習である。</li>
+<li><code>coef_</code>は特徴量1つに対して1つの値をもつNumPy配列となる。</li>
+<li>線形回帰の性能は決定係数<span class="math inline">\(R^2\)</span>として求められる。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(lr.score(X_train, y_train))
+<span class="co">## 0.6700890315075756</span>
+<span class="bu">print</span>(lr.score(X_test, y_test))
+<span class="co">## 0.65933685968637</span></code></pre></div>
+<p>ここで訓練セットとテストセットの<span class="math inline">\(R^2\)</span>があんまり違わないのは（予測性能はともかく）過剰適合していないことを示している。通常、特徴量が多いほど過剰適合のリスクが高まる。拡張した<strong>boston_housing</strong>で確認してみよう。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X, y <span class="op">=</span> mglearn.datasets.load_extended_boston()
+X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, random_state <span class="op">=</span> <span class="dv">0</span>)
+lr <span class="op">=</span> LinearRegression().fit(X_train, y_train)</code></pre></div>
+<p><span class="math inline">\(R^2\)</span>を訓練セットとテストセットで比較してみよう。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(lr.score(X_train, y_train))
+<span class="co">## 0.9523526436864234</span>
+<span class="bu">print</span>(lr.score(X_test, y_test))
+<span class="co">## 0.6057754892935417</span></code></pre></div>
+<p>両者に乖離が見られるのは、過剰適合している可能性がある。</p>
+<p>モデルの複雑さを制御できれば良いのだが、線形回帰にはそのためのパラメータがない。パラメータを導入する方法として<strong>リッジ回帰</strong>がある。</p>
+</div>
+<div id="section-2.3.3.3" class="section level4">
+<h4><span class="header-section-number">2.3.3.3</span> リッジ回帰</h4>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="section-1.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

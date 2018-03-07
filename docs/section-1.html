@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="index.html">
-
+<link rel="next" href="section-2.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -116,6 +116,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.6.4" data-path="section-1.html"><a href="section-1.html#-k-"><i class="fa fa-check"></i><b>1.6.4</b> 最初のモデル: k-最近傍法</a></li>
 <li class="chapter" data-level="1.6.5" data-path="section-1.html"><a href="section-1.html#section-1.6.5"><i class="fa fa-check"></i><b>1.6.5</b> 予測を行う</a></li>
 <li class="chapter" data-level="1.6.6" data-path="section-1.html"><a href="section-1.html#section-1.6.6"><i class="fa fa-check"></i><b>1.6.6</b> モデルの評価</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="section-2.html"><a href="section-2.html"><i class="fa fa-check"></i><b>2</b> 教師あり学習</a><ul>
+<li class="chapter" data-level="2.1" data-path="section-2.html"><a href="section-2.html#section-2.1"><i class="fa fa-check"></i><b>2.1</b> クラス分類と回帰</a></li>
+<li class="chapter" data-level="2.2" data-path="section-2.html"><a href="section-2.html#section-2.2"><i class="fa fa-check"></i><b>2.2</b> 汎化、過剰適合、適合不足</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="section-2.html"><a href="section-2.html#section-2.2.1"><i class="fa fa-check"></i><b>2.2.1</b> モデルの複雑さとデータセットの大きさ</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="section-2.html"><a href="section-2.html#section-2.3"><i class="fa fa-check"></i><b>2.3</b> 教師あり機械学習アルゴリズム</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="section-2.html"><a href="section-2.html#section-2.3.1"><i class="fa fa-check"></i><b>2.3.1</b> サンプルデータセット</a></li>
+<li class="chapter" data-level="2.3.2" data-path="section-2.html"><a href="section-2.html#k-"><i class="fa fa-check"></i><b>2.3.2</b> <span class="math inline">\(k\)</span>-最近傍法</a></li>
+<li class="chapter" data-level="2.3.3" data-path="section-2.html"><a href="section-2.html#section-2.3.3"><i class="fa fa-check"></i><b>2.3.3</b> 線形モデル</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -607,7 +618,7 @@ pd.plotting.scatter_matrix(
 )
 <span class="co">## 表示</span>
 plt.show()</code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="1440" /></p>
+<p><img src="01_intro_files/figure-html/unnamed-chunk-13-1.png" width="1440" /></p>
 </div>
 <div id="-k-" class="section level3">
 <h3><span class="header-section-number">1.6.4</span> 最初のモデル: k-最近傍法</h3>
@@ -663,8 +674,8 @@ y_pred <span class="op">=</span> knn.predict(X_test)
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="section-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -699,7 +710,7 @@ gitbook.start({
 },
 "download": null,
 "toc": {
-"collapse": "section",
+"collapse": "subsection",
 "scroll_highlight": true
 }
 });

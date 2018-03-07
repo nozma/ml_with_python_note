@@ -1,0 +1,5 @@
+bookdown::gitbook:
+  config:
+    toc:
+      collapse: section
+      scroll_highlight: yes

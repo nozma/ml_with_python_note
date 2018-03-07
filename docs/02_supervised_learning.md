@@ -226,7 +226,7 @@ $R^2$を訓練セットとテストセットで比較してみよう。
 print(lr.score(X_train, y_train))
 ## 0.9523526436864234
 print(lr.score(X_test, y_test))
-## 0.6057754892935417
+## 0.6057754892935419
 ```
 
 両者に乖離が見られるのは、過剰適合している可能性がある。
@@ -234,4 +234,86 @@ print(lr.score(X_test, y_test))
 モデルの複雑さを制御できれば良いのだが、線形回帰にはそのためのパラメータがない。パラメータを導入する方法として**リッジ回帰**がある。
 
 #### リッジ回帰
+
+- 係数が多いからモデルが複雑になる。
+- 係数が0＝その係数を考慮しない。
+- 係数が小さければモデルは単純になるのでは🤔
+    - 極端な話係数が全部ゼロなら入力に関わらず一定の値(平均とか)を出力するモデルになる。
+- 係数ベクトルの長さを最小化しよう！→リッジ回帰
+
+
+```python
+from sklearn.linear_model import Ridge
+ridge = Ridge().fit(X_train, y_train) # データは拡張Boston housingのまま
+print(ridge.score(X_train, y_train))
+## 0.8860578560395833
+print(ridge.score(X_test, y_test))
+## 0.7527139600306942
+```
+
+- 訓練セットへの予測能力が下がったけどテストセットへの予測能力が上がった！
+    - モデルを単純にすることで汎化能力が上がっている。
+- リッジ回帰におけるモデルの単純さを制御するパラメータ: $\alpha$
+    - 大きいほど制約が強い = モデルが単純になる
+    - sklearnのデフォルトは1.0
+    - 何が良いかはデータ次第で、自動的には調整されない（後で多分チューニング方法が出て来る）。
+    
+
+```python
+### alphaを10倍にしてみる パラメータはオブジェクト生成時に指定
+ridge10 = Ridge(alpha = 10).fit(X_train, y_train)
+print(ridge10.score(X_train, y_train))
+## 0.7883461511233252
+print(ridge10.score(X_test, y_test))
+### alphaを0.1倍にしてみる パラメータはオブジェクト生成時に指定
+## 0.6358967327447734
+ridge01 = Ridge(alpha = .1).fit(X_train, y_train)
+print(ridge01.score(X_train, y_train))
+## 0.9285782082010738
+print(ridge01.score(X_test, y_test))
+## 0.7717933688844855
+```
+
+$\alpha$の大きさと係数の関係をプロットしてみる。$\alpha$が大きいほど係数の絶対値は小さくなるはず…
+
+TODO:ラベル位置の調整方法を調べる
+
+
+```python
+plt.plot(ridge.coef_, 's', label="Ridge alpha=1")
+plt.plot(ridge10.coef_, '^', label="Ridge alpha=10")
+plt.plot(ridge01.coef_, 'v', label="Ridge alpha=0.1")
+plt.plot(lr.coef_, 'o', label="LinearRegression")
+plt.xlabel("係数のインデックス")
+plt.ylabel("係数の値")
+plt.hlines(0, 0, len(lr.coef_))
+plt.ylim(-25, 25)
+plt.legend()
+plt.show()
+```
+
+<img src="02_supervised_learning_files/figure-html/unnamed-chunk-15-1.png" width="768" />
+
+```python
+plt.close()
+```
+
+- データサイズを増やしていくとスコアはどのように変化するか？
+    - **学習曲線** (learning curve)
+
+TODO:凡例ラベルの書き換え方を調べる 
+
+
+```python
+mglearn.plots.plot_ridge_n_samples()
+plt.xlabel("訓練セットのサイズ")
+plt.ylabel("スコア(R²)")
+plt.show()
+```
+
+<img src="02_supervised_learning_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+
+```python
+plt.close()
+```
 

@@ -97,7 +97,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>まえおき</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>まえおき</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#e696b9e9879d"><i class="fa fa-check"></i>方針</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#e59fb7e7ad86e792b0e5a283e381a8e3818b"><i class="fa fa-check"></i>執筆環境とか</a></li>
+</ul></li>
 <li class="chapter" data-level="1" data-path="section-1.html"><a href="section-1.html"><i class="fa fa-check"></i><b>1</b> はじめに</a><ul>
 <li class="chapter" data-level="1.1" data-path="section-1.html"><a href="section-1.html#section-1.1"><i class="fa fa-check"></i><b>1.1</b> なぜ機械学習なのか</a><ul>
 <li class="chapter" data-level="1.1.1" data-path="section-1.html"><a href="section-1.html#section-1.1.1"><i class="fa fa-check"></i><b>1.1.1</b> 機械学習で解決可能な問題</a></li>
@@ -338,12 +341,78 @@ lr <span class="op">=</span> LinearRegression().fit(X_train, y_train)</code></pr
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(lr.score(X_train, y_train))
 <span class="co">## 0.9523526436864234</span>
 <span class="bu">print</span>(lr.score(X_test, y_test))
-<span class="co">## 0.6057754892935417</span></code></pre></div>
+<span class="co">## 0.6057754892935419</span></code></pre></div>
 <p>両者に乖離が見られるのは、過剰適合している可能性がある。</p>
 <p>モデルの複雑さを制御できれば良いのだが、線形回帰にはそのためのパラメータがない。パラメータを導入する方法として<strong>リッジ回帰</strong>がある。</p>
 </div>
 <div id="section-2.3.3.3" class="section level4">
 <h4><span class="header-section-number">2.3.3.3</span> リッジ回帰</h4>
+<ul>
+<li>係数が多いからモデルが複雑になる。</li>
+<li>係数が0＝その係数を考慮しない。</li>
+<li>係数が小さければモデルは単純になるのでは🤔
+<ul>
+<li>極端な話係数が全部ゼロなら入力に関わらず一定の値(平均とか)を出力するモデルになる。</li>
+</ul></li>
+<li>係数ベクトルの長さを最小化しよう！→リッジ回帰</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge
+ridge <span class="op">=</span> Ridge().fit(X_train, y_train) <span class="co"># データは拡張Boston housingのまま</span>
+<span class="bu">print</span>(ridge.score(X_train, y_train))
+<span class="co">## 0.8860578560395833</span>
+<span class="bu">print</span>(ridge.score(X_test, y_test))
+<span class="co">## 0.7527139600306942</span></code></pre></div>
+<ul>
+<li>訓練セットへの予測能力が下がったけどテストセットへの予測能力が上がった！
+<ul>
+<li>モデルを単純にすることで汎化能力が上がっている。</li>
+</ul></li>
+<li>リッジ回帰におけるモデルの単純さを制御するパラメータ: <span class="math inline">\(\alpha\)</span>
+<ul>
+<li>大きいほど制約が強い = モデルが単純になる</li>
+<li>sklearnのデフォルトは1.0</li>
+<li>何が良いかはデータ次第で、自動的には調整されない（後で多分チューニング方法が出て来る）。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co">### alphaを10倍にしてみる パラメータはオブジェクト生成時に指定</span>
+ridge10 <span class="op">=</span> Ridge(alpha <span class="op">=</span> <span class="dv">10</span>).fit(X_train, y_train)
+<span class="bu">print</span>(ridge10.score(X_train, y_train))
+<span class="co">## 0.7883461511233252</span>
+<span class="bu">print</span>(ridge10.score(X_test, y_test))
+<span class="co">### alphaを0.1倍にしてみる パラメータはオブジェクト生成時に指定</span>
+<span class="co">## 0.6358967327447734</span>
+ridge01 <span class="op">=</span> Ridge(alpha <span class="op">=</span> .<span class="dv">1</span>).fit(X_train, y_train)
+<span class="bu">print</span>(ridge01.score(X_train, y_train))
+<span class="co">## 0.9285782082010738</span>
+<span class="bu">print</span>(ridge01.score(X_test, y_test))
+<span class="co">## 0.7717933688844855</span></code></pre></div>
+<p><span class="math inline">\(\alpha\)</span>の大きさと係数の関係をプロットしてみる。<span class="math inline">\(\alpha\)</span>が大きいほど係数の絶対値は小さくなるはず…</p>
+<p>TODO:ラベル位置の調整方法を調べる</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.plot(ridge.coef_, <span class="st">&#39;s&#39;</span>, label<span class="op">=</span><span class="st">&quot;Ridge alpha=1&quot;</span>)
+plt.plot(ridge10.coef_, <span class="st">&#39;^&#39;</span>, label<span class="op">=</span><span class="st">&quot;Ridge alpha=10&quot;</span>)
+plt.plot(ridge01.coef_, <span class="st">&#39;v&#39;</span>, label<span class="op">=</span><span class="st">&quot;Ridge alpha=0.1&quot;</span>)
+plt.plot(lr.coef_, <span class="st">&#39;o&#39;</span>, label<span class="op">=</span><span class="st">&quot;LinearRegression&quot;</span>)
+plt.xlabel(<span class="st">&quot;係数のインデックス&quot;</span>)
+plt.ylabel(<span class="st">&quot;係数の値&quot;</span>)
+plt.hlines(<span class="dv">0</span>, <span class="dv">0</span>, <span class="bu">len</span>(lr.coef_))
+plt.ylim(<span class="op">-</span><span class="dv">25</span>, <span class="dv">25</span>)
+plt.legend()
+plt.show()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.close()</code></pre></div>
+<ul>
+<li>データサイズを増やしていくとスコアはどのように変化するか？
+<ul>
+<li><strong>学習曲線</strong> (learning curve)</li>
+</ul></li>
+</ul>
+<p>TODO:凡例ラベルの書き換え方を調べる</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mglearn.plots.plot_ridge_n_samples()
+plt.xlabel(<span class="st">&quot;訓練セットのサイズ&quot;</span>)
+plt.ylabel(<span class="st">&quot;スコア(R²)&quot;</span>)
+plt.show()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.close()</code></pre></div>
 
 </div>
 </div>

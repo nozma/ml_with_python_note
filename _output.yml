@@ -3,3 +3,12 @@ bookdown::gitbook:
     toc:
       collapse: subsection
       scroll_highlight: yes
+      after: |
+        <li><a href="https://github.com/rstudio/bookdown">
+        Published with bookdown</a></li>
+  split_by: section
+  includes:
+    after_body: disqus.html
+#  pandoc_args: [
+#        "--from", "markdown+autolink_bare_uris+tex_math_single_backslash-implicit_figures"
+#        ]

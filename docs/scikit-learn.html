@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="-.html">
-<link rel="next" href="section-2-1.html">
+<link rel="prev" href="python.html">
+<link rel="next" href="section-1-4.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -155,16 +155,21 @@ Published with bookdown</a></li>
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="section-2" class="section level1">
-<h1><span class="header-section-number">2</span> 教師あり学習</h1>
-<p>備えます。</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> numpy <span class="im">as</span> np
-<span class="im">import</span> scipy <span class="im">as</span> sp
-<span class="im">import</span> pandas <span class="im">as</span> pd
-<span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt
-<span class="im">import</span> matplotlib
-matplotlib.rc(<span class="st">&#39;font&#39;</span>, family<span class="op">=</span><span class="st">&#39;IPAexGothic&#39;</span>) <span class="co"># 日本語プロット設定</span>
-<span class="im">import</span> mglearn</code></pre></div> 
+<div id="scikit-learn" class="section level2">
+<h2><span class="header-section-number">1.3</span> scikit-learn</h2>
+<ul>
+<li>Pythonで機械学習といったらこれ</li>
+<li>オープンソース</li>
+<li>ユーザーガイドも読んでおこうな
+<ul>
+<li><a href="http://scikit-learn.org/stable/user_guide.html" class="uri">http://scikit-learn.org/stable/user_guide.html</a></li>
+</ul></li>
+</ul>
+<div id="section-1.3.1" class="section level3">
+<h3><span class="header-section-number">1.3.1</span> インストール</h3>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">pip</span> install numpy scipy matplotlib ipython scikit-learn pandas pillow</code></pre></div>
+<p>最近はanaconda使わずにvenvやDocker使うのが流れっぽい気がしますがPython界隈の環境構築はすぐに主流が変わるので正直よく分かりません。</p>
+</div>
 </div>
 <div id="disqus_thread"></div>
 <script>
@@ -191,8 +196,8 @@ s.setAttribute('data-timestamp', +new Date());
           </div>
         </div>
       </div>
-<a href="-.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="section-2-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="python.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="section-1-4.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -222,7 +227,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nozma/ml_with_python_note/edit/master/02_supervised_learning.Rmd",
+"link": "https://github.com/nozma/ml_with_python_note/edit/master/01_intro.Rmd",
 "text": "Edit"
 },
 "download": null,

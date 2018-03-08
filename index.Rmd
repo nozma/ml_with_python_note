@@ -1,5 +1,9 @@
 ---
+title: "Pythonで始める機械学習の学習"
+author: "R. Ito"
+date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
+documentclass: book
 ---
 
 # まえおき {-}

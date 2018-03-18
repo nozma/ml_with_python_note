@@ -2,7 +2,7 @@
 
 ```{r setup, echo=FALSE}
 knitr::opts_chunk$set(
-  engine.path = "~/myenv/bin/python",
+  engine.path = "/usr/bin/python3",
   engine = "python",
   collapse = TRUE,
   comment = " ##"
@@ -84,7 +84,7 @@ $ pip install numpy scipy matplotlib ipython scikit-learn pandas pillow
     - Rのデータフレーム的な感じでデータ扱えるやつ
 - mglearn
     - 「こちらに予め調理したものがあります」的に教科書の例試せるやつ
-    
+  
 ## Python 2 vs. Python 3
 
 3でやれ。

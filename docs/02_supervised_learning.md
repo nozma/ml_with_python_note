@@ -63,7 +63,7 @@ plt.xlabel("第1特徴量")
 plt.ylabel("第2特徴量")
 ```
 
-<img src="02_supervised_learning_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+![](02_supervised_learning_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 - **wave**: `mglearn.datasets.make_wave`で生成する回帰向けデータ。
     - 1つの特徴量と1つの目的変数を持つ。
@@ -76,7 +76,7 @@ plt.xlabel("特徴量")
 plt.ylabel("目的変数")
 ```
 
-<img src="02_supervised_learning_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+![](02_supervised_learning_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 #### 実データ
 
@@ -92,7 +92,7 @@ plt.ylabel("目的変数")
 from sklearn.datasets import load_breast_cancer
 cancer = load_breast_cancer()
 print(cancer.keys())
- ## dict_keys(['data', 'target', 'target_names', 'DESCR', 'feature_names'])
+ ## dict_keys(['target', 'DESCR', 'data', 'feature_names', 'target_names'])
 print(cancer.data.shape)
  ## (569, 30)
 print(cancer.target_names)
@@ -144,7 +144,7 @@ print(X.shape)
 mglearn.plots.plot_knn_classification(n_neighbors=1)
 ```
 
-<img src="02_supervised_learning_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+![](02_supervised_learning_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 - 3-NNの例
     - 近傍点が複数のときは多数決で決める。
@@ -154,7 +154,7 @@ mglearn.plots.plot_knn_classification(n_neighbors=1)
 mglearn.plots.plot_knn_classification(n_neighbors=3)
 ```
 
-<img src="02_supervised_learning_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+![](02_supervised_learning_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 - **scikit-learn**でやる。
 
@@ -189,7 +189,7 @@ for n, ax in zip([1, 3, 9], axes):
 axes[0].legend(loc=3)
 ```
 
-<img src="02_supervised_learning_files/figure-html/unnamed-chunk-15-1.png" width="960" />
+![](02_supervised_learning_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
 - 近傍点が多いほど境界がなめらか = モデルは単純になる。
     - 近傍点1 = 最も複雑なモデル
@@ -218,7 +218,7 @@ plt.xlabel("近傍点数")
 plt.legend()
 ```
 
-<img src="02_supervised_learning_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+![](02_supervised_learning_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 #### $k$-近傍回帰
 
@@ -230,7 +230,7 @@ plt.legend()
 mglearn.plots.plot_knn_regression(n_neighbors = 1)
 ```
 
-<img src="02_supervised_learning_files/figure-html/unnamed-chunk-19-1.png" width="960" />
+![](02_supervised_learning_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
   
 - 近傍点が複数の時は平均値を使う。
@@ -240,7 +240,7 @@ mglearn.plots.plot_knn_regression(n_neighbors = 1)
 mglearn.plots.plot_knn_regression(n_neighbors = 3)
 ```
 
-<img src="02_supervised_learning_files/figure-html/unnamed-chunk-21-1.png" width="960" />
+![](02_supervised_learning_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 - **scikit-learn**では、**KNeighborsRegressor**クラスに実装されてる。
 
@@ -273,12 +273,9 @@ $$\hat{y} = w[0]\times x[0] + w[1]\times x[1] + ... + w[p]\times x[p] + b$$
 ```python
 mglearn.plots.plot_linear_regression_wave()
  ## w[0]: 0.393906  b: -0.031804
- ## 
- ## /Users/rito/myenv/lib/python3.6/site-packages/scipy/linalg/basic.py:1226: RuntimeWarning: internal gelsd driver lwork query error, required iwork dimension not returned. This is likely the result of LAPACK bug 0038, fixed in LAPACK 3.2.2 (released July 21, 2010). Falling back to 'gelss' driver.
- ##   warnings.warn(mesg, RuntimeWarning)
 ```
 
-<img src="02_supervised_learning_files/figure-html/unnamed-chunk-24-1.png" width="768" />
+![](02_supervised_learning_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
 線形モデルを利用した回帰にはいろいろなアルゴリズムがあって、それぞれ以下の点で異なっている。
 
@@ -307,7 +304,7 @@ lr = LinearRegression().fit(X_train, y_train)
 print(lr.coef_)
  ## [0.39390555]
 print(lr.intercept_)
- ## -0.03180434302675976
+ ## -0.03180434302675973
 ```
 
 - 訓練データから得られた属性にアンダースコアを付けるのは**scikit-learn**の慣習である。
@@ -319,7 +316,7 @@ print(lr.intercept_)
 print(lr.score(X_train, y_train))
  ## 0.6700890315075756
 print(lr.score(X_test, y_test))
- ## 0.65933685968637
+ ## 0.6593368596863701
 ```
 
 ここで訓練セットとテストセットの$R^2$があんまり違わないのは（予測性能はともかく）過剰適合していないことを示している。通常、特徴量が多いほど過剰適合のリスクが高まる。拡張した**boston_housing**で確認してみよう。
@@ -336,9 +333,9 @@ $R^2$を訓練セットとテストセットで比較してみよう。
 
 ```python
 print(lr.score(X_train, y_train))
- ## 0.9523526436864234
+ ## 0.9523526436864239
 print(lr.score(X_test, y_test))
- ## 0.6057754892935419
+ ## 0.6057754892935757
 ```
 
 両者に乖離が見られるのは、過剰適合している可能性がある。
@@ -358,9 +355,9 @@ print(lr.score(X_test, y_test))
 from sklearn.linear_model import Ridge
 ridge = Ridge().fit(X_train, y_train) # データは拡張Boston housingのまま
 print(ridge.score(X_train, y_train))
- ## 0.8860578560395833
+ ## 0.8860578560395836
 print(ridge.score(X_test, y_test))
- ## 0.7527139600306942
+ ## 0.7527139600306947
 ```
 
 - 訓練セットへの予測能力が下がったけどテストセットへの予測能力が上がった！
@@ -378,12 +375,12 @@ print(ridge10.score(X_train, y_train))
  ## 0.7883461511233252
 print(ridge10.score(X_test, y_test))
 ### alphaを0.1倍にしてみる パラメータはオブジェクト生成時に指定
- ## 0.6358967327447734
+ ## 0.6358967327447733
 ridge01 = Ridge(alpha = .1).fit(X_train, y_train)
 print(ridge01.score(X_train, y_train))
- ## 0.9285782082010738
+ ## 0.9285782082010734
 print(ridge01.score(X_test, y_test))
- ## 0.7717933688844856
+ ## 0.7717933688844941
 ```
 
 $\alpha$の大きさと係数の関係をプロットしてみる。$\alpha$が大きいほど係数の絶対値は小さくなるはず…
@@ -401,7 +398,7 @@ plt.ylim(-25, 25)
 plt.legend()
 ```
 
-<img src="02_supervised_learning_files/figure-html/unnamed-chunk-33-1.png" width="672" />
+![](02_supervised_learning_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 - データサイズを増やしていくとスコアはどのように変化するか？
     - **学習曲線** (learning curve)
@@ -414,5 +411,5 @@ plt.ylabel("スコア(R²)")
 plt.legend(labels=["Ridge 訓練セット", "Ridge テストセット", "線形回帰 訓練セット", "線形回帰 テストセット"])
 ```
 
-<img src="02_supervised_learning_files/figure-html/unnamed-chunk-35-1.png" width="672" />
+![](02_supervised_learning_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 

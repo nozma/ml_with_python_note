@@ -4,7 +4,7 @@
 
 ```{r setup, echo=FALSE}
 knitr::opts_chunk$set(
-  engine.path = "~/myenv/bin/python",
+  engine.path = "/usr/bin/python3",
   engine = "python",
   collapse = TRUE,
 #  cache = TRUE,

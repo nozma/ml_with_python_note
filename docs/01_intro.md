@@ -77,7 +77,7 @@ $ pip install numpy scipy matplotlib ipython scikit-learn pandas pillow
     - Rのデータフレーム的な感じでデータ扱えるやつ
 - mglearn
     - 「こちらに予め調理したものがあります」的に教科書の例試せるやつ
-    
+  
 ## Python 2 vs. Python 3
 
 3でやれ。
@@ -105,7 +105,7 @@ iris_dataset = load_iris()
 
 ```python
 print(iris_dataset.keys())
- ## dict_keys(['data', 'target', 'target_names', 'DESCR', 'feature_names'])
+ ## dict_keys(['target_names', 'data', 'target', 'feature_names', 'DESCR'])
 ```
 
 キー**DESCR**の中にデータセットの説明が入っている。
@@ -482,7 +482,7 @@ pd.plotting.scatter_matrix(
 plt.show()
 ```
 
-<img src="01_intro_files/figure-html/unnamed-chunk-13-1.png" width="1440" />
+![](01_intro_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 ### 最初のモデル: k-最近傍法
 
@@ -551,4 +551,5 @@ print(np.mean(y_pred == y_test))
 print(knn.score(X_test, y_test))
  ## 0.9736842105263158
 ```
+
 

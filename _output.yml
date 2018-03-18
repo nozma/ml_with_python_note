@@ -6,9 +6,7 @@ bookdown::gitbook:
       after: |
         <li><a href="https://github.com/rstudio/bookdown">
         Published with bookdown</a></li>
-  split_by: section
-  includes:
-    after_body: disqus.html
-#  pandoc_args: [
-#        "--from", "markdown+autolink_bare_uris+tex_math_single_backslash-implicit_figures"
-#        ]
+  split_by: section+number
+  highlight: kate
+#  includes:
+#    after_body: disqus.html

@@ -1,5 +1,14 @@
 # はじめに
 
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(
+  engine.path = "~/myenv/bin/python",
+  engine = "python",
+  collapse = TRUE,
+  comment = " ##"
+  )
+```
+
 真の前置き的なやつ。
 
 ## なぜ機械学習なのか
@@ -91,14 +100,6 @@ $ pip install numpy scipy matplotlib ipython scikit-learn pandas pillow
 - `scikit-learn`の`datasets`モジュール
     - いろんなサンプルデータセットが入ってる。
     - `sklearn.datasets.load_iris()`で**iris**が返ってくるので適当に受けよう。
-    
-```{r setup, echo=FALSE}
-knitr::opts_chunk$set(
-  engine.path = "~/myenv/bin/python",
-  engine = "python",
-  collapse = TRUE
-  )
-```
 
 ```{python}
 from sklearn.datasets import load_iris
@@ -273,4 +274,5 @@ print(np.mean(y_pred == y_test))
 ```{python}
 print(knn.score(X_test, y_test))
 ```
+
 

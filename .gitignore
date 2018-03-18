@@ -2,3 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+.R/
+.rstudio/
+_bookdown_files/
+cache/
+kitematic/

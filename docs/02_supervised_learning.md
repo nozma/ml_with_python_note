@@ -92,7 +92,7 @@ plt.ylabel("目的変数")
 from sklearn.datasets import load_breast_cancer
 cancer = load_breast_cancer()
 print(cancer.keys())
- ## dict_keys(['target', 'DESCR', 'data', 'feature_names', 'target_names'])
+ ## dict_keys(['feature_names', 'DESCR', 'data', 'target_names', 'target'])
 print(cancer.data.shape)
  ## (569, 30)
 print(cancer.target_names)
@@ -129,12 +129,12 @@ print(X.shape)
 ```
 
 
-### $k$-最近傍法
+## アルゴリズム1 $k$-最近傍法
 
 - a.k.a. $k$-NN
 - 近いやつは大体おんなじ。
 
-#### $k$-最近傍法によるクラス分類
+### $k$-最近傍法によるクラス分類
 
 - $k$は参考にする近傍点の個数。
 - 1-NNの例。
@@ -169,7 +169,7 @@ print(clf.score(X_test, y_test))
  ## 0.8571428571428571
 ```
 
-#### KNeighborsClassifierの解析
+### KNeighborsClassifierの解析
 
 - 特徴量が2つしかなければ、散布図が描ける。
 - 散布図上のあらゆる箇所について**もしその場所に点があったら**と考えて判別ができる。
@@ -220,7 +220,7 @@ plt.legend()
 
 ![](02_supervised_learning_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
-#### $k$-近傍回帰
+### $k$-近傍回帰
 
 - kNNは回帰もできる。
 - 1-NNでは近傍点の値が新しい観測値に対応する値だと考える。
@@ -254,11 +254,52 @@ print(reg.score(X_test, y_test))
  ## 0.8344172446249604
 ```
 
-#### KNeighborsRegressorの解析
+### KNeighborsRegressorの解析
 
-### 線形モデル
+- 1次元のデータセットに対する予測値は、近傍点数$k$に対してどのように変化するか？
 
-#### 線形モデルによる回帰
+
+```python
+# プロット先を3つ作る
+fig, axes = plt.subplots(1, 3, figsize = (15, 4))
+# -3〜3までの間にデータポイントを1000点作る
+line = np.linspace(-3, 3, 1000).reshape(-1, 1)
+for n_neighbors, ax in zip([1, 3, 9], axes):
+  reg = KNeighborsRegressor(n_neighbors = n_neighbors)
+  reg.fit(X_train, y_train)
+  ax.plot(line, reg.predict(line))
+  ax.plot(X_train, y_train, '^')
+  ax.plot(X_test, y_test, 'v')
+  ax.set_title(
+    "{} 近傍点\n 訓練スコア: {:.2f} テストスコア{:.2f}".format(
+      n_neighbors, reg.score(X_train, y_train), reg.score(X_test, y_test)))
+  ax.set_xlabel("特徴量")
+  ax.set_ylabel("目的変数")
+  
+axes[0].legend(["モデルによる予測値", "訓練データ", "テストデータ"], loc="best")
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+
+- $k=1$の場合は予測値が全ての訓練データを通るので、モデルが不安定になる。
+- 近傍点を増やしていくと予測は滑らかになるが、その反面訓練データへの適合度が下がる。
+
+### 利点と欠点とパラメータ
+
+- 利点
+    - モデルが理解しやすい。
+    - あまり調整しなくても性能が出やすい。
+    - モデル構築は高速
+- 欠点
+    - 訓練セットが大きくなると予測が遅くなる。
+        - 実際に使う前には前処理を行うことが重要。
+    - 疎なデータセット(特徴量の多くが0である)に対しては十分な性能が出にくい。
+
+上記の理由から、kNNは実際に使われることは少ない。
+
+## アルゴリズム2 線形モデル
+
+### 線形モデルによる回帰
 
 線形モデルによる予測式は...
 
@@ -275,14 +316,14 @@ mglearn.plots.plot_linear_regression_wave()
  ## w[0]: 0.393906  b: -0.031804
 ```
 
-![](02_supervised_learning_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](02_supervised_learning_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
 
 線形モデルを利用した回帰にはいろいろなアルゴリズムがあって、それぞれ以下の点で異なっている。
 
 - どのようにパラメータ$w$と$b$を学習するか。
 - モデルの複雑さをどのように制御するのか。
 
-#### 線形回帰(通常最小二乗法)
+### 線形回帰(通常最小二乗法)
 
 - 予測値と真値の**平均二乗誤差** (mean squared error) を最小にするようなパラメータを求める。
 - 線形回帰には複雑さを制御するパラメータがない。できない。
@@ -342,7 +383,7 @@ print(lr.score(X_test, y_test))
 
 モデルの複雑さを制御できれば良いのだが、線形回帰にはそのためのパラメータがない。パラメータを導入する方法として**リッジ回帰**がある。
 
-#### リッジ回帰
+### リッジ回帰
 
 - 係数が多いからモデルが複雑になる。
 - 係数が0＝その係数を考慮しない。
@@ -398,18 +439,290 @@ plt.ylim(-25, 25)
 plt.legend()
 ```
 
-![](02_supervised_learning_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](02_supervised_learning_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 - データサイズを増やしていくとスコアはどのように変化するか？
-    - **学習曲線** (learning curve)
+    - **学習曲線** (learning curve): モデルの性能をデータセットサイズとの関係で表したもの。
+    - リッジ回帰は正則化の影響で常に線形回帰より訓練データへの適合が低い。
+    - テストセットへの適合はデータセットサイズが小さいうちはリッジ回帰の方が優れる。
+    - データセットサイズが大きくなると、リッジ回帰と線形回帰の差はなくなる。
+        - データセットサイズが大きくなると、(単純なモデルでは)過剰適合することが難しくなる。
 
 
 ```python
 mglearn.plots.plot_ridge_n_samples()
 plt.xlabel("訓練セットのサイズ")
 plt.ylabel("スコア(R²)")
-plt.legend(labels=["Ridge 訓練セット", "Ridge テストセット", "線形回帰 訓練セット", "線形回帰 テストセット"])
+plt.legend(labels=["リッジ 訓練セット", "リッジ テストセット", "線形回帰 訓練セット", "線形回帰 テストセット"])
 ```
 
-![](02_supervised_learning_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](02_supervised_learning_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+
+### Lasso
+
+- Ridgeとは異なる形で係数に制約をかける線形回帰。
+    - L1正則化: L1ノルム、つまり係数の絶対値の和に制約をかける。
+- **いくつかの係数が完全に0になる場合がある**という点がRidgeと大きく異なる。
+    - 係数が完全に0=係数を除外しているということなので、**自動的な変数選択**ともみなせる。
+    - 変数が減ればモデルを解釈しやすくなるという利点もある。
+    
+Lassoを**boston_housing**に適用する。
+
+
+```python
+from sklearn.linear_model import Lasso
+lasso = Lasso().fit(X_train, y_train)
+print("訓練データスコア: {:.2f}".format(lasso.score(X_train, y_train)))
+ ## 訓練データスコア: 0.29
+print("テストデータスコア: {:.2f}".format(lasso.score(X_test, y_test)))
+ ## テストデータスコア: 0.21
+print("選択された特徴量数: {}".format(np.sum(lasso.coef_ != 0)))
+ ## 選択された特徴量数: 4
+```
+
+- スコアが非常に悪いのは、パラメータを全くチューニングしていないことによる。
+- Lassoには複雑さの度合いを制御するパラメータ`alpha`がある。`alpha`のデフォルトは1.0で、小さくするほど複雑なモデルになる。
+- `alpha`を手動で減らす際には、合わせて`max_iter`を増やしてやる必要がある。
+
+
+```python
+lasso001 = Lasso(alpha = 0.01, max_iter=100000).fit(X_train, y_train)
+print("訓練データスコア: {:.2f}".format(lasso001.score(X_train, y_train)))
+ ## 訓練データスコア: 0.90
+print("テストデータスコア: {:.2f}".format(lasso001.score(X_test, y_test)))
+ ## テストデータスコア: 0.77
+print("選択された特徴量数: {}".format(np.sum(lasso001.coef_ != 0)))
+ ## 選択された特徴量数: 33
+```
+
+- `alpha`を小さくしすぎると過剰適合する。
+
+
+```python
+lasso00001 = Lasso(alpha = 0.0001, max_iter=100000).fit(X_train, y_train)
+print("訓練データスコア: {:.2f}".format(lasso00001.score(X_train, y_train)))
+ ## 訓練データスコア: 0.95
+print("テストデータスコア: {:.2f}".format(lasso00001.score(X_test, y_test)))
+ ## テストデータスコア: 0.64
+print("選択された特徴量数: {}".format(np.sum(lasso00001.coef_ != 0)))
+ ## 選択された特徴量数: 94
+```
+
+
+Ridgeでやったように係数の大きさをプロットしてみよう。
+
+
+```python
+plt.plot(lasso.coef_, 's', label = "Lasso alpha = 1")
+plt.plot(lasso001.coef_, '^', label = "Lasso alpha = 0.01")
+plt.plot(lasso00001.coef_, 'v', label = "Lasso alpha = 0.0001")
+plt.plot(ridge01.coef_, 'o', label = "Ridge alpha = 0.1")
+plt.legend(ncol = 2, loc = (0, 1.05))
+plt.ylim = (-25, 25)
+plt.xlabel("係数のインデックス")
+plt.ylabel("係数の大きさ")
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
+
+- 合わせてプロットしたRidge($\alpha=0.1$)は、Lasso($\alpha=0.01$)と同じくらいの性能であるが、Ridgeでは大きさが小さいながらも係数の値は0にはなっていないものが多いのに対して、Lassoでは大きさが0の係数が目立つ。
+- 実際にはまずRidgeを試すと良い。
+- 係数がたくさんあって重要なのはそのうちの幾つか少数であると予想されるのであれば、Lassoを試すと良い。
+- RidgeとLassoのペナルティを組合せたものとしてElasticNetがある。結果は良好であるが、チューニングすべきパラメータが増えるという欠点がある。
+
+### クラス分類のための線形モデル
+
+線形モデルでクラス分類を行う場合は以下の式を用いる。
+
+$$\hat{y} = w[0]\times x[0] + w[1]\times x[1] + \dots + w[p]\times x[p] + b > 0$$
+
+- 出力$y$が0を超えるかどうかで判別する。
+- 出力$y$は特徴量の線形関数であり、2つのクラスを直線や平面、超平面で分割する**決定境界**となる。
+- 線形モデルを学習するアルゴリズムは以下の観点から分類される。
+    - どのような尺度で訓練データへの適合度を測るか。
+    - 正則化を行うか。行うならどのような方法か。
+- **ロジスティック回帰**と**線形サポートベクターマシン**は一般的な線形クラスアルゴリズムである。
+
+**LogisticRegression**と**LinearSVC**により**forge**を分類する決定境界を可視化する。
+
+
+```python
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
+X, y = mglearn.datasets.make_forge()
+fig, axes = plt.subplots(1, 2, figsize = (10, 3))
+for model, ax in zip([LinearSVC(), LogisticRegression()], axes):
+  clf = model.fit(X, y)
+  mglearn.plots.plot_2d_separator(clf, X, fill = False, eps = 0.5, ax = ax, alpha = 0.7)
+  mglearn.discrete_scatter(X[:, 0], X[:, 1], y, ax = ax)
+  ax.set_title("{}".format(clf.__class__.__name__))
+  ax.set_xlabel("特徴量 0")
+  ax.set_ylabel("特徴量 1")
+  
+axes[0].legend()
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+
+- 2つのクラス分類器はいずれも正則化パラメータCを持つ。Cは大きいほど正則化が弱くなる。
+- Cがは小さいとデータポイントの多数派に適合しようとするが、大きくすると個々のデータポイントを正確に分類しようとする。
+
+
+```python
+mglearn.plots.plot_linear_svc_regularization()
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
+
+- 上記の例では、Cを大きくすると誤分類した少数の点に決定境界が大きく影響されていることがわかる。
+- 低次元の場合は線形分類は制約が強いように思えるが、次元数が大きくなるとモデルは強力になり、むしろ過剰適合をいかに避けるかがポイントになる。
+
+**cancer**に**LogisticRegression**を適用してみる。
+
+
+```python
+from sklearn.datasets import load_breast_cancer
+cancer = load_breast_cancer()
+X_train, X_test, y_train, y_test = train_test_split(
+  cancer.data, cancer.target, stratify = cancer.target, random_state = 42
+)
+logreg = LogisticRegression().fit(X_train, y_train)
+print("テストセットスコア: {:.3f}".format(logreg.score(X_train, y_train)))
+ ## テストセットスコア: 0.953
+print("訓練セットスコア: {:.3f}".format(logreg.score(X_test, y_test)))
+ ## 訓練セットスコア: 0.958
+```
+
+- **訓練セットとテストセットのスコアが近い場合は適合不足を疑う。**
+
+パラメータCを大きくしてモデルの複雑さを上げる。
+
+
+```python
+logreg100 = LogisticRegression(C=100).fit(X_train, y_train)
+print("テストセットスコア: {:.3f}".format(logreg100.score(X_train, y_train)))
+ ## テストセットスコア: 0.967
+print("訓練セットスコア: {:.3f}".format(logreg100.score(X_test, y_test)))
+ ## 訓練セットスコア: 0.965
+```
+
+精度が上がった。今度は逆にパラメータCを小さくしてみる。
+
+
+```python
+logreg001 = LogisticRegression(C=0.01).fit(X_train, y_train)
+print("テストセットスコア: {:.3f}".format(logreg001.score(X_train, y_train)))
+ ## テストセットスコア: 0.934
+print("訓練セットスコア: {:.3f}".format(logreg001.score(X_test, y_test)))
+ ## 訓練セットスコア: 0.930
+```
+
+精度が下がった。最後に、3つのパターンについて係数を可視化してみる。
+
+
+```python
+plt.plot(logreg.coef_.T, 'o', label = "C=1")
+plt.plot(logreg100.coef_.T, '^', label = "C=100")
+plt.plot(logreg001.coef_.T, 'v', label = "C=0.01")
+plt.xticks(range(cancer.data.shape[1]), cancer.feature_names, rotation=90)
+plt.hlines(0, 0, cancer.data.shape[1])
+plt.xlabel("特徴量")
+plt.ylabel("係数の大きさ")
+plt.legend()
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+
+- デフォルトでは**LogisticRegression**はL2正則化を行う。
+- `penalty="l1"`の指定でL1正則化に切り替えることができる。より単純なモデルが欲しければこちらを試すと良い。
+
+
+```python
+for C, marker in zip([0.001, 1, 100], ['o', '^', 'v']):
+  lr_l1 = LogisticRegression(C = C, penalty = "l1").fit(X_train, y_train)
+  print("訓練セットに対する精度(C={:.3f}): {:.2f}".format(C, lr_l1.score(X_train, y_train)))
+  print("テストセットに対する精度(C={:.3f}): {:.2f}".format(C, lr_l1.score(X_test, y_test)))
+  plt.plot(lr_l1.coef_.T, marker, label = "C={:.3f}".format(C))
+ ## 訓練セットに対する精度(C=0.001): 0.91
+ ## テストセットに対する精度(C=0.001): 0.92
+ ## 訓練セットに対する精度(C=1.000): 0.96
+ ## テストセットに対する精度(C=1.000): 0.96
+ ## 訓練セットに対する精度(C=100.000): 0.99
+ ## テストセットに対する精度(C=100.000): 0.98
+plt.xticks(range(cancer.data.shape[1]), cancer.feature_names, rotation = 90)
+plt.hlines(0, 0, cancer.data.shape[1])
+plt.xlabel("特徴量")
+plt.ylabel("係数の大きさ")
+plt.legend(loc = 3)
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
+
+### 線形モデルによる多クラス分類
+
+- 大抵の線形クラス分類は2クラス分類にしか対応しておらず、そのままでは多クラスに拡張することはできない。
+    - ロジスティック回帰は例外
+- 拡張するための方法として**1対その他(one-vs.-rest)**アプローチがある。
+    - **1つのクラスとその他のクラス**という2クラス分類に対してモデルを学習させる。
+    - データポイントに対しては全ての2クラス分類を実行する。
+    - **一番高いスコアのクラス分類器**の分類結果を予測結果とする。
+    - クラスごとに2クラス分類が存在するということなので、クラスごとに以下の式で表す確信度が存在し、確信度が最も大きいクラスがクラスラベルとなる。
+    
+$$ w[0] \times x[0] + w[1] \times x[1] + \dots + w[p] \times x[p] + b$$
+
+- 多クラスロジスティック回帰と1対多アプローチは多少異なるが、1クラスあたり係数ベクトルと切片ができるという点は共通している。
+
+3クラス分類に対して1対多アプローチを試す。データはガウス分布からサンプリングした2次元データセットとする。
+
+
+```python
+from sklearn.datasets import make_blobs
+X, y = make_blobs(random_state = 42)
+mglearn.discrete_scatter(X[:, 0], X[:, 1], y)
+plt.xlabel("特徴量0")
+plt.ylabel("特徴量1")
+plt.legend(["クラス0", "クラス1", "クラス2"])
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-55-1.png)<!-- -->
+
+このデータセットで**LinearSVC**を学習させる。
+
+
+```python
+linear_svm = LinearSVC().fit(X, y)
+print("係数ベクトルの形状", linear_svm.coef_.shape)
+ ## 係数ベクトルの形状 (3, 2)
+print("切片ベクトルの形状", linear_svm.intercept_.shape)
+ ## 切片ベクトルの形状 (3,)
+```
+
+- 係数ベクトルの形状が3行2列ということは、各行に各クラスに対応する2次元の係数ベクトルが格納されているということである。
+- 切片ベクトルはクラスの数に対応している。
+- 上記2点をまとめると、3つのクラス分類器が得られているということである。
+
+3つのクラス分類器が作る決定境界を可視化する。
+
+
+```python
+mglearn.discrete_scatter(X[:, 0], X[:, 1], y)
+line = np.linspace(-15, 15)
+for coef, intercept, color in zip(linear_svm.coef_, linear_svm.intercept_, ['b', 'r', 'g']):
+  plt.plot(line, -(line * coef[0] + intercept) / coef[1], c = color)
+plt.xlabel("特徴量0")
+plt.ylabel("特徴量1")
+plt.legend(['クラス0', 'クラス1', 'クラス2', 'クラス0の決定境界', 'クラス1の決定境界', 'クラス2の決定境界'],
+  loc = (1.01, 0.3))
+```
+
+
+```python
+plt.show()
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-58-1.png)<!-- -->
+
+```python
+plt.close()
+```
 

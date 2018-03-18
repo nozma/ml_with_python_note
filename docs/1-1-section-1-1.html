@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="e696b9e9879d.html">
-<link rel="next" href="1-section-1.html">
+<link rel="prev" href="1-section-1.html">
+<link rel="next" href="1-2-python.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -171,21 +171,65 @@ Published with bookdown</a></li>
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="e59fb7e7ad86e792b0e5a283e381a8e3818b" class="section level2 unnumbered">
-<h2>執筆環境とか</h2>
+<div id="section-1.1" class="section level2">
+<h2><span class="header-section-number">1.1</span> なぜ機械学習なのか</h2>
 <ul>
-<li>そのうち書く。</li>
+<li>if〜then〜のエキスパートシステムには限界がある。
+<ul>
+<li>ロジックがドメイン固有のものになり、タスクが変化したら作り直さないといけない。</li>
+<li>人間のエキスパートの思考に対する深い理解が必要。</li>
+<li>顔認識とかはちょっと無理。</li>
+</ul></li>
 </ul>
-
+<div id="section-1.1.1" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> 機械学習で解決可能な問題</h3>
+<p>世の中には教師のある学習と教師のない学習がある。</p>
+<ul>
+<li><strong>教師あり学習</strong>
+<ul>
+<li>入力と出力のペアを与えてアルゴリズムを学習させる。</li>
+<li>未知の入力に対する出力を予測する。</li>
+<li>データセットを集めることが大変な場合もある。</li>
+</ul></li>
+<li><strong>教師なし学習</strong>
+<ul>
+<li>出力のないデータセットでアルゴリズムを学習させる。</li>
+<li>トピック解析やクラスタリング、異常検知など。</li>
+</ul></li>
+</ul>
+<p>サンプルと特徴量。</p>
+<ul>
+<li><strong>サンプル</strong>
+<ul>
+<li>個々のエンティティまたは量。</li>
+</ul></li>
+<li><strong>特徴量</strong>
+<ul>
+<li>エンティティの持つ特性を表現する列。</li>
+</ul></li>
+</ul>
+<p><em>情報量のないデータからは学習できない</em>ことを覚えておくこと。</p>
 </div>
-<!-- </div> -->
+<div id="section-1.1.2" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> タスクを知り、データを知る</h3>
+<ul>
+<li>よくデータを理解すること
+<ul>
+<li>そのデータでそもそも問題を解決できるのか？</li>
+<li>どんな機械学習の問題に置き換えるべきか？</li>
+<li>データの数は十分か？</li>
+</ul></li>
+</ul>
+<p>アルゴリズムは問題の一部にすぎない。全体を心に留めておくこと。</p>
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="e696b9e9879d.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="1-section-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="1-section-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="1-2-python.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -215,7 +259,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nozma/ml_with_python_note/edit/master/index.Rmd",
+"link": "https://github.com/nozma/ml_with_python_note/edit/master/01_intro.Rmd",
 "text": "Edit"
 },
 "download": null,

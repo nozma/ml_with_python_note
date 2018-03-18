@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Pythonで始める機械学習の学習</title>
+  <meta name="description" content="Pythonで始める機械学習の学習">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Pythonで始める機械学習の学習" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Pythonで始める機械学習の学習" />
+  
+  
+  
+
+<meta name="author" content="R. Ito">
+
+
+<meta name="date" content="2018-03-19">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="2-4-1-k-.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #ffffff; color: #1f1c1b; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #ffffff; color: #a0a0a0; border-right: 1px solid #a0a0a0; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #1f1c1b; background-color: #ffffff; }
+code > span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code > span.dt { color: #0057ae; } /* DataType */
+code > span.dv { color: #b08000; } /* DecVal */
+code > span.bn { color: #b08000; } /* BaseN */
+code > span.fl { color: #b08000; } /* Float */
+code > span.cn { color: #aa5500; } /* Constant */
+code > span.ch { color: #924c9d; } /* Char */
+code > span.sc { color: #3daee9; } /* SpecialChar */
+code > span.st { color: #bf0303; } /* String */
+code > span.vs { color: #bf0303; } /* VerbatimString */
+code > span.ss { color: #ff5500; } /* SpecialString */
+code > span.im { color: #ff5500; } /* Import */
+code > span.co { color: #898887; } /* Comment */
+code > span.do { color: #607880; } /* Documentation */
+code > span.an { color: #ca60ca; } /* Annotation */
+code > span.cv { color: #0095ff; } /* CommentVar */
+code > span.ot { color: #006e28; } /* Other */
+code > span.fu { color: #644a9b; } /* Function */
+code > span.va { color: #0057ae; } /* Variable */
+code > span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #1f1c1b; } /* Operator */
+code > span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code > span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code > span.pp { color: #006e28; } /* Preprocessor */
+code > span.at { color: #0057ae; } /* Attribute */
+code > span.re { color: #0057ae; } /* RegionMarker */
+code > span.in { color: #b08000; } /* Information */
+code > span.wa { color: #bf0303; } /* Warning */
+code > span.al { color: #bf0303; font-weight: bold; } /* Alert */
+code > span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code > span. { color: #1f1c1b; } /* Normal */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>まえおき</a><ul>
+<li class="chapter" data-level="" data-path="e696b9e9879d.html"><a href="e696b9e9879d.html"><i class="fa fa-check"></i>方針</a></li>
+<li class="chapter" data-level="" data-path="e59fb7e7ad86e792b0e5a283e381a8e3818b.html"><a href="e59fb7e7ad86e792b0e5a283e381a8e3818b.html"><i class="fa fa-check"></i>執筆環境とか</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="1-section-1.html"><a href="1-section-1.html"><i class="fa fa-check"></i><b>1</b> はじめに</a><ul>
+<li class="chapter" data-level="1.1" data-path="1-1-section-1-1.html"><a href="1-1-section-1-1.html"><i class="fa fa-check"></i><b>1.1</b> なぜ機械学習なのか</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="1-1-section-1-1.html"><a href="1-1-section-1-1.html#section-1.1.1"><i class="fa fa-check"></i><b>1.1.1</b> 機械学習で解決可能な問題</a></li>
+<li class="chapter" data-level="1.1.2" data-path="1-1-section-1-1.html"><a href="1-1-section-1-1.html#section-1.1.2"><i class="fa fa-check"></i><b>1.1.2</b> タスクを知り、データを知る</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="1-2-python.html"><a href="1-2-python.html"><i class="fa fa-check"></i><b>1.2</b> なぜPythonなのか？</a></li>
+<li class="chapter" data-level="1.3" data-path="1-3-scikit-learn.html"><a href="1-3-scikit-learn.html"><i class="fa fa-check"></i><b>1.3</b> scikit-learn</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="1-3-scikit-learn.html"><a href="1-3-scikit-learn.html#section-1.3.1"><i class="fa fa-check"></i><b>1.3.1</b> インストール</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="1-4-section-1-4.html"><a href="1-4-section-1-4.html"><i class="fa fa-check"></i><b>1.4</b> 必要なライブラリとツール</a></li>
+<li class="chapter" data-level="1.5" data-path="1-5-python-2-vs-python-3.html"><a href="1-5-python-2-vs-python-3.html"><i class="fa fa-check"></i><b>1.5</b> Python 2 vs. Python 3</a></li>
+<li class="chapter" data-level="1.6" data-path="1-6-.html"><a href="1-6-.html"><i class="fa fa-check"></i><b>1.6</b> 最初のアプリケーション: アイリスのクラス分類</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="1-6-.html"><a href="1-6-.html#section-1.6.1"><i class="fa fa-check"></i><b>1.6.1</b> データを読む</a></li>
+<li class="chapter" data-level="1.6.2" data-path="1-6-.html"><a href="1-6-.html#-"><i class="fa fa-check"></i><b>1.6.2</b> 成功度合いの測定: 訓練データとテストデータ</a></li>
+<li class="chapter" data-level="1.6.3" data-path="1-6-.html"><a href="1-6-.html#-"><i class="fa fa-check"></i><b>1.6.3</b> 最初にすべきこと: データを良く観察する</a></li>
+<li class="chapter" data-level="1.6.4" data-path="1-6-.html"><a href="1-6-.html#-k-"><i class="fa fa-check"></i><b>1.6.4</b> 最初のモデル: k-最近傍法</a></li>
+<li class="chapter" data-level="1.6.5" data-path="1-6-.html"><a href="1-6-.html#section-1.6.5"><i class="fa fa-check"></i><b>1.6.5</b> 予測を行う</a></li>
+<li class="chapter" data-level="1.6.6" data-path="1-6-.html"><a href="1-6-.html#section-1.6.6"><i class="fa fa-check"></i><b>1.6.6</b> モデルの評価</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-section-2.html"><a href="2-section-2.html"><i class="fa fa-check"></i><b>2</b> 教師あり学習</a><ul>
+<li class="chapter" data-level="2.1" data-path="2-1-section-2-1.html"><a href="2-1-section-2-1.html"><i class="fa fa-check"></i><b>2.1</b> クラス分類と回帰</a></li>
+<li class="chapter" data-level="2.2" data-path="2-2-section-2-2.html"><a href="2-2-section-2-2.html"><i class="fa fa-check"></i><b>2.2</b> 汎化、過剰適合、適合不足</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="2-2-section-2-2.html"><a href="2-2-section-2-2.html#section-2.2.1"><i class="fa fa-check"></i><b>2.2.1</b> モデルの複雑さとデータセットの大きさ</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="2-3-section-2-3.html"><a href="2-3-section-2-3.html"><i class="fa fa-check"></i><b>2.3</b> 教師あり機械学習アルゴリズム</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="2-3-section-2-3.html"><a href="2-3-section-2-3.html#section-2.3.1"><i class="fa fa-check"></i><b>2.3.1</b> サンプルデータセット</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="2-4-1-k-.html"><a href="2-4-1-k-.html"><i class="fa fa-check"></i><b>2.4</b> アルゴリズム1 <span class="math inline">\(k\)</span>-最近傍法</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="2-4-1-k-.html"><a href="2-4-1-k-.html#k-"><i class="fa fa-check"></i><b>2.4.1</b> <span class="math inline">\(k\)</span>-最近傍法によるクラス分類</a></li>
+<li class="chapter" data-level="2.4.2" data-path="2-4-1-k-.html"><a href="2-4-1-k-.html#kneighborsclassifier"><i class="fa fa-check"></i><b>2.4.2</b> KNeighborsClassifierの解析</a></li>
+<li class="chapter" data-level="2.4.3" data-path="2-4-1-k-.html"><a href="2-4-1-k-.html#k-"><i class="fa fa-check"></i><b>2.4.3</b> <span class="math inline">\(k\)</span>-近傍回帰</a></li>
+<li class="chapter" data-level="2.4.4" data-path="2-4-1-k-.html"><a href="2-4-1-k-.html#kneighborsregressor"><i class="fa fa-check"></i><b>2.4.4</b> KNeighborsRegressorの解析</a></li>
+<li class="chapter" data-level="2.4.5" data-path="2-4-1-k-.html"><a href="2-4-1-k-.html#section-2.4.5"><i class="fa fa-check"></i><b>2.4.5</b> 利点と欠点とパラメータ</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="2-5-2-.html"><a href="2-5-2-.html"><i class="fa fa-check"></i><b>2.5</b> アルゴリズム2 線形モデル</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="2-5-2-.html"><a href="2-5-2-.html#section-2.5.1"><i class="fa fa-check"></i><b>2.5.1</b> 線形モデルによる回帰</a></li>
+<li class="chapter" data-level="2.5.2" data-path="2-5-2-.html"><a href="2-5-2-.html#section-2.5.2"><i class="fa fa-check"></i><b>2.5.2</b> 線形回帰(通常最小二乗法)</a></li>
+<li class="chapter" data-level="2.5.3" data-path="2-5-2-.html"><a href="2-5-2-.html#section-2.5.3"><i class="fa fa-check"></i><b>2.5.3</b> リッジ回帰</a></li>
+<li class="chapter" data-level="2.5.4" data-path="2-5-2-.html"><a href="2-5-2-.html#lasso"><i class="fa fa-check"></i><b>2.5.4</b> Lasso</a></li>
+<li class="chapter" data-level="2.5.5" data-path="2-5-2-.html"><a href="2-5-2-.html#section-2.5.5"><i class="fa fa-check"></i><b>2.5.5</b> クラス分類のための線形モデル</a></li>
+<li class="chapter" data-level="2.5.6" data-path="2-5-2-.html"><a href="2-5-2-.html#section-2.5.6"><i class="fa fa-check"></i><b>2.5.6</b> 線形モデルによる多クラス分類</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown">
+Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Pythonで始める機械学習の学習</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="2-" class="section level2">
+<h2><span class="header-section-number">2.5</span> アルゴリズム2 線形モデル</h2>
+<div id="section-2.5.1" class="section level3">
+<h3><span class="header-section-number">2.5.1</span> 線形モデルによる回帰</h3>
+<p>線形モデルによる予測式は…</p>
+<p><span class="math display">\[\hat{y} = w[0]\times x[0] + w[1]\times x[1] + ... + w[p]\times x[p] + b\]</span></p>
+<ul>
+<li><span class="math inline">\(\hat{y}\)</span>は予測値で、<span class="math inline">\(w\)</span>と<span class="math inline">\(b\)</span>はモデルのパラメータ。<span class="math inline">\(x\)</span>はある一つのデータポイントの特徴量。</li>
+<li>予測値は、データポイントを適当に重み付けしたもの、と見ることもできる。</li>
+</ul>
+<p><strong>wave</strong>に線形回帰を適用してプロットしてみよう。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mglearn.plots.plot_linear_regression_wave()
+ <span class="co">## w[0]: 0.393906  b: -0.031804</span></code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-26-1.png" /><!-- --></p>
+<p>線形モデルを利用した回帰にはいろいろなアルゴリズムがあって、それぞれ以下の点で異なっている。</p>
+<ul>
+<li>どのようにパラメータ<span class="math inline">\(w\)</span>と<span class="math inline">\(b\)</span>を学習するか。</li>
+<li>モデルの複雑さをどのように制御するのか。</li>
+</ul>
+</div>
+<div id="section-2.5.2" class="section level3">
+<h3><span class="header-section-number">2.5.2</span> 線形回帰(通常最小二乗法)</h3>
+<ul>
+<li>予測値と真値の<strong>平均二乗誤差</strong> (mean squared error) を最小にするようなパラメータを求める。</li>
+<li>線形回帰には複雑さを制御するパラメータがない。できない。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split
+<span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression
+X, y <span class="op">=</span> mglearn.datasets.make_wave(n_samples <span class="op">=</span> <span class="dv">60</span>)
+X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, random_state <span class="op">=</span> <span class="dv">42</span>)
+lr <span class="op">=</span> LinearRegression().fit(X_train, y_train)</code></pre></div>
+<ul>
+<li><span class="math inline">\(w\)</span>は<strong>係数</strong> (coefficient)と呼ばれ、<code>coef_</code>に格納される。</li>
+<li><span class="math inline">\(b\)</span>は<strong>切片</strong> (intercept)と呼ばれ、<code>intercept_</code>に格納される。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(lr.coef_)
+ <span class="co">## [0.39390555]</span>
+<span class="bu">print</span>(lr.intercept_)
+ <span class="co">## -0.03180434302675973</span></code></pre></div>
+<ul>
+<li>訓練データから得られた属性にアンダースコアを付けるのは<strong>scikit-learn</strong>の慣習である。</li>
+<li><code>coef_</code>は特徴量1つに対して1つの値をもつNumPy配列となる。</li>
+<li>線形回帰の性能は決定係数<span class="math inline">\(R^2\)</span>として求められる。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(lr.score(X_train, y_train))
+ <span class="co">## 0.6700890315075756</span>
+<span class="bu">print</span>(lr.score(X_test, y_test))
+ <span class="co">## 0.6593368596863701</span></code></pre></div>
+<p>ここで訓練セットとテストセットの<span class="math inline">\(R^2\)</span>があんまり違わないのは（予測性能はともかく）過剰適合していないことを示している。通常、特徴量が多いほど過剰適合のリスクが高まる。拡張した<strong>boston_housing</strong>で確認してみよう。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X, y <span class="op">=</span> mglearn.datasets.load_extended_boston()
+X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, random_state <span class="op">=</span> <span class="dv">0</span>)
+lr <span class="op">=</span> LinearRegression().fit(X_train, y_train)</code></pre></div>
+<p><span class="math inline">\(R^2\)</span>を訓練セットとテストセットで比較してみよう。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(lr.score(X_train, y_train))
+ <span class="co">## 0.9523526436864239</span>
+<span class="bu">print</span>(lr.score(X_test, y_test))
+ <span class="co">## 0.6057754892935757</span></code></pre></div>
+<p>両者に乖離が見られるのは、過剰適合している可能性がある。</p>
+<p>モデルの複雑さを制御できれば良いのだが、線形回帰にはそのためのパラメータがない。パラメータを導入する方法として<strong>リッジ回帰</strong>がある。</p>
+</div>
+<div id="section-2.5.3" class="section level3">
+<h3><span class="header-section-number">2.5.3</span> リッジ回帰</h3>
+<ul>
+<li>係数が多いからモデルが複雑になる。</li>
+<li>係数が0＝その係数を考慮しない。</li>
+<li>係数が小さければモデルは単純になるのでは🤔
+<ul>
+<li>極端な話係数が全部ゼロなら入力に関わらず一定の値(平均とか)を出力するモデルになる。</li>
+</ul></li>
+<li>係数ベクトルの長さを最小化しよう！→リッジ回帰</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge
+ridge <span class="op">=</span> Ridge().fit(X_train, y_train) <span class="co"># データは拡張Boston housingのまま</span>
+<span class="bu">print</span>(ridge.score(X_train, y_train))
+ <span class="co">## 0.8860578560395836</span>
+<span class="bu">print</span>(ridge.score(X_test, y_test))
+ <span class="co">## 0.7527139600306947</span></code></pre></div>
+<ul>
+<li>訓練セットへの予測能力が下がったけどテストセットへの予測能力が上がった！
+<ul>
+<li>モデルを単純にすることで汎化能力が上がっている。</li>
+</ul></li>
+<li>リッジ回帰におけるモデルの単純さを制御するパラメータ: <span class="math inline">\(\alpha\)</span>
+<ul>
+<li>大きいほど制約が強い = モデルが単純になる</li>
+<li>sklearnのデフォルトは1.0</li>
+<li>何が良いかはデータ次第で、自動的には調整されない（後で多分チューニング方法が出て来る）。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co">### alphaを10倍にしてみる パラメータはオブジェクト生成時に指定</span>
+ridge10 <span class="op">=</span> Ridge(alpha <span class="op">=</span> <span class="dv">10</span>).fit(X_train, y_train)
+<span class="bu">print</span>(ridge10.score(X_train, y_train))
+ <span class="co">## 0.7883461511233252</span>
+<span class="bu">print</span>(ridge10.score(X_test, y_test))
+<span class="co">### alphaを0.1倍にしてみる パラメータはオブジェクト生成時に指定</span>
+ <span class="co">## 0.6358967327447733</span>
+ridge01 <span class="op">=</span> Ridge(alpha <span class="op">=</span> .<span class="dv">1</span>).fit(X_train, y_train)
+<span class="bu">print</span>(ridge01.score(X_train, y_train))
+ <span class="co">## 0.9285782082010734</span>
+<span class="bu">print</span>(ridge01.score(X_test, y_test))
+ <span class="co">## 0.7717933688844941</span></code></pre></div>
+<p><span class="math inline">\(\alpha\)</span>の大きさと係数の関係をプロットしてみる。<span class="math inline">\(\alpha\)</span>が大きいほど係数の絶対値は小さくなるはず…</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.plot(ridge.coef_, <span class="st">&#39;s&#39;</span>, label<span class="op">=</span><span class="st">&quot;Ridge alpha=1&quot;</span>)
+plt.plot(ridge10.coef_, <span class="st">&#39;^&#39;</span>, label<span class="op">=</span><span class="st">&quot;Ridge alpha=10&quot;</span>)
+plt.plot(ridge01.coef_, <span class="st">&#39;v&#39;</span>, label<span class="op">=</span><span class="st">&quot;Ridge alpha=0.1&quot;</span>)
+plt.plot(lr.coef_, <span class="st">&#39;o&#39;</span>, label<span class="op">=</span><span class="st">&quot;LinearRegression&quot;</span>)
+plt.xlabel(<span class="st">&quot;係数のインデックス&quot;</span>)
+plt.ylabel(<span class="st">&quot;係数の値&quot;</span>)
+plt.hlines(<span class="dv">0</span>, <span class="dv">0</span>, <span class="bu">len</span>(lr.coef_))
+plt.ylim(<span class="op">-</span><span class="dv">25</span>, <span class="dv">25</span>)
+plt.legend()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-35-1.png" /><!-- --></p>
+<ul>
+<li>データサイズを増やしていくとスコアはどのように変化するか？
+<ul>
+<li><strong>学習曲線</strong> (learning curve): モデルの性能をデータセットサイズとの関係で表したもの。</li>
+<li>リッジ回帰は正則化の影響で常に線形回帰より訓練データへの適合が低い。</li>
+<li>テストセットへの適合はデータセットサイズが小さいうちはリッジ回帰の方が優れる。</li>
+<li>データセットサイズが大きくなると、リッジ回帰と線形回帰の差はなくなる。
+<ul>
+<li>データセットサイズが大きくなると、(単純なモデルでは)過剰適合することが難しくなる。</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mglearn.plots.plot_ridge_n_samples()
+plt.xlabel(<span class="st">&quot;訓練セットのサイズ&quot;</span>)
+plt.ylabel(<span class="st">&quot;スコア(R²)&quot;</span>)
+plt.legend(labels<span class="op">=</span>[<span class="st">&quot;リッジ 訓練セット&quot;</span>, <span class="st">&quot;リッジ テストセット&quot;</span>, <span class="st">&quot;線形回帰 訓練セット&quot;</span>, <span class="st">&quot;線形回帰 テストセット&quot;</span>])</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-37-1.png" /><!-- --></p>
+</div>
+<div id="lasso" class="section level3">
+<h3><span class="header-section-number">2.5.4</span> Lasso</h3>
+<ul>
+<li>Ridgeとは異なる形で係数に制約をかける線形回帰。
+<ul>
+<li>L1正則化: L1ノルム、つまり係数の絶対値の和に制約をかける。</li>
+</ul></li>
+<li><strong>いくつかの係数が完全に0になる場合がある</strong>という点がRidgeと大きく異なる。
+<ul>
+<li>係数が完全に0=係数を除外しているということなので、<strong>自動的な変数選択</strong>ともみなせる。</li>
+<li>変数が減ればモデルを解釈しやすくなるという利点もある。</li>
+</ul></li>
+</ul>
+<p>Lassoを<strong>boston_housing</strong>に適用する。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso
+lasso <span class="op">=</span> Lasso().fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練データスコア: </span><span class="sc">{:.2f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(lasso.score(X_train, y_train)))
+ <span class="co">## 訓練データスコア: 0.29</span>
+<span class="bu">print</span>(<span class="st">&quot;テストデータスコア: </span><span class="sc">{:.2f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(lasso.score(X_test, y_test)))
+ <span class="co">## テストデータスコア: 0.21</span>
+<span class="bu">print</span>(<span class="st">&quot;選択された特徴量数: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(np.<span class="bu">sum</span>(lasso.coef_ <span class="op">!=</span> <span class="dv">0</span>)))
+ <span class="co">## 選択された特徴量数: 4</span></code></pre></div>
+<ul>
+<li>スコアが非常に悪いのは、パラメータを全くチューニングしていないことによる。</li>
+<li>Lassoには複雑さの度合いを制御するパラメータ<code>alpha</code>がある。<code>alpha</code>のデフォルトは1.0で、小さくするほど複雑なモデルになる。</li>
+<li><code>alpha</code>を手動で減らす際には、合わせて<code>max_iter</code>を増やしてやる必要がある。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">lasso001 <span class="op">=</span> Lasso(alpha <span class="op">=</span> <span class="fl">0.01</span>, max_iter<span class="op">=</span><span class="dv">100000</span>).fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練データスコア: </span><span class="sc">{:.2f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(lasso001.score(X_train, y_train)))
+ <span class="co">## 訓練データスコア: 0.90</span>
+<span class="bu">print</span>(<span class="st">&quot;テストデータスコア: </span><span class="sc">{:.2f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(lasso001.score(X_test, y_test)))
+ <span class="co">## テストデータスコア: 0.77</span>
+<span class="bu">print</span>(<span class="st">&quot;選択された特徴量数: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(np.<span class="bu">sum</span>(lasso001.coef_ <span class="op">!=</span> <span class="dv">0</span>)))
+ <span class="co">## 選択された特徴量数: 33</span></code></pre></div>
+<ul>
+<li><code>alpha</code>を小さくしすぎると過剰適合する。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">lasso00001 <span class="op">=</span> Lasso(alpha <span class="op">=</span> <span class="fl">0.0001</span>, max_iter<span class="op">=</span><span class="dv">100000</span>).fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練データスコア: </span><span class="sc">{:.2f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(lasso00001.score(X_train, y_train)))
+ <span class="co">## 訓練データスコア: 0.95</span>
+<span class="bu">print</span>(<span class="st">&quot;テストデータスコア: </span><span class="sc">{:.2f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(lasso00001.score(X_test, y_test)))
+ <span class="co">## テストデータスコア: 0.64</span>
+<span class="bu">print</span>(<span class="st">&quot;選択された特徴量数: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(np.<span class="bu">sum</span>(lasso00001.coef_ <span class="op">!=</span> <span class="dv">0</span>)))
+ <span class="co">## 選択された特徴量数: 94</span></code></pre></div>
+<p>Ridgeでやったように係数の大きさをプロットしてみよう。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.plot(lasso.coef_, <span class="st">&#39;s&#39;</span>, label <span class="op">=</span> <span class="st">&quot;Lasso alpha = 1&quot;</span>)
+plt.plot(lasso001.coef_, <span class="st">&#39;^&#39;</span>, label <span class="op">=</span> <span class="st">&quot;Lasso alpha = 0.01&quot;</span>)
+plt.plot(lasso00001.coef_, <span class="st">&#39;v&#39;</span>, label <span class="op">=</span> <span class="st">&quot;Lasso alpha = 0.0001&quot;</span>)
+plt.plot(ridge01.coef_, <span class="st">&#39;o&#39;</span>, label <span class="op">=</span> <span class="st">&quot;Ridge alpha = 0.1&quot;</span>)
+plt.legend(ncol <span class="op">=</span> <span class="dv">2</span>, loc <span class="op">=</span> (<span class="dv">0</span>, <span class="fl">1.05</span>))
+plt.ylim <span class="op">=</span> (<span class="op">-</span><span class="dv">25</span>, <span class="dv">25</span>)
+plt.xlabel(<span class="st">&quot;係数のインデックス&quot;</span>)
+plt.ylabel(<span class="st">&quot;係数の大きさ&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-42-1.png" /><!-- --></p>
+<ul>
+<li>合わせてプロットしたRidge(<span class="math inline">\(\alpha=0.1\)</span>)は、Lasso(<span class="math inline">\(\alpha=0.01\)</span>)と同じくらいの性能であるが、Ridgeでは大きさが小さいながらも係数の値は0にはなっていないものが多いのに対して、Lassoでは大きさが0の係数が目立つ。</li>
+<li>実際にはまずRidgeを試すと良い。</li>
+<li>係数がたくさんあって重要なのはそのうちの幾つか少数であると予想されるのであれば、Lassoを試すと良い。</li>
+<li>RidgeとLassoのペナルティを組合せたものとしてElasticNetがある。結果は良好であるが、チューニングすべきパラメータが増えるという欠点がある。</li>
+</ul>
+</div>
+<div id="section-2.5.5" class="section level3">
+<h3><span class="header-section-number">2.5.5</span> クラス分類のための線形モデル</h3>
+<p>線形モデルでクラス分類を行う場合は以下の式を用いる。</p>
+<p><span class="math display">\[\hat{y} = w[0]\times x[0] + w[1]\times x[1] + \dots + w[p]\times x[p] + b &gt; 0\]</span></p>
+<ul>
+<li>出力<span class="math inline">\(y\)</span>が0を超えるかどうかで判別する。</li>
+<li>出力<span class="math inline">\(y\)</span>は特徴量の線形関数であり、2つのクラスを直線や平面、超平面で分割する<strong>決定境界</strong>となる。</li>
+<li>線形モデルを学習するアルゴリズムは以下の観点から分類される。
+<ul>
+<li>どのような尺度で訓練データへの適合度を測るか。</li>
+<li>正則化を行うか。行うならどのような方法か。</li>
+</ul></li>
+<li><strong>ロジスティック回帰</strong>と<strong>線形サポートベクターマシン</strong>は一般的な線形クラスアルゴリズムである。</li>
+</ul>
+<p><strong>LogisticRegression</strong>と<strong>LinearSVC</strong>により<strong>forge</strong>を分類する決定境界を可視化する。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression
+<span class="im">from</span> sklearn.svm <span class="im">import</span> LinearSVC
+X, y <span class="op">=</span> mglearn.datasets.make_forge()
+fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize <span class="op">=</span> (<span class="dv">10</span>, <span class="dv">3</span>))
+<span class="cf">for</span> model, ax <span class="kw">in</span> <span class="bu">zip</span>([LinearSVC(), LogisticRegression()], axes):
+  clf <span class="op">=</span> model.fit(X, y)
+  mglearn.plots.plot_2d_separator(clf, X, fill <span class="op">=</span> <span class="va">False</span>, eps <span class="op">=</span> <span class="fl">0.5</span>, ax <span class="op">=</span> ax, alpha <span class="op">=</span> <span class="fl">0.7</span>)
+  mglearn.discrete_scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], y, ax <span class="op">=</span> ax)
+  ax.set_title(<span class="st">&quot;</span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(clf.__class__.<span class="va">__name__</span>))
+  ax.set_xlabel(<span class="st">&quot;特徴量 0&quot;</span>)
+  ax.set_ylabel(<span class="st">&quot;特徴量 1&quot;</span>)
+  
+axes[<span class="dv">0</span>].legend()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-44-1.png" /><!-- --></p>
+<ul>
+<li>2つのクラス分類器はいずれも正則化パラメータCを持つ。Cは大きいほど正則化が弱くなる。</li>
+<li>Cがは小さいとデータポイントの多数派に適合しようとするが、大きくすると個々のデータポイントを正確に分類しようとする。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mglearn.plots.plot_linear_svc_regularization()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-46-1.png" /><!-- --></p>
+<ul>
+<li>上記の例では、Cを大きくすると誤分類した少数の点に決定境界が大きく影響されていることがわかる。</li>
+<li>低次元の場合は線形分類は制約が強いように思えるが、次元数が大きくなるとモデルは強力になり、むしろ過剰適合をいかに避けるかがポイントになる。</li>
+</ul>
+<p><strong>cancer</strong>に<strong>LogisticRegression</strong>を適用してみる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer
+cancer <span class="op">=</span> load_breast_cancer()
+X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(
+  cancer.data, cancer.target, stratify <span class="op">=</span> cancer.target, random_state <span class="op">=</span> <span class="dv">42</span>
+)
+logreg <span class="op">=</span> LogisticRegression().fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;テストセットスコア: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(logreg.score(X_train, y_train)))
+ <span class="co">## テストセットスコア: 0.953</span>
+<span class="bu">print</span>(<span class="st">&quot;訓練セットスコア: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(logreg.score(X_test, y_test)))
+ <span class="co">## 訓練セットスコア: 0.958</span></code></pre></div>
+<ul>
+<li><strong>訓練セットとテストセットのスコアが近い場合は適合不足を疑う。</strong></li>
+</ul>
+<p>パラメータCを大きくしてモデルの複雑さを上げる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">logreg100 <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="dv">100</span>).fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;テストセットスコア: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(logreg100.score(X_train, y_train)))
+ <span class="co">## テストセットスコア: 0.967</span>
+<span class="bu">print</span>(<span class="st">&quot;訓練セットスコア: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(logreg100.score(X_test, y_test)))
+ <span class="co">## 訓練セットスコア: 0.965</span></code></pre></div>
+<p>精度が上がった。今度は逆にパラメータCを小さくしてみる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">logreg001 <span class="op">=</span> LogisticRegression(C<span class="op">=</span><span class="fl">0.01</span>).fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;テストセットスコア: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(logreg001.score(X_train, y_train)))
+ <span class="co">## テストセットスコア: 0.934</span>
+<span class="bu">print</span>(<span class="st">&quot;訓練セットスコア: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(logreg001.score(X_test, y_test)))
+ <span class="co">## 訓練セットスコア: 0.930</span></code></pre></div>
+<p>精度が下がった。最後に、3つのパターンについて係数を可視化してみる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.plot(logreg.coef_.T, <span class="st">&#39;o&#39;</span>, label <span class="op">=</span> <span class="st">&quot;C=1&quot;</span>)
+plt.plot(logreg100.coef_.T, <span class="st">&#39;^&#39;</span>, label <span class="op">=</span> <span class="st">&quot;C=100&quot;</span>)
+plt.plot(logreg001.coef_.T, <span class="st">&#39;v&#39;</span>, label <span class="op">=</span> <span class="st">&quot;C=0.01&quot;</span>)
+plt.xticks(<span class="bu">range</span>(cancer.data.shape[<span class="dv">1</span>]), cancer.feature_names, rotation<span class="op">=</span><span class="dv">90</span>)
+plt.hlines(<span class="dv">0</span>, <span class="dv">0</span>, cancer.data.shape[<span class="dv">1</span>])
+plt.xlabel(<span class="st">&quot;特徴量&quot;</span>)
+plt.ylabel(<span class="st">&quot;係数の大きさ&quot;</span>)
+plt.legend()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-51-1.png" /><!-- --></p>
+<ul>
+<li>デフォルトでは<strong>LogisticRegression</strong>はL2正則化を行う。</li>
+<li><code>penalty=&quot;l1&quot;</code>の指定でL1正則化に切り替えることができる。より単純なモデルが欲しければこちらを試すと良い。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">for</span> C, marker <span class="kw">in</span> <span class="bu">zip</span>([<span class="fl">0.001</span>, <span class="dv">1</span>, <span class="dv">100</span>], [<span class="st">&#39;o&#39;</span>, <span class="st">&#39;^&#39;</span>, <span class="st">&#39;v&#39;</span>]):
+  lr_l1 <span class="op">=</span> LogisticRegression(C <span class="op">=</span> C, penalty <span class="op">=</span> <span class="st">&quot;l1&quot;</span>).fit(X_train, y_train)
+  <span class="bu">print</span>(<span class="st">&quot;訓練セットに対する精度(C=</span><span class="sc">{:.3f}</span><span class="st">): </span><span class="sc">{:.2f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(C, lr_l1.score(X_train, y_train)))
+  <span class="bu">print</span>(<span class="st">&quot;テストセットに対する精度(C=</span><span class="sc">{:.3f}</span><span class="st">): </span><span class="sc">{:.2f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(C, lr_l1.score(X_test, y_test)))
+  plt.plot(lr_l1.coef_.T, marker, label <span class="op">=</span> <span class="st">&quot;C=</span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(C))
+ <span class="co">## 訓練セットに対する精度(C=0.001): 0.91</span>
+ <span class="co">## テストセットに対する精度(C=0.001): 0.92</span>
+ <span class="co">## 訓練セットに対する精度(C=1.000): 0.96</span>
+ <span class="co">## テストセットに対する精度(C=1.000): 0.96</span>
+ <span class="co">## 訓練セットに対する精度(C=100.000): 0.99</span>
+ <span class="co">## テストセットに対する精度(C=100.000): 0.98</span>
+plt.xticks(<span class="bu">range</span>(cancer.data.shape[<span class="dv">1</span>]), cancer.feature_names, rotation <span class="op">=</span> <span class="dv">90</span>)
+plt.hlines(<span class="dv">0</span>, <span class="dv">0</span>, cancer.data.shape[<span class="dv">1</span>])
+plt.xlabel(<span class="st">&quot;特徴量&quot;</span>)
+plt.ylabel(<span class="st">&quot;係数の大きさ&quot;</span>)
+plt.legend(loc <span class="op">=</span> <span class="dv">3</span>)</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-53-1.png" /><!-- --></p>
+</div>
+<div id="section-2.5.6" class="section level3">
+<h3><span class="header-section-number">2.5.6</span> 線形モデルによる多クラス分類</h3>
+<ul>
+<li>大抵の線形クラス分類は2クラス分類にしか対応しておらず、そのままでは多クラスに拡張することはできない。
+<ul>
+<li>ロジスティック回帰は例外</li>
+</ul></li>
+<li>拡張するための方法として<strong>1対その他(one-vs.-rest)</strong>アプローチがある。
+<ul>
+<li><strong>1つのクラスとその他のクラス</strong>という2クラス分類に対してモデルを学習させる。</li>
+<li>データポイントに対しては全ての2クラス分類を実行する。</li>
+<li><strong>一番高いスコアのクラス分類器</strong>の分類結果を予測結果とする。</li>
+<li>クラスごとに2クラス分類が存在するということなので、クラスごとに以下の式で表す確信度が存在し、確信度が最も大きいクラスがクラスラベルとなる。</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[ w[0] \times x[0] + w[1] \times x[1] + \dots + w[p] \times x[p] + b\]</span></p>
+<ul>
+<li>多クラスロジスティック回帰と1対多アプローチは多少異なるが、1クラスあたり係数ベクトルと切片ができるという点は共通している。</li>
+</ul>
+<p>3クラス分類に対して1対多アプローチを試す。データはガウス分布からサンプリングした2次元データセットとする。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs
+X, y <span class="op">=</span> make_blobs(random_state <span class="op">=</span> <span class="dv">42</span>)
+mglearn.discrete_scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], y)
+plt.xlabel(<span class="st">&quot;特徴量0&quot;</span>)
+plt.ylabel(<span class="st">&quot;特徴量1&quot;</span>)
+plt.legend([<span class="st">&quot;クラス0&quot;</span>, <span class="st">&quot;クラス1&quot;</span>, <span class="st">&quot;クラス2&quot;</span>])</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-55-1.png" /><!-- --></p>
+<p>このデータセットで<strong>LinearSVC</strong>を学習させる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">linear_svm <span class="op">=</span> LinearSVC().fit(X, y)
+<span class="bu">print</span>(<span class="st">&quot;係数ベクトルの形状&quot;</span>, linear_svm.coef_.shape)
+ <span class="co">## 係数ベクトルの形状 (3, 2)</span>
+<span class="bu">print</span>(<span class="st">&quot;切片ベクトルの形状&quot;</span>, linear_svm.intercept_.shape)
+ <span class="co">## 切片ベクトルの形状 (3,)</span></code></pre></div>
+<ul>
+<li>係数ベクトルの形状が3行2列ということは、各行に各クラスに対応する2次元の係数ベクトルが格納されているということである。</li>
+<li>切片ベクトルはクラスの数に対応している。</li>
+<li>上記2点をまとめると、3つのクラス分類器が得られているということである。</li>
+</ul>
+<p>3つのクラス分類器が作る決定境界を可視化する。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mglearn.discrete_scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], y)
+line <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">15</span>, <span class="dv">15</span>)
+<span class="cf">for</span> coef, intercept, color <span class="kw">in</span> <span class="bu">zip</span>(linear_svm.coef_, linear_svm.intercept_, [<span class="st">&#39;b&#39;</span>, <span class="st">&#39;r&#39;</span>, <span class="st">&#39;g&#39;</span>]):
+  plt.plot(line, <span class="op">-</span>(line <span class="op">*</span> coef[<span class="dv">0</span>] <span class="op">+</span> intercept) <span class="op">/</span> coef[<span class="dv">1</span>], c <span class="op">=</span> color)
+plt.xlabel(<span class="st">&quot;特徴量0&quot;</span>)
+plt.ylabel(<span class="st">&quot;特徴量1&quot;</span>)
+plt.legend([<span class="st">&#39;クラス0&#39;</span>, <span class="st">&#39;クラス1&#39;</span>, <span class="st">&#39;クラス2&#39;</span>, <span class="st">&#39;クラス0の決定境界&#39;</span>, <span class="st">&#39;クラス1の決定境界&#39;</span>, <span class="st">&#39;クラス2の決定境界&#39;</span>],
+  loc <span class="op">=</span> (<span class="fl">1.01</span>, <span class="fl">0.3</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.show()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-58-1.png" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.close()</code></pre></div>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="2-4-1-k-.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/nozma/ml_with_python_note/edit/master/02_supervised_learning.Rmd",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

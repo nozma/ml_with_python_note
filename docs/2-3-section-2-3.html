@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="e696b9e9879d.html">
-<link rel="next" href="1-section-1.html">
+<link rel="prev" href="2-2-section-2-2.html">
+<link rel="next" href="2-4-1-k-.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -171,21 +171,96 @@ Published with bookdown</a></li>
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="e59fb7e7ad86e792b0e5a283e381a8e3818b" class="section level2 unnumbered">
-<h2>執筆環境とか</h2>
+<div id="section-2.3" class="section level2">
+<h2><span class="header-section-number">2.3</span> 教師あり機械学習アルゴリズム</h2>
+<div id="section-2.3.1" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> サンプルデータセット</h3>
 <ul>
-<li>そのうち書く。</li>
+<li><strong>人工的な単純なデータセット</strong>と、<strong>実世界の割と複雑なデータセット</strong>を使う。</li>
 </ul>
-
+<div id="section-2.3.1.1" class="section level4">
+<h4><span class="header-section-number">2.3.1.1</span> 人工的な単純なデータセット</h4>
+<p>単純なデータセットは<strong>mglearn</strong>で生成する。</p>
+<ul>
+<li><strong>forge</strong>: <code>mglearn.datasets.make_forge()</code>で生成する2クラス分類向けデータ。
+<ul>
+<li>2つの特徴量と1つの2値目的変数をもつ。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X, y <span class="op">=</span> mglearn.datasets.make_forge()
+mglearn.discrete_scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], y)
+plt.legend([<span class="st">&quot;Class 0&quot;</span>, <span class="st">&quot;Class 1&quot;</span>], loc <span class="op">=</span> <span class="dv">4</span>) <span class="co"># 凡例</span>
+plt.xlabel(<span class="st">&quot;第1特徴量&quot;</span>)
+plt.ylabel(<span class="st">&quot;第2特徴量&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-3-1.png" /><!-- --></p>
+<ul>
+<li><strong>wave</strong>: <code>mglearn.datasets.make_wave</code>で生成する回帰向けデータ。
+<ul>
+<li>1つの特徴量と1つの目的変数を持つ。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X, y <span class="op">=</span> mglearn.datasets.make_wave(n_samples <span class="op">=</span> <span class="dv">40</span>)
+plt.plot(X, y, <span class="st">&#39;o&#39;</span>)
+plt.xlabel(<span class="st">&quot;特徴量&quot;</span>)
+plt.ylabel(<span class="st">&quot;目的変数&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-5-1.png" /><!-- --></p>
 </div>
-<!-- </div> -->
+<div id="section-2.3.1.2" class="section level4">
+<h4><span class="header-section-number">2.3.1.2</span> 実データ</h4>
+<p>実データは<strong>scikit-learn</strong>に入ってるものを使う。第1章でも説明したBunchクラスになっている。</p>
+<ul>
+<li><strong>cancer</strong>: ウィスコンシン乳癌データセット
+<ul>
+<li>目的変数は良性(benign)と悪性(malignant)の2値。</li>
+<li>特徴量は30。</li>
+<li>データポイントは569点。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer
+cancer <span class="op">=</span> load_breast_cancer()
+<span class="bu">print</span>(cancer.keys())
+ <span class="co">## dict_keys([&#39;feature_names&#39;, &#39;DESCR&#39;, &#39;data&#39;, &#39;target_names&#39;, &#39;target&#39;])</span>
+<span class="bu">print</span>(cancer.data.shape)
+ <span class="co">## (569, 30)</span>
+<span class="bu">print</span>(cancer.target_names)
+ <span class="co">## [&#39;malignant&#39; &#39;benign&#39;]</span>
+<span class="bu">print</span>(np.bincount(cancer.target))
+ <span class="co">## [212 357]</span></code></pre></div>
+<ul>
+<li><strong>boston_housing</strong>: 1970年代のボストン近郊の住宅価格。
+<ul>
+<li>住宅価格の中央値が目的変数。</li>
+<li>特徴量は13。</li>
+<li>データポイントは506点。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_boston
+boston <span class="op">=</span> load_boston()
+<span class="bu">print</span>(boston.data.shape)
+ <span class="co">## (506, 13)</span>
+<span class="bu">print</span>(boston.feature_names)
+ <span class="co">## [&#39;CRIM&#39; &#39;ZN&#39; &#39;INDUS&#39; &#39;CHAS&#39; &#39;NOX&#39; &#39;RM&#39; &#39;AGE&#39; &#39;DIS&#39; &#39;RAD&#39; &#39;TAX&#39; &#39;PTRATIO&#39;</span>
+ <span class="co">##  &#39;B&#39; &#39;LSTAT&#39;]</span></code></pre></div>
+<ul>
+<li>特徴量同士の積を求めたりして、新しい特徴量を導出することを<strong>特徴量エンジニアリング</strong>と呼ぶ。</li>
+<li><strong>boston_housing</strong>に対し、重複ありで2つの特徴量の積を求め、データセットの拡張を試みる。
+<ul>
+<li>作業が面倒なので既に拡張したものが<code>mglearn.datasets.load_extended_boston()</code>で読み込めます。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X, y <span class="op">=</span> mglearn.datasets.load_extended_boston()
+<span class="bu">print</span>(X.shape)
+ <span class="co">## (506, 104)</span></code></pre></div>
+</div>
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="e696b9e9879d.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="1-section-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="2-2-section-2-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="2-4-1-k-.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -215,7 +290,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nozma/ml_with_python_note/edit/master/index.Rmd",
+"link": "https://github.com/nozma/ml_with_python_note/edit/master/02_supervised_learning.Rmd",
 "text": "Edit"
 },
 "download": null,

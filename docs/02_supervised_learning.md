@@ -92,7 +92,7 @@ plt.ylabel("目的変数")
 from sklearn.datasets import load_breast_cancer
 cancer = load_breast_cancer()
 print(cancer.keys())
- ## dict_keys(['feature_names', 'DESCR', 'data', 'target_names', 'target'])
+ ## dict_keys(['target', 'feature_names', 'data', 'DESCR', 'target_names'])
 print(cancer.data.shape)
  ## (569, 30)
 print(cancer.target_names)
@@ -715,14 +715,5 @@ plt.legend(['クラス0', 'クラス1', 'クラス2', 'クラス0の決定境界
   loc = (1.01, 0.3))
 ```
 
-
-```python
-plt.show()
-```
-
 ![](02_supervised_learning_files/figure-html/unnamed-chunk-58-1.png)<!-- -->
-
-```python
-plt.close()
-```
 

@@ -628,6 +628,7 @@ plt.legend()
 ```
 
 ```{python, echo = FALSE}
+plt.tight_layout()
 plt.show()
 plt.close()
 ```
@@ -650,6 +651,7 @@ plt.legend(loc = 3)
 ```
 
 ```{python, echo = FALSE}
+plt.tight_layout()
 plt.show()
 plt.close()
 ```
@@ -710,7 +712,8 @@ plt.legend(['クラス0', 'クラス1', 'クラス2', 'クラス0の決定境界
   loc = (1.01, 0.3))
 ```
 
-```{python}
+```{python, echo=FALSE}
+plt.tight_layout()
 plt.show()
 plt.close()
 ```

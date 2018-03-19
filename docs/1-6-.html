@@ -25,7 +25,7 @@
 <meta name="author" content="R. Ito">
 
 
-<meta name="date" content="2018-03-19">
+<meta name="date" content="2018-03-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -148,6 +148,15 @@ code > span. { color: #1f1c1b; } /* Normal */
 <li class="chapter" data-level="2.5.4" data-path="2-5-2-.html"><a href="2-5-2-.html#lasso"><i class="fa fa-check"></i><b>2.5.4</b> Lasso</a></li>
 <li class="chapter" data-level="2.5.5" data-path="2-5-2-.html"><a href="2-5-2-.html#section-2.5.5"><i class="fa fa-check"></i><b>2.5.5</b> クラス分類のための線形モデル</a></li>
 <li class="chapter" data-level="2.5.6" data-path="2-5-2-.html"><a href="2-5-2-.html#section-2.5.6"><i class="fa fa-check"></i><b>2.5.6</b> 線形モデルによる多クラス分類</a></li>
+<li class="chapter" data-level="2.5.7" data-path="2-5-2-.html"><a href="2-5-2-.html#section-2.5.7"><i class="fa fa-check"></i><b>2.5.7</b> 利点、欠点、パラメータ</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="2-6-section-2-6.html"><a href="2-6-section-2-6.html"><i class="fa fa-check"></i><b>2.6</b> ナイーブベイズクラス分類器</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="2-6-section-2-6.html"><a href="2-6-section-2-6.html#-1"><i class="fa fa-check"></i><b>2.6.1</b> 利点、欠点、パラメータ</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="2-7-section-2-7.html"><a href="2-7-section-2-7.html"><i class="fa fa-check"></i><b>2.7</b> 決定木</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="2-7-section-2-7.html"><a href="2-7-section-2-7.html#section-2.7.1"><i class="fa fa-check"></i><b>2.7.1</b> 決定木の構築</a></li>
+<li class="chapter" data-level="2.7.2" data-path="2-7-section-2-7.html"><a href="2-7-section-2-7.html#section-2.7.2"><i class="fa fa-check"></i><b>2.7.2</b> 決定木の複雑さの制御</a></li>
+<li class="chapter" data-level="2.7.3" data-path="2-7-section-2-7.html"><a href="2-7-section-2-7.html#section-2.7.3"><i class="fa fa-check"></i><b>2.7.3</b> 決定木の解析</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -193,7 +202,7 @@ Published with bookdown</a></li>
 iris_dataset <span class="op">=</span> load_iris()</code></pre></div>
 <p><code>load_iris()</code>は<strong>Bunch</strong>クラスのオブジェクトを返す。これはディクショナリみたいに扱える。値には<code>iris_dataset['data']</code>以外に<code>iris_dataset.data</code>みたいにアクセスしてもいい。</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(iris_dataset.keys())
- <span class="co">## dict_keys([&#39;target_names&#39;, &#39;data&#39;, &#39;DESCR&#39;, &#39;feature_names&#39;, &#39;target&#39;])</span></code></pre></div>
+ <span class="co">## dict_keys([&#39;DESCR&#39;, &#39;target_names&#39;, &#39;data&#39;, &#39;feature_names&#39;, &#39;target&#39;])</span></code></pre></div>
 <p>キー<strong>DESCR</strong>の中にデータセットの説明が入っている。</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(iris_dataset.DESCR)
  <span class="co">## Iris Plants Database</span>

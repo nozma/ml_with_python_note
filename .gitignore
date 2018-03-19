@@ -15,3 +15,4 @@ _main.rds
 .bash_history
 .vim/
 .viminfo
+tmp*

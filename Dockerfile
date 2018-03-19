@@ -24,3 +24,6 @@ RUN pip3 install numpy scipy matplotlib scikit-learn pandas pillow ipython mglea
 # Install R packages
 RUN install2.r --error --deps TRUE reticulate
 
+# Install graphviz
+RUN apt-get -y install graphviz
+RUN pip3 install graphviz

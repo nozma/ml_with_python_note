@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="1-4-section-1-4.html">
-<link rel="next" href="1-6-.html">
+<link rel="prev" href="2-6-section-2-6.html">
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -180,17 +180,134 @@ Published with bookdown</a></li>
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="python-2-vs.python-3" class="section level2">
-<h2><span class="header-section-number">1.5</span> Python 2 vs. Python 3</h2>
-<p>3でやれ。</p>
+<div id="section-2.7" class="section level2">
+<h2><span class="header-section-number">2.7</span> 決定木</h2>
+<ul>
+<li>回帰にも分類にも使える。</li>
+<li>Yes/Noで答えられる質問で出来た<strong>木</strong>を構成する。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mglearn.plots.plot_animal_tree()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-63-1.png" /><!-- --></p>
+<div id="section-2.7.1" class="section level3">
+<h3><span class="header-section-number">2.7.1</span> 決定木の構築</h3>
+<ul>
+<li>2つの特徴量、2つのクラスを持つデータセットtwo_moonを使用する。
+<ul>
+<li>2つの特徴量のなす平面上で2つのクラスが半月を組合せたように分布している。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_moons
+<span class="im">from</span> mglearn.tools <span class="im">import</span> discrete_scatter
+X, y <span class="op">=</span> make_moons(n_samples<span class="op">=</span><span class="dv">100</span>, noise<span class="op">=</span><span class="fl">0.25</span>, random_state<span class="op">=</span><span class="dv">3</span>)
+plt.figure()
+ax <span class="op">=</span> plt.gca()
+discrete_scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], y, ax<span class="op">=</span>ax)
+ax.set_xticks(())
+ax.set_yticks(())</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-65-1.png" /><!-- --></p>
+<ul>
+<li>木の構築は、データセットの分割の繰り返しである。分割された部分を<strong>葉</strong>と呼ぶ。</li>
+<li>分割によりテストが1段階増える(e.g. X[1]は0.06以上であるか？)</li>
+<li>各ステップで分割は情報量が最も多くなるように（最もクラスを分割するように）行われる。</li>
+<li>分割はテストによってデータセットが完全に分類できるようになるまで進む。</li>
+<li>1つの葉に1種類のクラスや値しか含まない状態になった木を<strong>純粋</strong>(pure)と呼ぶ。</li>
+</ul>
+<p>以下にtwo_moonから純粋な決定木を作成する過程を示す。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">for</span> i, max_depth <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">9</span>]):
+  fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize <span class="op">=</span> (<span class="dv">12</span>, <span class="dv">4</span>), subplot_kw<span class="op">=</span>{<span class="st">&#39;xticks&#39;</span>: (), <span class="st">&#39;yticks&#39;</span>: ()})
+  tree <span class="op">=</span> mglearn.plot_interactive_tree.plot_tree(X, y, max_depth <span class="op">=</span> max_depth, ax <span class="op">=</span> ax[<span class="dv">0</span>])
+  ax[<span class="dv">1</span>].imshow(mglearn.plot_interactive_tree.tree_image(tree))
+  plt.show()
+  plt.close()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-66-1.png" /><!-- --><img src="02_supervised_learning_files/figure-html/unnamed-chunk-66-2.png" /><!-- --><img src="02_supervised_learning_files/figure-html/unnamed-chunk-66-3.png" /><!-- --></p>
+<p>決定木はターゲットがクラスではなく連続値になっても同じように機能するので、回帰にも使える。</p>
 </div>
+<div id="section-2.7.2" class="section level3">
+<h3><span class="header-section-number">2.7.2</span> 決定木の複雑さの制御</h3>
+<ul>
+<li>純粋になるまで分割を続けるとルールが複雑になりすぎ、容易に過剰適合してしまう。</li>
+<li>過剰適合を防ぐ戦略は2つある。
+<ul>
+<li>事前枝刈り: 構築過程で木の生成を止める。単に枝刈りとも。
+<ul>
+<li>木の深さを制限する方法、葉の最大値を制限する方法、葉に含まれるデータ点の最小数を制限する方法がある。</li>
+<li>scikit-learnには事前枝刈りしか実装されていない。</li>
+</ul></li>
+<li>事後枝刈り: 木を構築してから情報量の少ない枝を削除する。</li>
+</ul></li>
+<li>scikit-learnの決定木の実装
+<ul>
+<li>回帰: DecisionTreeRegressorクラス</li>
+<li>分類: DecisionTreeClassifierクラス</li>
+</ul></li>
+</ul>
+<p>以下ではcancerデータに対して決定木を作成し、枝刈りの効果を確認する。まずはデフォルトの設定で訓練セットに対して木を構築する。デフォルトでは葉が純粋になるまで分類する。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier
+cancer <span class="op">=</span> load_breast_cancer()
+X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(
+  cancer.data, cancer.target, stratify<span class="op">=</span>cancer.target, random_state <span class="op">=</span> <span class="dv">42</span>
+)
+tree <span class="op">=</span> DecisionTreeClassifier(random_state <span class="op">=</span> <span class="dv">0</span>) <span class="co"># 内部でタイブレークの判定に使う乱数を固定している</span>
+tree.fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練セットに対する精度:</span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(tree.score(X_train, y_train)))
+ <span class="co">## 訓練セットに対する精度:1.000</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットに対する精度:</span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(tree.score(X_test, y_test)))
+ <span class="co">## テストセットに対する精度:0.937</span></code></pre></div>
+<ul>
+<li>葉が純粋になるまで分割しているので、訓練セットに対する精度は当然1になる。</li>
+<li>テストセットに対する制度は線形モデルの例で見た時より若干低い。</li>
+</ul>
+<p>次に、枝刈りの例として木の深さを4に固定してみる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">tree <span class="op">=</span> DecisionTreeClassifier(max_depth <span class="op">=</span> <span class="dv">4</span>, random_state <span class="op">=</span> <span class="dv">0</span>)
+tree.fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練セットに対する精度:</span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(tree.score(X_train, y_train)))
+ <span class="co">## 訓練セットに対する精度:0.988</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットに対する精度:</span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(tree.score(X_test, y_test)))
+ <span class="co">## テストセットに対する精度:0.951</span></code></pre></div>
+<p>訓練セットに対する精度と引き換えに、汎化性能が向上していることが分かる。</p>
+</div>
+<div id="section-2.7.3" class="section level3">
+<h3><span class="header-section-number">2.7.3</span> 決定木の解析</h3>
+<ul>
+<li>木の可視化のために、まずは<code>tree</code>モジュールの<code>export_graphviz</code>関数でグラフを書き出す。</li>
+<li>出力はグラフに対応するファイル形式の.dot形式でファイル。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.tree <span class="im">import</span> export_graphviz
+export_graphviz(
+  tree, out_file <span class="op">=</span> <span class="st">&quot;output/tree.dot&quot;</span>, class_names <span class="op">=</span> [<span class="st">&quot;malignant&quot;</span>, <span class="st">&quot;benign&quot;</span>],
+  feature_names <span class="op">=</span> cancer.feature_names, impurity <span class="op">=</span> <span class="va">False</span>, filled <span class="op">=</span> <span class="va">True</span>
+  )</code></pre></div>
+<ul>
+<li>.dotファイルの可視化はgraphvizモジュールで行う
+<ul>
+<li>注:<code>pip install graphviz</code>しておく以外に、別途OSに応じた方法でgraphvizをインストールしておく必要がある</li>
+<li>ubuntuならば<code>sudo apt-get install graphviz</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> graphviz
+<span class="im">from</span> PIL <span class="im">import</span> Image
+<span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;output/tree.dot&quot;</span>) <span class="im">as</span> f:
+  dot_graph <span class="op">=</span> f.read()
+g <span class="op">=</span> graphviz.Source(dot_graph)
+g.<span class="bu">format</span> <span class="op">=</span> <span class="st">&quot;png&quot;</span>
+g.render(<span class="st">&quot;output/tree.gv&quot;</span>)
+img <span class="op">=</span> np.array(Image.<span class="bu">open</span>(<span class="st">&quot;output/tree.gv.png&quot;</span>))
+plt.imshow(img)
+plt.axis(<span class="st">&#39;off&#39;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.show()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-71-1.png" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.close()</code></pre></div>
+
+</div>
+</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="1-4-section-1-4.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="1-6-.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="2-6-section-2-6.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -220,7 +337,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nozma/ml_with_python_note/edit/master/01_intro.Rmd",
+"link": "https://github.com/nozma/ml_with_python_note/edit/master/02_supervised_learning.Rmd",
 "text": "Edit"
 },
 "download": null,

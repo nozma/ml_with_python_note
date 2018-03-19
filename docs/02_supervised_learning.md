@@ -92,7 +92,7 @@ plt.ylabel("目的変数")
 from sklearn.datasets import load_breast_cancer
 cancer = load_breast_cancer()
 print(cancer.keys())
- ## dict_keys(['target', 'feature_names', 'data', 'DESCR', 'target_names'])
+ ## dict_keys(['data', 'feature_names', 'target', 'DESCR', 'target_names'])
 print(cancer.data.shape)
  ## (569, 30)
 print(cancer.target_names)
@@ -716,4 +716,227 @@ plt.legend(['クラス0', 'クラス1', 'クラス2', 'クラス0の決定境界
 ```
 
 ![](02_supervised_learning_files/figure-html/unnamed-chunk-58-1.png)<!-- -->
+
+- 決定境界が作る領域の中には複数のクラスが属する部分(左、右上、右下の三角形領域)と、すべてのクラスが属さない部分(中央の三角)がある。この内部では、**クラス分類式の値が一番大きいクラス**が予測されるクラスとなる。
+- 例えば、中央の三角であれば対応する決定境界が最も近いクラスに分類される。
+
+上記のルールに従って、多クラス分類における最終的な決定境界を示す。
+
+
+```python
+mglearn.plots.plot_2d_classification(linear_svm, X, fill = True, alpha = .7)
+mglearn.discrete_scatter(X[:, 0], X[:, 1], y)
+line = np.linspace(-15, 15)
+for coef, intercept, color in zip(linear_svm.coef_, linear_svm.intercept_, ['b', 'r', 'g']):
+  plt.plot(line, -(line * coef[0] + intercept) / coef[1], c = color)
+plt.legend(["クラス0", "クラス1", "クラス2", "クラス0の決定境界", "クラス1の決定境界", "クラス2の決定境界"],
+  loc = (1.01, 0.3))
+plt.xlabel("特徴量0")
+plt.ylabel("特徴量1")
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-60-1.png)<!-- -->
+
+### 利点、欠点、パラメータ
+
+- 線形モデルの主要なパラメータ
+    - 回帰モデル: alpha
+        - 大きいと単純なモデル
+    - LinearSVCとLogisticRegression: C
+        - 小さいと単純なモデル
+- alpha、Cは対数スケールで調整する。
+- 正則化を行う場合はL1かL2かも重要なポイント。
+    - 一部のパラメータが重要と予想される: L1
+        - パラメータを限定できるので、モデルを説明しやすくなる。
+    - 特にそのようなこだわりがない: L2
+- 線形モデルの利点
+    - 訓練、予測ともに高速。
+    - 大きなデータセットでも疎なデータセットでも上手く動く。
+    - 非常に大きなデータセットへの対処は2通りある。
+        - LogisticRegressionとRidgeに`solver='sag'`オプションを指定する。
+        - SGDClassifierクラスとSGDRegressorクラスの利用を検討する。
+- 線形モデルの欠点
+    - 予測手法は理解しやすい反面、係数がなぜその値になっているのかは必ずしも自明ではない。
+        - 特に係数間に相関がある場合。
+        
+## ナイーブベイズクラス分類器
+
+- 線形モデルよりさらに高速に訓練ができる。
+    - 汎化性能は劣る場合がある。
+- scikit-learnに実装されているナイーブベイズクラス分類器は3種。
+    - GaussianNB: 任意の連続値データに適用できる。
+    - BernoulliNB: 2値データを仮定している。
+    - MultinomialNB: カウントデータを仮定している。
+        - カウントデータ...文章中の単語の出現回数など、個々の特徴量の値が何かのカウントであるもの。
+- BernoulliNBは特徴量毎に非ゼロの場合をカウントする。
+
+
+```python
+import numpy as np
+X = np.array([[0, 1, 0, 1],
+              [1, 0, 1, 1],
+              [0, 0, 0, 1],
+              [1, 0, 1, 0]])
+y = np.array([0, 1, 0, 1])
+counts = {}
+for label in np.unique(y):
+  counts[label] = X[y == label].sum(axis=0)
+print("非ゼロの特徴量のカウント:\n{}".format(counts))
+ ## 非ゼロの特徴量のカウント:
+ ## {0: array([0, 1, 0, 2]), 1: array([2, 0, 2, 1])}
+```
+
+- MultinominalNBはクラスごとの個々の特徴量の平均値を考慮に入れる。
+- GaussianNBは平均値に加えて標準偏差も考慮する。
+- 予測式の形は線形モデルと同じになるが、`coef_`は$w$とは若干意味が異なる。
+
+### 利点、欠点、パラメータ
+
+- MultinomialNBとBernoulliNBは唯一のパラメータとしてalphaを持つ。
+- alphaを大きくするとモデルの複雑さが減るが、alphaを変化させてもアルゴリズムの性能はそれほど変化しない。しかし、場合によっては精度を多少上げることができる。
+- GaussianNBは高次元データに対して用いる場合が多い。
+- MultinomialNBはBernoulliNBより若干性能が良く、特に非ゼロ特徴量が多数ある場合に強い。
+
+## 決定木
+
+- 回帰にも分類にも使える。
+- Yes/Noで答えられる質問で出来た**木**を構成する。
+
+
+```python
+mglearn.plots.plot_animal_tree()
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-63-1.png)<!-- -->
+
+
+### 決定木の構築
+
+- 2つの特徴量、2つのクラスを持つデータセットtwo_moonを使用する。
+    - 2つの特徴量のなす平面上で2つのクラスが半月を組合せたように分布している。
+
+
+```python
+from sklearn.datasets import make_moons
+from mglearn.tools import discrete_scatter
+X, y = make_moons(n_samples=100, noise=0.25, random_state=3)
+plt.figure()
+ax = plt.gca()
+discrete_scatter(X[:, 0], X[:, 1], y, ax=ax)
+ax.set_xticks(())
+ax.set_yticks(())
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-65-1.png)<!-- -->
+
+- 木の構築は、データセットの分割の繰り返しである。分割された部分を**葉**と呼ぶ。
+- 分割によりテストが1段階増える(e.g. X[1]は0.06以上であるか？)
+- 各ステップで分割は情報量が最も多くなるように（最もクラスを分割するように）行われる。
+- 分割はテストによってデータセットが完全に分類できるようになるまで進む。
+- 1つの葉に1種類のクラスや値しか含まない状態になった木を**純粋**(pure)と呼ぶ。
+
+以下にtwo_moonから純粋な決定木を作成する過程を示す。
+
+
+```python
+for i, max_depth in enumerate([1, 2, 9]):
+  fig, ax = plt.subplots(1, 2, figsize = (12, 4), subplot_kw={'xticks': (), 'yticks': ()})
+  tree = mglearn.plot_interactive_tree.plot_tree(X, y, max_depth = max_depth, ax = ax[0])
+  ax[1].imshow(mglearn.plot_interactive_tree.tree_image(tree))
+  plt.show()
+  plt.close()
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-66-1.png)<!-- -->![](02_supervised_learning_files/figure-html/unnamed-chunk-66-2.png)<!-- -->![](02_supervised_learning_files/figure-html/unnamed-chunk-66-3.png)<!-- -->
+
+決定木はターゲットがクラスではなく連続値になっても同じように機能するので、回帰にも使える。
+
+### 決定木の複雑さの制御
+
+- 純粋になるまで分割を続けるとルールが複雑になりすぎ、容易に過剰適合してしまう。
+- 過剰適合を防ぐ戦略は2つある。
+    - 事前枝刈り: 構築過程で木の生成を止める。単に枝刈りとも。
+        - 木の深さを制限する方法、葉の最大値を制限する方法、葉に含まれるデータ点の最小数を制限する方法がある。
+        - scikit-learnには事前枝刈りしか実装されていない。
+    - 事後枝刈り: 木を構築してから情報量の少ない枝を削除する。
+- scikit-learnの決定木の実装
+    - 回帰: DecisionTreeRegressorクラス
+    - 分類: DecisionTreeClassifierクラス
+
+以下ではcancerデータに対して決定木を作成し、枝刈りの効果を確認する。まずはデフォルトの設定で訓練セットに対して木を構築する。デフォルトでは葉が純粋になるまで分類する。
+
+
+```python
+from sklearn.tree import DecisionTreeClassifier
+cancer = load_breast_cancer()
+X_train, X_test, y_train, y_test = train_test_split(
+  cancer.data, cancer.target, stratify=cancer.target, random_state = 42
+)
+tree = DecisionTreeClassifier(random_state = 0) # 内部でタイブレークの判定に使う乱数を固定している
+tree.fit(X_train, y_train)
+print("訓練セットに対する精度:{:.3f}".format(tree.score(X_train, y_train)))
+ ## 訓練セットに対する精度:1.000
+print("テストセットに対する精度:{:.3f}".format(tree.score(X_test, y_test)))
+ ## テストセットに対する精度:0.937
+```
+
+- 葉が純粋になるまで分割しているので、訓練セットに対する精度は当然1になる。
+- テストセットに対する制度は線形モデルの例で見た時より若干低い。
+
+次に、枝刈りの例として木の深さを4に固定してみる。
+
+
+```python
+tree = DecisionTreeClassifier(max_depth = 4, random_state = 0)
+tree.fit(X_train, y_train)
+print("訓練セットに対する精度:{:.3f}".format(tree.score(X_train, y_train)))
+ ## 訓練セットに対する精度:0.988
+print("テストセットに対する精度:{:.3f}".format(tree.score(X_test, y_test)))
+ ## テストセットに対する精度:0.951
+```
+
+訓練セットに対する精度と引き換えに、汎化性能が向上していることが分かる。
+
+### 決定木の解析
+
+- 木の可視化のために、まずは`tree`モジュールの`export_graphviz`関数でグラフを書き出す。
+- 出力はグラフに対応するファイル形式の.dot形式でファイル。
+
+
+```python
+from sklearn.tree import export_graphviz
+export_graphviz(
+  tree, out_file = "output/tree.dot", class_names = ["malignant", "benign"],
+  feature_names = cancer.feature_names, impurity = False, filled = True
+  )
+```
+
+- .dotファイルの可視化はgraphvizモジュールで行う
+    - 注:`pip install graphviz`しておく以外に、別途OSに応じた方法でgraphvizをインストールしておく必要がある
+    - ubuntuならば`sudo apt-get install graphviz`
+
+
+```python
+import graphviz
+from PIL import Image
+with open("output/tree.dot") as f:
+  dot_graph = f.read()
+g = graphviz.Source(dot_graph)
+g.format = "png"
+g.render("output/tree.gv")
+img = np.array(Image.open("output/tree.gv.png"))
+plt.imshow(img)
+plt.axis('off')
+```
+
+
+```python
+plt.show()
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-71-1.png)<!-- -->
+
+```python
+plt.close()
+```
 

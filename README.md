@@ -1,1 +1,1 @@
-- [Pythonで始める機械学習の学習](https://nozma.github.io/index.html)
+- [Pythonで始める機械学習の学習](https://nozma.github.io/ml_with_python_note/)

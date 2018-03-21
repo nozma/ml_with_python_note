@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="1-4-必要なライブラリとツール.html">
-<link rel="next" href="1-6-最初のアプリケーション-アイリスのクラス分類.html">
+<link rel="prev" href="2-教師あり学習-1.html">
+<link rel="next" href="2-2-汎化過剰適合適合不足.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -191,17 +191,29 @@ Published with bookdown</a></li>
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="python-2-vs.python-3" class="section level2">
-<h2><span class="header-section-number">1.5</span> Python 2 vs. Python 3</h2>
-<p>3でやれ。</p>
+<div id="クラス分類と回帰" class="section level2">
+<h2><span class="header-section-number">2.1</span> クラス分類と回帰</h2>
+<p>教師あり学習はさらに2つに分けられる。</p>
+<ul>
+<li><strong>クラス分類</strong>: クラスラベルを予測する問題。
+<ul>
+<li>2クラス分類 (binary classification): Yes/Noみたいな2択。
+<ul>
+<li>片方を<strong>陽性</strong> (positive)、もう片方を<strong>陰性</strong> (negative)とする場合がしばしばある。</li>
+</ul></li>
+<li>他クラス分類 (multiclass classification): もっと選択肢多いやつ。</li>
+</ul></li>
+<li><strong>回帰</strong>: 連続値を予測する問題。</li>
+</ul>
+<p>2つを区別するのは<strong>出力</strong>が連続かどうか。<strong>入力</strong>はどちらの問題でも連続の場合も離散的な場合もある。</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="1-4-必要なライブラリとツール.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="1-6-最初のアプリケーション-アイリスのクラス分類.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="2-教師あり学習-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="2-2-汎化過剰適合適合不足.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -231,7 +243,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nozma/ml_with_python_note/edit/master/01_intro.Rmd",
+"link": "https://github.com/nozma/ml_with_python_note/edit/master/02_supervised_learning.Rmd",
 "text": "Edit"
 },
 "download": null,

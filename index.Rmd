@@ -8,13 +8,76 @@ documentclass: book
 
 # まえおき {-}
 
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(
+  engine.path = list(python = "/usr/bin/python3"),
+  collapse = TRUE,
+  comment = " ##"
+  )
+```
+
 やるぞい(๑•̀ㅂ•́)و✧
 
-## 方針 {-}
+## 方針とか {-}
 
-- テキストのコードは見た目重視で冗長なので、どんどん省略していきます。
+- [Pythonではじめる機械学習 ―scikit-learnで学ぶ特徴量エンジニアリングと機械学習の基礎](https://www.amazon.co.jp/dp/4873117984/)の備忘録です。
+- <del>テキストのコードは見た目重視で冗長なので、どんどん省略していきます</del>。
+    - そんな風に思っていた時期もありました。
+    - `mglearn`によって過度にコードが省略されている部分や、それに起因してR Markdown上では動かない部分もあるため、適宜[amueller/introduction_to_ml_with_python: Notebooks and code for the book "Introduction to Machine Learning with Python"](https://github.com/amueller/introduction_to_ml_with_python)等を参照して不足部分を補っています。
 - がんばりすぎない。
 
 ## 執筆環境とか {-}
 
-- そのうち書く。
+このテキストはR Studioとbookdownパッケージを用いて執筆しています。書籍のコードが実行できるように調整したDockerイメージを公開しています。
+
+Pythonでnotebook的なものを書く目的だとR StudioとR Markdownは(今のところは)それほど使い勝手が良くないので、Jupyter notebookが起動するやつもそのうち気が向いたら作るかもしれません。
+
+### 執筆環境の使い方 {-}
+
+Dockerがセットアップされている環境で
+
+```bash
+docker run -p 8787:8787 nozma/ml_with_python_note
+```
+
+とし、 http://localhost:8787 にアクセスするとR Studio Serverの起動画面が表示されます。ユーザー名、パスワードはいずれも`rstudio`です。
+
+R Markdown中でPythonを使用するためには、Pythonのengine.pathを明示的にpython3と指定してやる必要があります。このテキストでは、.Rmdファイルに、以下のコードチャンクを設置してこの設定を行っています。
+
+````markdown
+`r ''````{r setup, echo=FALSE}
+knitr::opts_chunk$set(
+  engine.path = list(python = "/usr/bin/python3"),
+  collapse = TRUE,
+  comment = " ##"
+  )
+```
+````
+
+また、日本語フォントとしてIPAexGothicをインストールしてあります。matplotlibで使用する場合は、以下のコードチャンクをファイル冒頭などに記述してください。
+
+````markdown
+`r ''````python
+matplotlib.rc('font', family='IPAexGothic') # 日本語プロット設定
+```
+````
+
+### R sessionInfo {-}
+
+
+```{r}
+utils::sessionInfo()
+```
+
+
+### Python環境 {-}
+
+```{python}
+import sys
+print(sys.version)
+```
+
+```{python}
+from pip.utils import get_installed_distributions
+[print(d) for d in get_installed_distributions()]
+```

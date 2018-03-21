@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="1-4-必要なライブラリとツール.html">
-<link rel="next" href="1-6-最初のアプリケーション-アイリスのクラス分類.html">
+<link rel="prev" href="方針とか.html">
+<link rel="next" href="1-はじめに.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -191,17 +191,102 @@ Published with bookdown</a></li>
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="python-2-vs.python-3" class="section level2">
-<h2><span class="header-section-number">1.5</span> Python 2 vs. Python 3</h2>
-<p>3でやれ。</p>
+<div id="執筆環境とか" class="section level2 unnumbered">
+<h2>執筆環境とか</h2>
+<p>このテキストはR Studioとbookdownパッケージを用いて執筆しています。書籍のコードが実行できるように調整したDockerイメージを公開しています。</p>
+<p>Pythonでnotebook的なものを書く目的だとR StudioとR Markdownは(今のところは)それほど使い勝手が良くないので、Jupyter notebookが起動するやつもそのうち気が向いたら作るかもしれません。</p>
+<div id="執筆環境の使い方" class="section level3 unnumbered">
+<h3>執筆環境の使い方</h3>
+<p>Dockerがセットアップされている環境で</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">docker</span> run -p 8787:8787 nozma/ml_with_python_note</code></pre></div>
+<p>とし、 <a href="http://localhost:8787" class="uri">http://localhost:8787</a> にアクセスするとR Studio Serverの起動画面が表示されます。ユーザー名、パスワードはいずれも<code>rstudio</code>です。</p>
+<p>R Markdown中でPythonを使用するためには、Pythonのengine.pathを明示的にpython3と指定してやる必要があります。このテキストでは、.Rmdファイルに、以下のコードチャンクを設置してこの設定を行っています。</p>
+<div class="sourceCode"><pre class="sourceCode markdown"><code class="sourceCode markdown">```{r setup, echo=FALSE}
+knitr::opts_chunk$set(
+  engine.path = list(python = &quot;/usr/bin/python3&quot;),
+  collapse = TRUE,
+  comment = &quot; ##&quot;
+  )
+```</code></pre></div>
+<p>また、日本語フォントとしてIPAexGothicをインストールしてあります。matplotlibで使用する場合は、以下のコードチャンクをファイル冒頭などに記述してください。</p>
+<div class="sourceCode"><pre class="sourceCode markdown"><code class="sourceCode markdown">```python
+matplotlib.rc(&#39;font&#39;, family=&#39;IPAexGothic&#39;) # 日本語プロット設定
+```</code></pre></div>
 </div>
+<div id="r-sessioninfo" class="section level3 unnumbered">
+<h3>R sessionInfo</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">utils<span class="op">::</span><span class="kw">sessionInfo</span>()
+ ## R version 3.4.3 (2017-11-30)
+ ## Platform: x86_64-pc-linux-gnu (64-bit)
+ ## Running under: Debian GNU/Linux 9 (stretch)
+ ## 
+ ## Matrix products: default
+ ## BLAS: /usr/lib/openblas-base/libblas.so.3
+ ## LAPACK: /usr/lib/libopenblasp-r0.2.19.so
+ ## 
+ ## locale:
+ ##  [1] LC_CTYPE=ja_JP.UTF-8       LC_NUMERIC=C              
+ ##  [3] LC_TIME=ja_JP.UTF-8        LC_COLLATE=ja_JP.UTF-8    
+ ##  [5] LC_MONETARY=ja_JP.UTF-8    LC_MESSAGES=C             
+ ##  [7] LC_PAPER=ja_JP.UTF-8       LC_NAME=C                 
+ ##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+ ## [11] LC_MEASUREMENT=ja_JP.UTF-8 LC_IDENTIFICATION=C       
+ ## 
+ ## attached base packages:
+ ## [1] stats     graphics  grDevices utils     datasets  base     
+ ## 
+ ## loaded via a namespace (and not attached):
+ ##  [1] compiler_3.4.3  backports_1.1.2 bookdown_0.7    magrittr_1.5   
+ ##  [5] rprojroot_1.3-2 tools_3.4.3     htmltools_0.3.6 yaml_2.1.18    
+ ##  [9] Rcpp_0.12.16    stringi_1.1.7   rmarkdown_1.9   knitr_1.20     
+ ## [13] methods_3.4.3   xfun_0.1        stringr_1.3.0   digest_0.6.15  
+ ## [17] evaluate_0.10.1</code></pre></div>
+</div>
+<div id="python環境" class="section level3 unnumbered">
+<h3>Python環境</h3>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> sys
+<span class="bu">print</span>(sys.version)
+ <span class="co">## 3.5.3 (default, Jan 19 2017, 14:11:04) </span>
+ <span class="co">## [GCC 6.3.0 20170118]</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> pip.utils <span class="im">import</span> get_installed_distributions
+[<span class="bu">print</span>(d) <span class="cf">for</span> d <span class="kw">in</span> get_installed_distributions()]
+ <span class="co">## wcwidth 0.1.7</span>
+ <span class="co">## traitlets 4.3.2</span>
+ <span class="co">## simplegeneric 0.8.1</span>
+ <span class="co">## scipy 1.0.0</span>
+ <span class="co">## scikit-learn 0.19.1</span>
+ <span class="co">## pytz 2018.3</span>
+ <span class="co">## python-dateutil 2.7.0</span>
+ <span class="co">## pyparsing 2.2.0</span>
+ <span class="co">## Pygments 2.2.0</span>
+ <span class="co">## ptyprocess 0.5.2</span>
+ <span class="co">## prompt-toolkit 1.0.15</span>
+ <span class="co">## Pillow 5.0.0</span>
+ <span class="co">## pickleshare 0.7.4</span>
+ <span class="co">## pexpect 4.4.0</span>
+ <span class="co">## parso 0.1.1</span>
+ <span class="co">## pandas 0.22.0</span>
+ <span class="co">## numpy 1.14.2</span>
+ <span class="co">## mglearn 0.1.6</span>
+ <span class="co">## matplotlib 2.2.2</span>
+ <span class="co">## kiwisolver 1.0.1</span>
+ <span class="co">## jedi 0.11.1</span>
+ <span class="co">## ipython 6.2.1</span>
+ <span class="co">## ipython-genutils 0.2.0</span>
+ <span class="co">## graphviz 0.8.2</span>
+ <span class="co">## decorator 4.2.1</span>
+ <span class="co">## cycler 0.10.0</span></code></pre></div>
+
+</div>
+</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="1-4-必要なライブラリとツール.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="1-6-最初のアプリケーション-アイリスのクラス分類.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="方針とか.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="1-はじめに.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -231,7 +316,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nozma/ml_with_python_note/edit/master/01_intro.Rmd",
+"link": "https://github.com/nozma/ml_with_python_note/edit/master/index.Rmd",
 "text": "Edit"
 },
 "download": null,

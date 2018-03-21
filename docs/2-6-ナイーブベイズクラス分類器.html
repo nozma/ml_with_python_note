@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="1-4-必要なライブラリとツール.html">
-<link rel="next" href="1-6-最初のアプリケーション-アイリスのクラス分類.html">
+<link rel="prev" href="2-5-アルゴリズム2-線形モデル.html">
+<link rel="next" href="2-7-決定木.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -191,17 +191,58 @@ Published with bookdown</a></li>
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="python-2-vs.python-3" class="section level2">
-<h2><span class="header-section-number">1.5</span> Python 2 vs. Python 3</h2>
-<p>3でやれ。</p>
+<div id="ナイーブベイズクラス分類器" class="section level2">
+<h2><span class="header-section-number">2.6</span> ナイーブベイズクラス分類器</h2>
+<ul>
+<li>線形モデルよりさらに高速に訓練ができる。
+<ul>
+<li>汎化性能は劣る場合がある。</li>
+</ul></li>
+<li>scikit-learnに実装されているナイーブベイズクラス分類器は3種。
+<ul>
+<li>GaussianNB: 任意の連続値データに適用できる。</li>
+<li>BernoulliNB: 2値データを仮定している。</li>
+<li>MultinomialNB: カウントデータを仮定している。
+<ul>
+<li>カウントデータ…文章中の単語の出現回数など、個々の特徴量の値が何かのカウントであるもの。</li>
+</ul></li>
+</ul></li>
+<li>BernoulliNBは特徴量毎に非ゼロの場合をカウントする。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> numpy <span class="im">as</span> np
+X <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>],
+              [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>],
+              [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>],
+              [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>]])
+y <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>])
+counts <span class="op">=</span> {}
+<span class="cf">for</span> label <span class="kw">in</span> np.unique(y):
+  counts[label] <span class="op">=</span> X[y <span class="op">==</span> label].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">0</span>)
+<span class="bu">print</span>(<span class="st">&quot;非ゼロの特徴量のカウント:</span><span class="ch">\n</span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(counts))
+ <span class="co">## 非ゼロの特徴量のカウント:</span>
+ <span class="co">## {0: array([0, 1, 0, 2]), 1: array([2, 0, 2, 1])}</span></code></pre></div>
+<ul>
+<li>MultinominalNBはクラスごとの個々の特徴量の平均値を考慮に入れる。</li>
+<li>GaussianNBは平均値に加えて標準偏差も考慮する。</li>
+<li>予測式の形は線形モデルと同じになるが、<code>coef_</code>は<span class="math inline">\(w\)</span>とは若干意味が異なる。</li>
+</ul>
+<div id="利点欠点パラメータ-1" class="section level3">
+<h3><span class="header-section-number">2.6.1</span> 利点、欠点、パラメータ</h3>
+<ul>
+<li>MultinomialNBとBernoulliNBは唯一のパラメータとしてalphaを持つ。</li>
+<li>alphaを大きくするとモデルの複雑さが減るが、alphaを変化させてもアルゴリズムの性能はそれほど変化しない。しかし、場合によっては精度を多少上げることができる。</li>
+<li>GaussianNBは高次元データに対して用いる場合が多い。</li>
+<li>MultinomialNBはBernoulliNBより若干性能が良く、特に非ゼロ特徴量が多数ある場合に強い。</li>
+</ul>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="1-4-必要なライブラリとツール.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="1-6-最初のアプリケーション-アイリスのクラス分類.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="2-5-アルゴリズム2-線形モデル.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="2-7-決定木.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -231,7 +272,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nozma/ml_with_python_note/edit/master/01_intro.Rmd",
+"link": "https://github.com/nozma/ml_with_python_note/edit/master/02_supervised_learning.Rmd",
 "text": "Edit"
 },
 "download": null,

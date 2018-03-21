@@ -61,7 +61,7 @@
 $ pip install numpy scipy matplotlib ipython scikit-learn pandas pillow
 ```
 
-最近はanaconda使わずにvenvやDocker使うのが流れっぽい気がしますがPython界隈の環境構築はすぐに主流が変わるので正直よく分かりません。
+この他、章によってはgraphvizが必要な部分もある。
 
 ## 必要なライブラリとツール
 
@@ -105,7 +105,7 @@ iris_dataset = load_iris()
 
 ```python
 print(iris_dataset.keys())
- ## dict_keys(['DESCR', 'target_names', 'data', 'feature_names', 'target'])
+ ## dict_keys(['target', 'feature_names', 'data', 'DESCR', 'target_names'])
 ```
 
 キー**DESCR**の中にデータセットの説明が入っている。

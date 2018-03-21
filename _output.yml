@@ -6,6 +6,9 @@ bookdown::gitbook:
       after: |
         <li><a href="https://github.com/rstudio/bookdown">
         Published with bookdown</a></li>
+  pandoc_args: [
+  "--from", "markdown+autolink_bare_uris+tex_math_single_backslash-implicit_figures"
+  ]
   split_by: section+number
   highlight: kate
 #  includes:

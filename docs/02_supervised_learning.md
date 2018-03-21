@@ -1,4 +1,4 @@
-# 教師あり学習
+# 教師あり学習 (1)
 
 備えます。
 
@@ -92,7 +92,7 @@ plt.ylabel("目的変数")
 from sklearn.datasets import load_breast_cancer
 cancer = load_breast_cancer()
 print(cancer.keys())
- ## dict_keys(['data', 'feature_names', 'target', 'DESCR', 'target_names'])
+ ## dict_keys(['feature_names', 'target', 'target_names', 'DESCR', 'data'])
 print(cancer.data.shape)
  ## (569, 30)
 print(cancer.target_names)
@@ -799,6 +799,9 @@ print("非ゼロの特徴量のカウント:\n{}".format(counts))
 
 ## 決定木
 
+- このセクションのためにはgraphvizをインストールしておく必要がある。
+    - `pip install graphviz`以外に、別途OSに応じた方法でgraphvizをインストール。
+    - ubuntuならば`sudo apt-get install graphviz`。
 - 回帰にも分類にも使える。
 - Yes/Noで答えられる質問で出来た**木**を構成する。
 
@@ -900,7 +903,7 @@ print("テストセットに対する精度:{:.3f}".format(tree.score(X_test, y_
 ### 決定木の解析
 
 - 木の可視化のために、まずは`tree`モジュールの`export_graphviz`関数でグラフを書き出す。
-- 出力はグラフに対応するファイル形式の.dot形式でファイル。
+- 出力はグラフに対応するファイル形式である.dot形式のファイル。
 
 
 ```python
@@ -912,8 +915,6 @@ export_graphviz(
 ```
 
 - .dotファイルの可視化はgraphvizモジュールで行う
-    - 注:`pip install graphviz`しておく以外に、別途OSに応じた方法でgraphvizをインストールしておく必要がある
-    - ubuntuならば`sudo apt-get install graphviz`
 
 
 ```python
@@ -929,14 +930,131 @@ plt.imshow(img)
 plt.axis('off')
 ```
 
+![](02_supervised_learning_files/figure-html/unnamed-chunk-71-1.png)<!-- -->
+
+可視化した木は多くの情報を含むが、特に**大部分のデータが通るパスはどこか？**に注目すると良い。
+
+### 決定木の特徴量の重要性
+
+決定木全体を確認し、把握するのは大変な作業なので、以下のような情報が使用される場合がある。
+
+- **特徴量の重要度** (feature importance) 個々の特徴量はそれぞれの判断に対してどの程度重要なのか？
+    - 1に近いほど重要。1であればその特徴量だけで完全に判別ができるということ。
+    - 0に近いほど重要ではない
+
+特徴量の重要度はフィット済みオブジェクトの`.feature_importance_`に格納されている。    
+    
 
 ```python
+print(tree.feature_importances_)
+ ## [0.         0.         0.         0.         0.         0.
+ ##  0.         0.         0.         0.         0.01019737 0.04839825
+ ##  0.         0.         0.0024156  0.         0.         0.
+ ##  0.         0.         0.72682851 0.0458159  0.         0.
+ ##  0.0141577  0.         0.018188   0.1221132  0.01188548 0.        ]
+```
+
+このままではわかりにくいのでプロットしてみる。
+
+
+```python
+n_features = cancer.data.shape[1]
+plt.barh(range(n_features), tree.feature_importances_, align = 'center')
+plt.yticks(np.arange(n_features), cancer.feature_names)
+plt.xlabel("特徴量の重要度")
+plt.ylabel("特徴量")
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-74-1.png)<!-- -->
+
+- **特徴量の重要度が高い特徴量**は重要だが、逆は必ずしも成り立たないという点に注意が必要である。
+    - 特徴量間に強い相関があり、いずれかの特徴量で十分説明出来てしまう場合は、残りの特徴量がたまたま採用されないということがありうる。
+- 特徴量の重要度は係数と異なって常に正であり、その特徴量が大きいとクラスがどれになるのかは直接は分からない。
+- 上記の例ではworst radiusは少なくとも重要だが、他に重要な特徴量がある可能性は除外できないし、worst radiusの値と良性・悪性の関係がどのようになっているのかも自明ではない。
+
+そもそも、特徴量とクラスの関係は必ずしも単純とは限らない。例えば次のような2つの特徴量からなる2クラス分類問題を考えてみる。この例は、クラスを分けるルールは単純で明確だが、クラス1はクラス0の中に分布しているので、一定の大小関係だけでは分類できない。
+
+
+```python
+tree = mglearn.plots.plot_tree_not_monotone()
+ ## Feature importances: [0. 1.]
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-76-1.png)<!-- -->
+
+
+```python
+tree.format = "png"
+tree.render("output/not_monotone.gv")
+img = np.array(Image.open("output/not_monotone.gv.png"))
+plt.imshow(img)
+plt.axis('off')
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-78-1.png)<!-- -->
+
+- 決定木による分類の議論は決定木による回帰にも当てはまる。
+- 決定木による回帰では、**外挿** (extrapolate)ができない点に注意する。
+
+決定木は外挿ができないという点について、RAM価格の推移データセットを使って例を示そう。
+
+
+```python
+import os
+ram_prices = pd.read_csv(os.path.join(mglearn.datasets.DATA_PATH, "ram_price.csv"))
+plt.semilogy(ram_prices.date, ram_prices.price)
+plt.xlabel("年")
+plt.ylabel("1Mバイトあたりの価格($)")
+```
+
+![](02_supervised_learning_files/figure-html/unnamed-chunk-80-1.png)<!-- -->
+
+関係を直線的にするために、価格を対数変換しているという点に注意してもらいたい。この種の変換は線形回帰を行う際に重要となる。
+
+データセットに対し、線形回帰と回帰木を適用する。ここでは、2000年より前のデータを訓練セットとし、2000年以降のデータをテストセットとする。つまり、過去のデータから将来を予測する。
+
+
+```python
+from sklearn.tree import DecisionTreeRegressor
+data_train = ram_prices[ram_prices.date < 2000]
+data_test = ram_prices[ram_prices.date >= 2000]
+X_train = data_train.date[:, np.newaxis]
+y_train = np.log(data_train.price) #対数変換
+# モデルに訓練データをフィットさせる
+tree = DecisionTreeRegressor().fit(X_train, y_train)
+linear_reg = LinearRegression().fit(X_train, y_train)
+# 2000年以降も含めた全てのデータポイントに対して予測を行う
+X_all = ram_prices.date[:, np.newaxis]
+pred_tree = tree.predict(X_all)
+pred_lr = linear_reg.predict(X_all)
+price_tree = np.exp(pred_tree) #対数変換を解除
+price_lr = np.exp(pred_lr)
+## プロット
+plt.semilogy(data_train.date, data_train.price, label = "訓練データ")
+plt.semilogy(data_test.date, data_test.price, label = "テストデータ")
+plt.semilogy(ram_prices.date, price_tree, label = "回帰木")
+plt.semilogy(ram_prices.date, price_lr, label = "線形回帰")
+plt.legend()
+```
+
+
+```python
+plt.tight_layout()
 plt.show()
 ```
 
-![](02_supervised_learning_files/figure-html/unnamed-chunk-71-1.png)<!-- -->
+![](02_supervised_learning_files/figure-html/unnamed-chunk-82-1.png)<!-- -->
 
 ```python
 plt.close()
 ```
 
+線形回帰は2000年以降の値も予測出来ているのに対して、回帰木は単に2000年の値を返すだけになっている。
+
+### 長所、短所、パラメータ
+
+- 決定木のパラメータは事前枝刈りに関するパラメータである。
+- 大抵の場合はmax_depth、max_leaf_nodes、min_samples_leafのいずれか1つの指定で十分である。
+- 決定木は容易に可視化可能であり、理解しやすい。
+- 決定木の分割は特徴量毎に行われるため、特徴量を正規化したり標準化したりする必要はない。
+- 特徴量の最大の欠点は事前枝刈りを行ったとしても過剰適合しやすく、汎化性能が低くなりやすいという点である。

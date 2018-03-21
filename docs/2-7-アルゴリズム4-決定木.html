@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="実行環境とか.html">
-<link rel="next" href="1-1-なぜ機械学習なのか.html">
+<link rel="prev" href="2-6-アルゴリズム3-ナイーブベイズクラス分類器.html">
+<link rel="next" href="3-教師あり学習-2.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -192,17 +192,225 @@ Published with bookdown</a></li>
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="はじめに" class="section level1">
-<h1><span class="header-section-number">1</span> はじめに</h1>
-<p>真の前置き的なやつ。</p> 
+<div id="アルゴリズム4-決定木" class="section level2">
+<h2><span class="header-section-number">2.7</span> アルゴリズム4 決定木</h2>
+<ul>
+<li>このセクションのためにはgraphvizをインストールしておく必要がある。
+<ul>
+<li><code>pip install graphviz</code>以外に、別途OSに応じた方法でgraphvizをインストール。</li>
+<li>ubuntuならば<code>sudo apt-get install graphviz</code>。</li>
+</ul></li>
+<li>回帰にも分類にも使える。</li>
+<li>Yes/Noで答えられる質問で出来た<strong>木</strong>を構成する。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mglearn.plots.plot_animal_tree()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-63-1.png" /><!-- --></p>
+<div id="決定木の構築" class="section level3">
+<h3><span class="header-section-number">2.7.1</span> 決定木の構築</h3>
+<ul>
+<li>2つの特徴量、2つのクラスを持つデータセットtwo_moonを使用する。
+<ul>
+<li>2つの特徴量のなす平面上で2つのクラスが半月を組合せたように分布している。</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_moons
+<span class="im">from</span> mglearn.tools <span class="im">import</span> discrete_scatter
+X, y <span class="op">=</span> make_moons(n_samples<span class="op">=</span><span class="dv">100</span>, noise<span class="op">=</span><span class="fl">0.25</span>, random_state<span class="op">=</span><span class="dv">3</span>)
+plt.figure()
+ax <span class="op">=</span> plt.gca()
+discrete_scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], y, ax<span class="op">=</span>ax)
+ax.set_xticks(())
+ax.set_yticks(())</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-65-1.png" /><!-- --></p>
+<ul>
+<li>木の構築は、データセットの分割の繰り返しである。分割された部分を<strong>葉</strong>と呼ぶ。</li>
+<li>分割によりテストが1段階増える(e.g. X[1]は0.06以上であるか？)</li>
+<li>各ステップで分割は情報量が最も多くなるように（最もクラスを分割するように）行われる。</li>
+<li>分割はテストによってデータセットが完全に分類できるようになるまで進む。</li>
+<li>1つの葉に1種類のクラスや値しか含まない状態になった木を<strong>純粋</strong>(pure)と呼ぶ。</li>
+</ul>
+<p>以下にtwo_moonから純粋な決定木を作成する過程を示す。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">for</span> i, max_depth <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">9</span>]):
+  fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize <span class="op">=</span> (<span class="dv">12</span>, <span class="dv">4</span>), subplot_kw<span class="op">=</span>{<span class="st">&#39;xticks&#39;</span>: (), <span class="st">&#39;yticks&#39;</span>: ()})
+  tree <span class="op">=</span> mglearn.plot_interactive_tree.plot_tree(X, y, max_depth <span class="op">=</span> max_depth, ax <span class="op">=</span> ax[<span class="dv">0</span>])
+  ax[<span class="dv">1</span>].imshow(mglearn.plot_interactive_tree.tree_image(tree))
+  plt.show()
+  plt.close()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-66-1.png" /><!-- --><img src="02_supervised_learning_files/figure-html/unnamed-chunk-66-2.png" /><!-- --><img src="02_supervised_learning_files/figure-html/unnamed-chunk-66-3.png" /><!-- --></p>
+<p>決定木はターゲットがクラスではなく連続値になっても同じように機能するので、回帰にも使える。</p>
 </div>
+<div id="決定木の複雑さの制御" class="section level3">
+<h3><span class="header-section-number">2.7.2</span> 決定木の複雑さの制御</h3>
+<ul>
+<li>純粋になるまで分割を続けるとルールが複雑になりすぎ、容易に過剰適合してしまう。</li>
+<li>過剰適合を防ぐ戦略は2つある。
+<ul>
+<li>事前枝刈り: 構築過程で木の生成を止める。単に枝刈りとも。
+<ul>
+<li>木の深さを制限する方法、葉の最大値を制限する方法、葉に含まれるデータ点の最小数を制限する方法がある。</li>
+<li>scikit-learnには事前枝刈りしか実装されていない。</li>
+</ul></li>
+<li>事後枝刈り: 木を構築してから情報量の少ない枝を削除する。</li>
+</ul></li>
+<li>scikit-learnの決定木の実装
+<ul>
+<li>回帰: DecisionTreeRegressorクラス</li>
+<li>分類: DecisionTreeClassifierクラス</li>
+</ul></li>
+</ul>
+<p>以下ではcancerデータに対して決定木を作成し、枝刈りの効果を確認する。まずはデフォルトの設定で訓練セットに対して木を構築する。デフォルトでは葉が純粋になるまで分類する。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier
+cancer <span class="op">=</span> load_breast_cancer()
+X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(
+  cancer.data, cancer.target, stratify<span class="op">=</span>cancer.target, random_state <span class="op">=</span> <span class="dv">42</span>
+)
+tree <span class="op">=</span> DecisionTreeClassifier(random_state <span class="op">=</span> <span class="dv">0</span>) <span class="co"># 内部でタイブレークの判定に使う乱数を固定している</span>
+tree.fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練セットに対する精度:</span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(tree.score(X_train, y_train)))
+ <span class="co">## 訓練セットに対する精度:1.000</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットに対する精度:</span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(tree.score(X_test, y_test)))
+ <span class="co">## テストセットに対する精度:0.937</span></code></pre></div>
+<ul>
+<li>葉が純粋になるまで分割しているので、訓練セットに対する精度は当然1になる。</li>
+<li>テストセットに対する制度は線形モデルの例で見た時より若干低い。</li>
+</ul>
+<p>次に、枝刈りの例として木の深さを4に固定してみる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">tree <span class="op">=</span> DecisionTreeClassifier(max_depth <span class="op">=</span> <span class="dv">4</span>, random_state <span class="op">=</span> <span class="dv">0</span>)
+tree.fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練セットに対する精度:</span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(tree.score(X_train, y_train)))
+ <span class="co">## 訓練セットに対する精度:0.988</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットに対する精度:</span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(tree.score(X_test, y_test)))
+ <span class="co">## テストセットに対する精度:0.951</span></code></pre></div>
+<p>訓練セットに対する精度と引き換えに、汎化性能が向上していることが分かる。</p>
+</div>
+<div id="決定木の解析" class="section level3">
+<h3><span class="header-section-number">2.7.3</span> 決定木の解析</h3>
+<ul>
+<li>木の可視化のために、まずは<code>tree</code>モジュールの<code>export_graphviz</code>関数でグラフを書き出す。</li>
+<li>出力はグラフに対応するファイル形式である.dot形式のファイル。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.tree <span class="im">import</span> export_graphviz
+export_graphviz(
+  tree, out_file <span class="op">=</span> <span class="st">&quot;output/tree.dot&quot;</span>, class_names <span class="op">=</span> [<span class="st">&quot;malignant&quot;</span>, <span class="st">&quot;benign&quot;</span>],
+  feature_names <span class="op">=</span> cancer.feature_names, impurity <span class="op">=</span> <span class="va">False</span>, filled <span class="op">=</span> <span class="va">True</span>
+  )</code></pre></div>
+<ul>
+<li>.dotファイルの可視化はgraphvizモジュールで行う</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> graphviz
+<span class="im">from</span> PIL <span class="im">import</span> Image
+<span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;output/tree.dot&quot;</span>) <span class="im">as</span> f:
+  dot_graph <span class="op">=</span> f.read()
+g <span class="op">=</span> graphviz.Source(dot_graph)
+g.<span class="bu">format</span> <span class="op">=</span> <span class="st">&quot;png&quot;</span>
+g.render(<span class="st">&quot;output/tree.gv&quot;</span>)
+img <span class="op">=</span> np.array(Image.<span class="bu">open</span>(<span class="st">&quot;output/tree.gv.png&quot;</span>))
+plt.imshow(img)
+plt.axis(<span class="st">&#39;off&#39;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-71-1.png" /><!-- --></p>
+<p>可視化した木は多くの情報を含むが、特に<strong>大部分のデータが通るパスはどこか？</strong>に注目すると良い。</p>
+</div>
+<div id="決定木の特徴量の重要性" class="section level3">
+<h3><span class="header-section-number">2.7.4</span> 決定木の特徴量の重要性</h3>
+<p>決定木全体を確認し、把握するのは大変な作業なので、以下のような情報が使用される場合がある。</p>
+<ul>
+<li><strong>特徴量の重要度</strong> (feature importance) 個々の特徴量はそれぞれの判断に対してどの程度重要なのか？
+<ul>
+<li>1に近いほど重要。1であればその特徴量だけで完全に判別ができるということ。</li>
+<li>0に近いほど重要ではない</li>
+</ul></li>
+</ul>
+<p>特徴量の重要度はフィット済みオブジェクトの<code>.feature_importance_</code>に格納されている。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(tree.feature_importances_)
+ <span class="co">## [0.         0.         0.         0.         0.         0.</span>
+ <span class="co">##  0.         0.         0.         0.         0.01019737 0.04839825</span>
+ <span class="co">##  0.         0.         0.0024156  0.         0.         0.</span>
+ <span class="co">##  0.         0.         0.72682851 0.0458159  0.         0.</span>
+ <span class="co">##  0.0141577  0.         0.018188   0.1221132  0.01188548 0.        ]</span></code></pre></div>
+<p>このままではわかりにくいのでプロットしてみる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">n_features <span class="op">=</span> cancer.data.shape[<span class="dv">1</span>]
+plt.barh(<span class="bu">range</span>(n_features), tree.feature_importances_, align <span class="op">=</span> <span class="st">&#39;center&#39;</span>)
+plt.yticks(np.arange(n_features), cancer.feature_names)
+plt.xlabel(<span class="st">&quot;特徴量の重要度&quot;</span>)
+plt.ylabel(<span class="st">&quot;特徴量&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-74-1.png" /><!-- --></p>
+<ul>
+<li><strong>特徴量の重要度が高い特徴量</strong>は重要だが、逆は必ずしも成り立たないという点に注意が必要である。
+<ul>
+<li>特徴量間に強い相関があり、いずれかの特徴量で十分説明出来てしまう場合は、残りの特徴量がたまたま採用されないということがありうる。</li>
+</ul></li>
+<li>特徴量の重要度は係数と異なって常に正であり、その特徴量が大きいとクラスがどれになるのかは直接は分からない。</li>
+<li>上記の例ではworst radiusは少なくとも重要だが、他に重要な特徴量がある可能性は除外できないし、worst radiusの値と良性・悪性の関係がどのようになっているのかも自明ではない。</li>
+</ul>
+<p>そもそも、特徴量とクラスの関係は必ずしも単純とは限らない。例えば次のような2つの特徴量からなる2クラス分類問題を考えてみる。この例は、クラスを分けるルールは単純で明確だが、クラス1はクラス0の中に分布しているので、一定の大小関係だけでは分類できない。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">tree <span class="op">=</span> mglearn.plots.plot_tree_not_monotone()
+ <span class="co">## Feature importances: [0. 1.]</span></code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-76-1.png" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">tree.<span class="bu">format</span> <span class="op">=</span> <span class="st">&quot;png&quot;</span>
+tree.render(<span class="st">&quot;output/not_monotone.gv&quot;</span>)
+img <span class="op">=</span> np.array(Image.<span class="bu">open</span>(<span class="st">&quot;output/not_monotone.gv.png&quot;</span>))
+plt.imshow(img)
+plt.axis(<span class="st">&#39;off&#39;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-78-1.png" /><!-- --></p>
+<ul>
+<li>決定木による分類の議論は決定木による回帰にも当てはまる。</li>
+<li>決定木による回帰では、<strong>外挿</strong> (extrapolate)ができない点に注意する。</li>
+</ul>
+<p>決定木は外挿ができないという点について、RAM価格の推移データセットを使って例を示そう。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> os
+ram_prices <span class="op">=</span> pd.read_csv(os.path.join(mglearn.datasets.DATA_PATH, <span class="st">&quot;ram_price.csv&quot;</span>))
+plt.semilogy(ram_prices.date, ram_prices.price)
+plt.xlabel(<span class="st">&quot;年&quot;</span>)
+plt.ylabel(<span class="st">&quot;1Mバイトあたりの価格($)&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-80-1.png" /><!-- --></p>
+<p>関係を直線的にするために、価格を対数変換しているという点に注意してもらいたい。この種の変換は線形回帰を行う際に重要となる。</p>
+<p>データセットに対し、線形回帰と回帰木を適用する。ここでは、2000年より前のデータを訓練セットとし、2000年以降のデータをテストセットとする。つまり、過去のデータから将来を予測する。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeRegressor
+data_train <span class="op">=</span> ram_prices[ram_prices.date <span class="op">&lt;</span> <span class="dv">2000</span>]
+data_test <span class="op">=</span> ram_prices[ram_prices.date <span class="op">&gt;=</span> <span class="dv">2000</span>]
+X_train <span class="op">=</span> data_train.date[:, np.newaxis]
+y_train <span class="op">=</span> np.log(data_train.price) <span class="co">#対数変換</span>
+<span class="co"># モデルに訓練データをフィットさせる</span>
+tree <span class="op">=</span> DecisionTreeRegressor().fit(X_train, y_train)
+linear_reg <span class="op">=</span> LinearRegression().fit(X_train, y_train)
+<span class="co"># 2000年以降も含めた全てのデータポイントに対して予測を行う</span>
+X_all <span class="op">=</span> ram_prices.date[:, np.newaxis]
+pred_tree <span class="op">=</span> tree.predict(X_all)
+pred_lr <span class="op">=</span> linear_reg.predict(X_all)
+price_tree <span class="op">=</span> np.exp(pred_tree) <span class="co">#対数変換を解除</span>
+price_lr <span class="op">=</span> np.exp(pred_lr)
+<span class="co">## プロット</span>
+plt.semilogy(data_train.date, data_train.price, label <span class="op">=</span> <span class="st">&quot;訓練データ&quot;</span>)
+plt.semilogy(data_test.date, data_test.price, label <span class="op">=</span> <span class="st">&quot;テストデータ&quot;</span>)
+plt.semilogy(ram_prices.date, price_tree, label <span class="op">=</span> <span class="st">&quot;回帰木&quot;</span>)
+plt.semilogy(ram_prices.date, price_lr, label <span class="op">=</span> <span class="st">&quot;線形回帰&quot;</span>)
+plt.legend()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.tight_layout()
+plt.show()</code></pre></div>
+<p><img src="02_supervised_learning_files/figure-html/unnamed-chunk-82-1.png" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.close()</code></pre></div>
+<p>線形回帰は2000年以降の値も予測出来ているのに対して、回帰木は単に2000年の値を返すだけになっている。</p>
+</div>
+<div id="長所短所パラメータ" class="section level3">
+<h3><span class="header-section-number">2.7.5</span> 長所、短所、パラメータ</h3>
+<ul>
+<li>決定木のパラメータは事前枝刈りに関するパラメータである。</li>
+<li>大抵の場合はmax_depth、max_leaf_nodes、min_samples_leafのいずれか1つの指定で十分である。</li>
+<li>決定木は容易に可視化可能であり、理解しやすい。</li>
+<li>決定木の分割は特徴量毎に行われるため、特徴量を正規化したり標準化したりする必要はない。</li>
+<li>特徴量の最大の欠点は事前枝刈りを行ったとしても過剰適合しやすく、汎化性能が低くなりやすいという点である。</li>
+</ul>
+
+</div>
+</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="実行環境とか.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="1-1-なぜ機械学習なのか.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="2-6-アルゴリズム3-ナイーブベイズクラス分類器.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="3-教師あり学習-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -232,7 +440,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nozma/ml_with_python_note/edit/master/01_intro.Rmd",
+"link": "https://github.com/nozma/ml_with_python_note/edit/master/02_supervised_learning.Rmd",
 "text": "Edit"
 },
 "download": null,

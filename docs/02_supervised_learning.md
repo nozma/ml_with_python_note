@@ -92,7 +92,7 @@ plt.ylabel("目的変数")
 from sklearn.datasets import load_breast_cancer
 cancer = load_breast_cancer()
 print(cancer.keys())
- ## dict_keys(['feature_names', 'target', 'target_names', 'DESCR', 'data'])
+ ## dict_keys(['target', 'target_names', 'data', 'DESCR', 'feature_names'])
 print(cancer.data.shape)
  ## (569, 30)
 print(cancer.target_names)
@@ -759,7 +759,7 @@ plt.ylabel("特徴量1")
     - 予測手法は理解しやすい反面、係数がなぜその値になっているのかは必ずしも自明ではない。
         - 特に係数間に相関がある場合。
         
-## ナイーブベイズクラス分類器
+## アルゴリズム3 ナイーブベイズクラス分類器
 
 - 線形モデルよりさらに高速に訓練ができる。
     - 汎化性能は劣る場合がある。
@@ -797,7 +797,7 @@ print("非ゼロの特徴量のカウント:\n{}".format(counts))
 - GaussianNBは高次元データに対して用いる場合が多い。
 - MultinomialNBはBernoulliNBより若干性能が良く、特に非ゼロ特徴量が多数ある場合に強い。
 
-## 決定木
+## アルゴリズム4 決定木
 
 - このセクションのためにはgraphvizをインストールしておく必要がある。
     - `pip install graphviz`以外に、別途OSに応じた方法でgraphvizをインストール。

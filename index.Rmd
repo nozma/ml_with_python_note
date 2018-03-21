@@ -26,18 +26,27 @@ knitr::opts_chunk$set(
     - `mglearn`によって過度にコードが省略されている部分や、それに起因してR Markdown上では動かない部分もあるため、適宜[amueller/introduction_to_ml_with_python: Notebooks and code for the book "Introduction to Machine Learning with Python"](https://github.com/amueller/introduction_to_ml_with_python)等を参照して不足部分を補っています。
 - がんばりすぎない。
 
-## 執筆環境とか {-}
+## 実行環境とか {-}
 
-このテキストはR Studioとbookdownパッケージを用いて執筆しています。書籍のコードが実行できるように調整したDockerイメージを公開しています。
+### サンプルコード実行用Jupyter notebook {-}
 
-Pythonでnotebook的なものを書く目的だとR StudioとR Markdownは(今のところは)それほど使い勝手が良くないので、Jupyter notebookが起動するやつもそのうち気が向いたら作るかもしれません。
+書籍のサンプルコードが動く&日本語が使えるように調整したJupyter notebookのDockerイメージを`nozma/ml-python-notebook`で公開しています([nozma/ml-python-notebook - Docker Hub](https://hub.docker.com/r/nozma/ml-python-notebook/))。
 
-### 執筆環境の使い方 {-}
+```bash
+docker run -p 8888:8888 nozma/ml-python-notebook
+```
+
+などとやればJupyter notebookが起動すると思います。
+
+
+### この文章を執筆しているRStudio {-}
+
+この文章自体はR Studioとbookdownパッケージを用いて執筆しており、こちらの環境は`nozma/ml-python-notebook-r`で公開しています([nozma/ml-python-notebook-r - Docker Hub](https://hub.docker.com/r/nozma/ml-python-notebook-r/))。
 
 Dockerがセットアップされている環境で
 
 ```bash
-docker run -p 8787:8787 nozma/ml_with_python_note
+docker run -p 8787:8787 nozma/ml-python-notebook-r
 ```
 
 とし、 http://localhost:8787 にアクセスするとR Studio Serverの起動画面が表示されます。ユーザー名、パスワードはいずれも`rstudio`です。

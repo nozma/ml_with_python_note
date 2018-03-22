@@ -1,7 +1,7 @@
 ---
 title: "Pythonで始める機械学習の学習"
 author: "R. Ito"
-date: "2018-03-22"
+date: "2018-03-23"
 site: bookdown::bookdown_site
 documentclass: book
 ---
@@ -60,7 +60,7 @@ knitr::opts_chunk$set(
 また、日本語フォントとしてIPAexGothicをインストールしてあります。matplotlibで使用する場合は、以下のコードチャンクをファイル冒頭などに記述してください。
 
 ````markdown
-```python
+```{python}
 matplotlib.rc('font', family='IPAexGothic') # 日本語プロット設定
 ```
 ````

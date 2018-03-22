@@ -25,7 +25,7 @@
 <meta name="author" content="R. Ito">
 
 
-<meta name="date" content="2018-03-22">
+<meta name="date" content="2018-03-23">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -169,6 +169,7 @@ code > span. { color: #1f1c1b; } /* Normal */
 <li class="chapter" data-level="3" data-path="3-教師あり学習-2.html"><a href="3-教師あり学習-2.html"><i class="fa fa-check"></i><b>3</b> 教師あり学習 (2)</a><ul>
 <li class="chapter" data-level="3.1" data-path="3-1-アルゴリズム5-決定木のアンサンブル法.html"><a href="3-1-アルゴリズム5-決定木のアンサンブル法.html"><i class="fa fa-check"></i><b>3.1</b> アルゴリズム5 決定木のアンサンブル法</a><ul>
 <li class="chapter" data-level="3.1.1" data-path="3-1-アルゴリズム5-決定木のアンサンブル法.html"><a href="3-1-アルゴリズム5-決定木のアンサンブル法.html#ランダムフォレスト"><i class="fa fa-check"></i><b>3.1.1</b> ランダムフォレスト</a></li>
+<li class="chapter" data-level="3.1.2" data-path="3-1-アルゴリズム5-決定木のアンサンブル法.html"><a href="3-1-アルゴリズム5-決定木のアンサンブル法.html#勾配ブースティング回帰木勾配ブースティングマシン"><i class="fa fa-check"></i><b>3.1.2</b> 勾配ブースティング回帰木(勾配ブースティングマシン)</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -240,7 +241,7 @@ plt.ylabel(<span class="st">&quot;目的変数&quot;</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer
 cancer <span class="op">=</span> load_breast_cancer()
 <span class="bu">print</span>(cancer.keys())
- <span class="co">## dict_keys([&#39;target&#39;, &#39;target_names&#39;, &#39;data&#39;, &#39;DESCR&#39;, &#39;feature_names&#39;])</span>
+ <span class="co">## dict_keys([&#39;target_names&#39;, &#39;target&#39;, &#39;data&#39;, &#39;feature_names&#39;, &#39;DESCR&#39;])</span>
 <span class="bu">print</span>(cancer.data.shape)
  <span class="co">## (569, 30)</span>
 <span class="bu">print</span>(cancer.target_names)

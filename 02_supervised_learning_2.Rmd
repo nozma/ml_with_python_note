@@ -35,3 +35,289 @@ import mglearn
     - 木が沢山あるので森
 
 #### ランダムフォレストの構築
+
+- **少しずつ異なる決定木**は次のように作成する。
+    - 元のデータセットから**ブートストラップサンプリング**(復元抽出)により新しいデータセット(ブートストラップサンプル)を作成する。
+    - 新しいデータセットから決定木を作る。このとき、そのままではブートストラップサンプルから生成される決定木の相関が高くなるので、さらに一工夫することで木の多様性を高める。
+      - 分割に使う特徴量を選択する前に、$d$個の特徴量からランダムに$d'$個の特徴量を選ぶ。
+          - $d'=\lfloor\sqrt{d}\rfloor$が推奨されているが問題によって調整する必要がある。
+          - sklearnでは`max_features=`で指定する。
+          - `max_features=`が大きいと木の間の相関が高まり、訓練データに適合しやすくなる。
+          - `max_features=`が小さいと木の間の相関は減るが、深いところまで探索しないと訓練データに適合できなくなる。
+      - 選択された$d'$個の特徴量から最適な分割を与える特徴量と分割点を定める。
+      - 上記の手順を全てのノードで実行する。
+- 予測の際は全ての決定木に対して予測する。
+    - 回帰のとき: 平均値を予測結果とする。
+    - クラス分類のとき: ソフト投票(soft voting: 各木の予測確率の平均値が最大のクラスを予測クラスとする)でクラスを決める。
+        - ソフト投票に対するハード投票(hard voting)は、各木に対する予測クラスを先に求め、その多数決で決めるもの。
+        
+#### ランダムフォレストの解析
+
+**two_moons**データセットにランダムフォレストを適用する。
+
+```{python}
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_moons
+from sklearn.model_selection import train_test_split
+X, y = make_moons(n_samples=100, noise=0.25, random_state=3)
+X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, random_state=42)
+forest = RandomForestClassifier(n_estimators=5, random_state=2)
+forest.fit(X_train, y_train)
+```
+
+それぞれの決定木は`estimator_`に格納されているので、最終的な予測とともに可視化してみよう。
+
+```{python}
+fig, axes = plt.subplots(2, 3, figsize=(20, 10))
+for i, (ax, tree) in enumerate(zip(axes.ravel(), forest.estimators_)):
+  ax.set_title("Tree {}".format(i))
+  mglearn.plots.plot_tree_partition(X_train, y_train, tree, ax=ax)
+  
+mglearn.plots.plot_2d_separator(forest, X_train, fill=True, ax=axes[-1, -1], alpha=.4)
+axes[-1, -1].set_title("ランダムフォレスト")
+mglearn.discrete_scatter(X_train[:, 0], X_train[:, 1], y_train)
+```
+
+```{python, echo=FALSE}
+plt.tight_layout()
+plt.show()
+plt.close()
+```
+
+もう一つの例としてcancerにランダムフォレストを適用してみよう。今回は木の数は100とする。
+
+```{python}
+from sklearn.datasets import load_breast_cancer
+cancer = load_breast_cancer()
+X_train, X_test, y_train, y_test = train_test_split(
+  cancer.data, cancer.target, random_state=0
+)
+forest = RandomForestClassifier(n_estimators=100, random_state=0)
+forest.fit(X_train, y_train)
+
+print("訓練セットの精度: {:.3f}".format(forest.score(X_train, y_train)))
+print("テストセットの精度: {:.3f}".format(forest.score(X_test, y_test)))
+```
+
+ランダムフォレストはチューニングをしなくてもデフォルトのパラメータで十分に高い精度を出すことが多い。
+
+複数の木の平均として求めるため、特徴量の重要度の信頼性も高い。
+
+```{python}
+n_features = cancer.data.shape[1]
+plt.barh(range(n_features), forest.feature_importances_, align='center')
+plt.yticks(np.arange(n_features), cancer.feature_names)
+plt.xlabel("特徴量の重要度")
+plt.ylabel("特徴量")
+```
+
+```{python, echo=FALSE}
+plt.tight_layout()
+plt.show()
+plt.close()
+```
+
+#### 長所、短所、パラメータ
+
+- ランダムフォレストは現在最も広く使われている機械学習手法の一つ。
+    - 強力で、チューニングをさほど必要とせず、スケール変換も不要。
+- 複数の木を合成する関係上、モデルの解釈は決定木より難しくなる。簡単な解釈が欲しければ決定木を使うのも手。
+- 個々の木を作るプロセスは独立なので、並列化も容易にできる。使用コア数は`n_jobs`で指定し、-1を指定すれば全てのコアを使う。
+- 高次元で疎なデータに対しては上手く機能しない事が多い。線形モデルを使おう。
+- 訓練にも予測にも時間がかかり、メモリも多く使う。速度やメモリが重要な時は線形モデルを使おう。
+- `n_estimatros`と`max_features`、`max_depth`などの枝刈りパラメータは検討の余地がある。`n_estimator`は時間とメモリの許す限り大きくすべきだ。
+- `max_features`はデフォルトでは以下の設定になっており、大抵の場合はデフォルトでも問題はない。
+    - クラス分類: `sqrt(n_features)`
+    - 回帰: `n_features`
+- `max_features`や`max_leaf_nodes`を設定すると性能が上がったり、訓練と予測の時間が縮まることもある。
+
+### 勾配ブースティング回帰木(勾配ブースティングマシン)
+
+- 1つ前の決定木を次の決定木で修正するように学習が進む。
+- デフォルトでは乱数性は無い。
+- 深さ1〜5の浅い決定木が使われる。これによりメモリと計算時間を節約できる。
+- **弱学習器**(weak learner)を複数組み合わせる。
+    - ひとつの学習器は限られた範囲で良い予測を与えるだけだが、組み合わせることで性能を向上させる。
+- ランダムフォレストよりパラメータの影響をうけるが、きちんとチューニングをすればランダムフォレストを上回る性能を出せる。
+- 重要なパラメータとして**learning_rate**(学習率)がある。これは個々の決定木がどの程度補正を行うのかの強さを決定するパラメータで、大きいほど補正が強い = モデルが複雑になる。
+
+cancerデータで例を見る。
+
+```{python}
+from sklearn.ensemble import GradientBoostingClassifier
+
+X_train, X_test, y_train, y_test = train_test_split(
+  cancer.data, cancer.target, random_state=0
+)
+gbrt = GradientBoostingClassifier(random_state=0)
+gbrt.fit(X_train, y_train)
+
+print("訓練セットに対する精度: {:.3f}".format(gbrt.score(X_train, y_train)))
+print("テストセットに対する精度: {:.3f}".format(gbrt.score(X_test, y_test)))
+```
+
+過剰適合が疑われる(訓練セットの精度が高すぎる)ので、モデルを単純にする。
+
+```{python}
+## 枝刈りの深さを浅くする
+gbrt = GradientBoostingClassifier(random_state=0, max_depth=1)
+gbrt.fit(X_train, y_train)
+print("訓練セットに対する精度: {:.3f}".format(gbrt.score(X_train, y_train)))
+print("テストセットに対する精度: {:.3f}".format(gbrt.score(X_test, y_test)))
+```
+
+```{python}
+## 学習率を下げる
+gbrt = GradientBoostingClassifier(random_state=0, learning_rate=.01)
+gbrt.fit(X_train, y_train)
+print("訓練セットに対する精度: {:.3f}".format(gbrt.score(X_train, y_train)))
+print("テストセットに対する精度: {:.3f}".format(gbrt.score(X_test, y_test)))
+```
+
+この例では枝刈りを強くしたほうが汎化性能が上がった。パラメータを可視化してみる。
+
+```{python}
+gbrt = GradientBoostingClassifier(random_state=0, max_depth=1)
+gbrt.fit(X_train, y_train)
+
+n_features = cancer.data.shape[1]
+plt.barh(range(n_features), gbrt.feature_importances_, align="center")
+plt.yticks(np.arange(n_features), cancer.feature_names)
+plt.xlabel("特徴量の重要度")
+plt.ylabel("特徴量")
+```
+
+```{python echo=FALSE}
+plt.tight_layout()
+plt.show()
+plt.close()
+```
+
+- 勾配ブースティングマシンの特徴量の重要度をランダムフォレストと比較すると、いくつかの特徴量が無視されていることがわかる。
+- 基本的にはランダムフォレストを先に試したほうが良い。
+- 予測時間を短くしたい、チューニングによってギリギリまで性能を高めたいという場合には勾配ブースティングを試す価値がある。
+- 勾配ブースティングマシンを大きな問題に試したければ、`xgboost`パッケージの利用を検討したほうが良い。
+
+#### 長所、短所、パラメータ
+
+- 教師あり学習の中で最も強力なモデルの一つ。
+- 並列化できないので訓練にかかる時間を短くできない。
+- パラメータに影響されやすいので、チューニングを注意深く行う必要がある。
+- スケール変換の必要がない、疎なデータには上手く機能しないという点はランダムフォレストと同様。
+- 主なパラメータは`n_estimators`と`learning_rate`であるが、ランダムフォレストと異なり`n_estimators`は大きくすれば良いというものではない。大きいほど過学習のリスクが高まる。`n_estimators`をメモリや学習時間との兼ね合いから先に決めておき、`learning_rate`をチューニングするという方法がよくとられる。
+- `max_depth`は非常に小さく、5以下に設定される場合が多い。
+
+## アルゴリズム6 カーネル法を用いたサポートベクタマシン
+
+- より複雑なモデルを可能とするため線形モデルを拡張したもの。
+- クラス分類にも回帰にも使える(例はクラス分類だけ)。
+- 背後にある数学はめっちゃむずい。
+
+### 線形モデルと非線形特徴量
+
+- 線形モデルは特徴量を追加することで柔軟性が増す。
+    - 例: 特徴量の交互作用や多項式項を追加する。
+
+過去に扱った、線形分離できない(単純な大小関係だけで判別できない)2クラス分類問題を例に扱う。
+
+```{python}
+from sklearn.datasets import make_blobs
+X, y = make_blobs(centers=4, random_state=8)
+y = y % 2
+
+mglearn.discrete_scatter(X[:, 0], X[:, 1], y)
+plt.xlabel("特徴量0")
+plt.ylabel("特徴量1")
+```
+
+```{python echo=FALSE}
+plt.tight_layout()
+plt.show()
+plt.close()
+```
+
+このデータは明らかに直線では分離できない。
+
+```{python}
+from sklearn.svm import LinearSVC
+linear_svc = LinearSVC().fit(X, y)
+
+mglearn.plots.plot_2d_separator(linear_svc, X)
+mglearn.discrete_scatter(X[:, 0], X[:, 1] ,y)
+plt.xlabel("特徴量0")
+plt.ylabel("特徴量1")
+```
+
+```{python echo=FALSE}
+plt.tight_layout()
+plt.show()
+plt.close()
+```
+
+特徴量1の二乗を新たな特徴量として加え、データを3次元にしてみる。
+
+```{python}
+X_new = np.hstack([X, X[:, 1:] ** 2])
+
+from mpl_toolkits.mplot3d import Axes3D, axes3d
+figure = plt.figure()
+ax = Axes3D(figure, elev=-152, azim=-26)
+mask = y == 0
+ax.scatter(X_new[mask, 0], X_new[mask, 1], X_new[mask, 2], c='b')
+ax.scatter(X_new[~mask, 0], X_new[~mask, 1], X_new[~mask, 2], c='r', marker='^')
+ax.set_xlabel("特徴量0")
+ax.set_ylabel("特徴量1")
+ax.set_zlabel("特徴量1の2乗")
+```
+
+```{python echo=FALSE}
+plt.show()
+plt.close()
+```
+
+新しく追加した特徴量方向にはクラス0とクラス1が分離可能になっている。
+
+```{python}
+linear_svm_3d = LinearSVC().fit(X_new, y)
+coef, intercept = linear_svm_3d.coef_.ravel(), linear_svm_3d.intercept_
+
+figure = plt.figure()
+ax = Axes3D(figure, elev=-152, azim=-26)
+xx = np.linspace(X_new[:, 0].min() - 2, X_new[:, 0].max() + 2, 50)
+yy = np.linspace(X_new[:, 1].min() - 2, X_new[:, 1].max() + 2, 50)
+
+XX, YY = np.meshgrid(xx, yy)
+ZZ = (coef[0] * XX + coef[1] * YY + intercept) / -coef[2]
+
+ax.plot_surface(XX, YY, ZZ, rstride=8, cstride=8, alpha=.3)
+ax.scatter(X_new[mask, 0], X_new[mask, 1], X_new[mask, 2], c='b')
+ax.scatter(X_new[~mask, 0], X_new[~mask, 1], X_new[~mask, 2], c='r', marker='^')
+
+ax.set_xlabel("特徴量0")
+ax.set_ylabel("特徴量1")
+ax.set_zlabel("特徴量1の2乗")
+```
+
+```{python echo=FALSE}
+plt.show()
+plt.close()
+```
+
+これを元の空間で見ると、決定境界が直線から曲線になっていることが分かる。
+
+```{python}
+ZZ = YY ** 2
+dec = linear_svm_3d.decision_function(np.c_[XX.ravel(), YY.ravel(), ZZ.ravel()])
+plt.contourf(XX, YY, dec.reshape(XX.shape), levels=[dec.min(), 0, dec.max()],
+             cmap=mglearn.cm2, alpha=.5)
+mglearn.discrete_scatter(X[:, 0], X[:, 1], y)
+plt.xlabel("特徴量0")
+plt.ylabel("特徴量1")
+```
+
+```{python echo=FALSE}
+plt.show()
+plt.close()
+```
+
+

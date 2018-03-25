@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="3-1-アルゴリズム5-決定木のアンサンブル法.html">
-
+<link rel="next" href="3-3-ニューラルネットワークディープラーニング.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -181,6 +181,15 @@ code > span. { color: #1f1c1b; } /* Normal */
 </ul></li>
 <li class="chapter" data-level="3.2" data-path="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html"><a href="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html"><i class="fa fa-check"></i><b>3.2</b> アルゴリズム6 カーネル法を用いたサポートベクタマシン</a><ul>
 <li class="chapter" data-level="3.2.1" data-path="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html"><a href="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html#線形モデルと非線形特徴量"><i class="fa fa-check"></i><b>3.2.1</b> 線形モデルと非線形特徴量</a></li>
+<li class="chapter" data-level="3.2.2" data-path="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html"><a href="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html#カーネルトリック"><i class="fa fa-check"></i><b>3.2.2</b> カーネルトリック</a></li>
+<li class="chapter" data-level="3.2.3" data-path="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html"><a href="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html#svmを理解する"><i class="fa fa-check"></i><b>3.2.3</b> SVMを理解する</a></li>
+<li class="chapter" data-level="3.2.4" data-path="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html"><a href="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html#svmパラメータの調整"><i class="fa fa-check"></i><b>3.2.4</b> SVMパラメータの調整</a></li>
+<li class="chapter" data-level="3.2.5" data-path="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html"><a href="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html#svmのためのデータの前処理"><i class="fa fa-check"></i><b>3.2.5</b> SVMのためのデータの前処理</a></li>
+<li class="chapter" data-level="3.2.6" data-path="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html"><a href="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html#利点欠点パラメータ-2"><i class="fa fa-check"></i><b>3.2.6</b> 利点、欠点、パラメータ</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="3-3-ニューラルネットワークディープラーニング.html"><a href="3-3-ニューラルネットワークディープラーニング.html"><i class="fa fa-check"></i><b>3.3</b> ニューラルネットワーク(ディープラーニング)</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="3-3-ニューラルネットワークディープラーニング.html"><a href="3-3-ニューラルネットワークディープラーニング.html#ニューラルネットワークモデル"><i class="fa fa-check"></i><b>3.3.1</b> ニューラルネットワークモデル</a></li>
+<li class="chapter" data-level="3.3.2" data-path="3-3-ニューラルネットワークディープラーニング.html"><a href="3-3-ニューラルネットワークディープラーニング.html#ニューラルネットワークのチューニング"><i class="fa fa-check"></i><b>3.3.2</b> ニューラルネットワークのチューニング</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -272,17 +281,169 @@ mglearn.discrete_scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">
 plt.xlabel(<span class="st">&quot;特徴量0&quot;</span>)
 plt.ylabel(<span class="st">&quot;特徴量1&quot;</span>)</code></pre></div>
 <p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-22-1.png" /><!-- --></p>
-
+</div>
+<div id="カーネルトリック" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> カーネルトリック</h3>
+<ul>
+<li>上の例では特徴量1の2乗を新しい特徴量として加えることで線形分離可能になったが、通常、<strong>どんな特徴量を追加すれば線形分離可能になるか</strong>は自明ではない。だからといって無闇に特徴量を増やせば計算量が増大してしまう。</li>
+<li><strong>カーネルトリック</strong>(kernel trick)はこの問題に対応する手法。</li>
+<li>カーネルトリックを使うと実際に特徴量を拡張することなしに、拡張後の空間での特徴量を直接計算できる。この特徴量を直接計算するための関数をカーネルと呼ぶ。例えばガウシアンカーネルと呼ばれるカーネルを使うと、無限次元の空間上で特徴量を計算したのと同じ効果が得られ、しかも計算量はデータ数のみに依存するため、大きくなりすぎる心配がない。
+<ul>
+<li>テイラー展開すると無限次元への写像になっていることが分かるらしい。
+<ul>
+<li>cf. <a href="https://qiita.com/keisuke-nakata/items/9d46152ac52dcd2cc92a">カーネルとは直感的に説明するとなんなのか？ - Qiita</a></li>
+</ul></li>
+<li>ガウシアンカーネルは放射基底関数(radial basis function: RBF)カーネルとも呼ぶ。</li>
+</ul></li>
+<li>cf. <a href="http://enakai00.hatenablog.com/entry/2017/10/13/145337">機械学習におけるカーネル法について - めもめも</a></li>
+</ul>
+</div>
+<div id="svmを理解する" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> SVMを理解する</h3>
+<ul>
+<li>SVMは、決定境界の表現にとって個々のデータポイントがどの程度重要かを計算する。</li>
+<li>基本的には2クラスの境界付近の少数のデータポイントのみが重要となり、これらのデータポイントは<strong>サポートベクタ</strong>と呼ばれる。</li>
+<li>予測の際は新しいデータポイントとサポートベクタの距離が測定され、これとサポートベクタの重要性を考慮してクラスが決定される。</li>
+<li>ガウシアンカーネルを使用するSVMでは次のガウシアンカーネルを用いて距離を計算する。</li>
+</ul>
+<p><span class="math display">\[k_{\mathrm{rbf}}(x_1, x_2) = \exp (- \gamma || x_1-x_2 || ^2) \]</span></p>
+<ul>
+<li><span class="math inline">\(x_1\)</span>、<span class="math inline">\(x_2\)</span>はデータポイントを、<span class="math inline">\(||x_1-x_2||\)</span>はユークリッド距離を表し、<span class="math inline">\(\gamma\)</span>は制御パラメータである。
+<ul>
+<li>注: <span class="math inline">\(\gamma = 1/\sigma^2\)</span>として<span class="math inline">\(\sigma\)</span>がパラメータとして説明される場合も多い。</li>
+</ul></li>
+</ul>
+<p>SVMによる2クラス分類の結果を示す。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.svm <span class="im">import</span> SVC
+X, y <span class="op">=</span> mglearn.tools.make_handcrafted_dataset()
+svm <span class="op">=</span> SVC(kernel<span class="op">=</span><span class="st">&#39;rbf&#39;</span>, C<span class="op">=</span><span class="dv">10</span>, gamma<span class="op">=</span><span class="fl">0.1</span>).fit(X, y)
+mglearn.plots.plot_2d_separator(svm, X, eps<span class="op">=</span>.<span class="dv">5</span>)
+mglearn.discrete_scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], y)
+sv <span class="op">=</span> svm.support_vectors_ <span class="co"># サポートベクタをプロット</span>
+sv_labels <span class="op">=</span> svm.dual_coef_.ravel() <span class="op">&gt;</span> <span class="dv">0</span> <span class="co"># クラスラベルのニ値化</span>
+mglearn.discrete_scatter(sv[:, <span class="dv">0</span>], sv[:, <span class="dv">1</span>], sv_labels, s<span class="op">=</span><span class="dv">15</span>, markeredgewidth<span class="op">=</span><span class="dv">3</span>)
+plt.xlabel(<span class="st">&quot;特徴量0&quot;</span>)
+plt.ylabel(<span class="st">&quot;特徴量1&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-24-1.png" /><!-- --></p>
+<p>カーネル法を用いたSVMの決定境界は非線形となる。</p>
+</div>
+<div id="svmパラメータの調整" class="section level3">
+<h3><span class="header-section-number">3.2.4</span> SVMパラメータの調整</h3>
+<ul>
+<li><code>gamma</code>: ガウシアンカーネルの幅を調整する。</li>
+<li><code>C</code>: 正則化パラメータ。</li>
+</ul>
+<p>パラメータと分類の関係を可視化する。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">fig, axes <span class="op">=</span> plt.subplots(<span class="dv">3</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>))
+<span class="cf">for</span> ax, C <span class="kw">in</span> <span class="bu">zip</span>(axes, [<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">3</span>]):
+  <span class="cf">for</span> a, gamma <span class="kw">in</span> <span class="bu">zip</span>(ax, <span class="bu">range</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>)):
+    mglearn.plots.plot_svm(log_C<span class="op">=</span>C, log_gamma<span class="op">=</span>gamma, ax<span class="op">=</span>a)
+axes[<span class="dv">0</span>, <span class="dv">0</span>].legend([<span class="st">&quot;class 0&quot;</span>, <span class="st">&quot;class 1&quot;</span>, <span class="st">&quot;sv class 0&quot;</span>, <span class="st">&quot;sv class 1&quot;</span>],
+                  ncol<span class="op">=</span><span class="dv">4</span>, loc<span class="op">=</span>(.<span class="dv">9</span>, <span class="fl">1.2</span>))</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-26-1.png" /><!-- --></p>
+<ul>
+<li><code>gamma</code>は大きいほど個々のデータポイントを重視するようになり、モデルが複雑になる。</li>
+<li><code>C</code>は小さいほどモデルを制限する点は線形モデルと同様。</li>
+</ul>
+<p><strong>cancer</strong>にRBFカーネルを用いたSVMを適用してみよう。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(
+  cancer.data, cancer.target, random_state<span class="op">=</span><span class="dv">0</span>
+)
+svc <span class="op">=</span> SVC().fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練セットの精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(svc.score(X_train, y_train)))
+ <span class="co">## 訓練セットの精度: 1.000</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットの精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(svc.score(X_test, y_test)))
+ <span class="co">## テストセットの精度: 0.629</span></code></pre></div>
+<ul>
+<li>訓練セットの精度が1であり、テストセットの精度が低く、過学習している。</li>
+<li>SVMはパラメータとデータのスケールに敏感に反応する。
+<ul>
+<li>特にデータのスケールは全ての特徴量で揃っている必要がある。</li>
+</ul></li>
+</ul>
+<p>データのスケールを確認するために、個々の特徴量に対して対数スケールで箱ひげ図を作成する。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.boxplot(X_train, sym<span class="op">=</span><span class="st">&#39;+&#39;</span>)
+plt.ylim(<span class="dv">10</span><span class="op">**-</span><span class="dv">1</span>, <span class="dv">10</span><span class="op">**</span><span class="dv">4</span>)
+plt.xlabel(<span class="st">&quot;特徴量のインデックス&quot;</span>)
+plt.ylabel(<span class="st">&quot;特徴量の大きさ&quot;</span>)
+plt.yscale(<span class="st">&quot;log&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-29-1.png" /><!-- --></p>
+</div>
+<div id="svmのためのデータの前処理" class="section level3">
+<h3><span class="header-section-number">3.2.5</span> SVMのためのデータの前処理</h3>
+<ul>
+<li><strong>cancer</strong>は前掲のようにデータのスケールが特徴量により著しく異なる。</li>
+<li>前処理のちゃんとしたやり方は後で説明するので、ここではとりあえず手作業でスケールを揃える。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># 最小値の計算</span>
+min_on_training <span class="op">=</span> X_train.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>)
+<span class="co"># レンジ = 最大値 - 最小値を計算</span>
+range_on_training <span class="op">=</span> (X_train <span class="op">-</span> min_on_training).<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>)
+<span class="co"># 最小値を引いてからレンジで割ることで、min=0、max=1に変換される</span>
+X_train_scaled <span class="op">=</span> (X_train <span class="op">-</span> min_on_training) <span class="op">/</span> range_on_training
+<span class="bu">print</span>(<span class="st">&quot;スケール済み特徴量の最小値: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(X_train_scaled.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>)))
+ <span class="co">## スケール済み特徴量の最小値: [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.</span>
+ <span class="co">##  0. 0. 0. 0. 0. 0.]</span>
+<span class="bu">print</span>(<span class="st">&quot;スケール済み特徴量の最大値: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(X_train_scaled.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>)))
+ <span class="co">## スケール済み特徴量の最大値: [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.</span>
+ <span class="co">##  1. 1. 1. 1. 1. 1.]</span></code></pre></div>
+<p>テストセットについても同様の変換を行うが、最小値とレンジは訓練セットのものを使う。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X_test_scaled <span class="op">=</span> (X_test <span class="op">-</span> min_on_training) <span class="op">/</span> range_on_training</code></pre></div>
+<p>したがって、テストセットのレンジは0〜1ではない。この点については第4章で解説される（らしい）。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(<span class="st">&quot;テストセットの最小値: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(X_test_scaled.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>)))
+ <span class="co">## テストセットの最小値: [ 0.03540158  0.04190871  0.02895446  0.01497349  0.14260888  0.04999658</span>
+ <span class="co">##   0.          0.          0.07222222  0.00589722  0.00105015 -0.00057494</span>
+ <span class="co">##   0.00067851 -0.0007963   0.05148726  0.01434497  0.          0.</span>
+ <span class="co">##   0.04195752  0.01113138  0.03678406  0.01252665  0.03366702  0.01400904</span>
+ <span class="co">##   0.08531995  0.01833687  0.          0.          0.00749064  0.02367834]</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットの最大値: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(X_test_scaled.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>)))
+ <span class="co">## テストセットの最大値: [0.76809125 1.22697095 0.75813696 0.64750795 1.20310633 1.11643038</span>
+ <span class="co">##  0.99906279 0.90606362 0.93232323 0.94903117 0.45573058 0.72623944</span>
+ <span class="co">##  0.48593507 0.31641282 1.36082713 1.2784499  0.36313131 0.77476795</span>
+ <span class="co">##  1.32643996 0.72672498 0.82106012 0.87553305 0.77887345 0.67803775</span>
+ <span class="co">##  0.78603975 0.87843331 0.93450479 1.0024113  0.76384782 0.58743277]</span></code></pre></div>
+<p>スケール済みの特徴量を使ってSVCを行う。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">svc <span class="op">=</span> SVC().fit(X_train_scaled, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練セットに対する精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(svc.score(X_train_scaled, y_train)))
+ <span class="co">## 訓練セットに対する精度: 0.948</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットに対する精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(svc.score(X_test_scaled, y_test)))
+ <span class="co">## テストセットに対する精度: 0.951</span></code></pre></div>
+<p>スケール前に比べるとかなりの改善が見られる。さらにパラメータを少し調整すると、さらに良くなる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">svc <span class="op">=</span> SVC(C<span class="op">=</span><span class="dv">1000</span>).fit(X_train_scaled, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練セットに対する精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(svc.score(X_train_scaled, y_train)))
+ <span class="co">## 訓練セットに対する精度: 0.988</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットに対する精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(svc.score(X_test_scaled, y_test)))
+ <span class="co">## テストセットに対する精度: 0.972</span></code></pre></div>
+</div>
+<div id="利点欠点パラメータ-2" class="section level3">
+<h3><span class="header-section-number">3.2.6</span> 利点、欠点、パラメータ</h3>
+<ul>
+<li>いろいろなデータに対して上手く機能する強力なモデルである。
+<ul>
+<li>データに僅かな特徴量しかなくても決定境界が引ける。</li>
+<li>低次元のデータでも高次元のデータでも機能する。</li>
+<li>サンプルの個数が多いと上手くいかないことがある。
+<ul>
+<li>10,000サンプルくらいまではいけるが、100,000サンプルくらいになるとメモリや速度面から厳しくなってくる。</li>
+</ul></li>
+</ul></li>
+<li>データの前処理とパラメータのチューニングは必須といえる。</li>
+<li>モデルについて決定木のように誰にでも分かる形で説明するのは難しい。</li>
+<li>パラメータは正則化パラメータ<code>C</code>とカーネル固有のパラメータがある。
+<ul>
+<li>RBFカーネル以外のカーネルを使うこともできる。</li>
+<li>RBFカーネルにおける<code>C</code>と<code>gamma</code>は強く相関するため同時いチューニングする必要がある。</li>
+</ul></li>
+</ul>
 </div>
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="3-1-アルゴリズム5-決定木のアンサンブル法.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="3-1-アルゴリズム5-決定木のアンサンブル法.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="3-3-ニューラルネットワークディープラーニング.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="3-教師あり学習-2.html">
-<link rel="next" href="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html">
+<link rel="prev" href="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html">
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -213,184 +213,99 @@ Published with bookdown</a></li>
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="アルゴリズム5-決定木のアンサンブル法" class="section level2">
-<h2><span class="header-section-number">3.1</span> アルゴリズム5 決定木のアンサンブル法</h2>
+<div id="ニューラルネットワークディープラーニング" class="section level2">
+<h2><span class="header-section-number">3.3</span> ニューラルネットワーク(ディープラーニング)</h2>
 <ul>
-<li>アンサンブル法 (Ensembles): 複数の機械学習モデルを組合せてより強力なモデルを構築する手法。</li>
-<li>ランダムフォレストと勾配ブースティングが有名。</li>
+<li>最近流行りの例のアレ。</li>
+<li>実際のアルゴリズムの多くは特定の用途向けに注意深く作られたものになっている。</li>
+<li>ディープラーニングの中でも割と簡単な<strong>多層パーセプトロン</strong>(multilayer perceptron: MLP)を例にする。</li>
 </ul>
-<div id="ランダムフォレスト" class="section level3">
-<h3><span class="header-section-number">3.1.1</span> ランダムフォレスト</h3>
+<div id="ニューラルネットワークモデル" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> ニューラルネットワークモデル</h3>
 <ul>
-<li>決定木の過剰適合しやすいという欠点に対する対処法の一つ。</li>
-<li><strong>少しずつ異なる決定木</strong>をたくさん作って、その平均をとるという手法。
+<li>MLPは線形モデルを一般化して複数ステージで計算するもの。</li>
+<li>線形回帰は重み付きの和を計算している。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> scipy.misc <span class="im">import</span> imread
+ax <span class="op">=</span> plt.gca()
+g <span class="op">=</span> mglearn.plots.plot_logistic_regression_graph()
+g.<span class="bu">format</span> <span class="op">=</span> <span class="st">&quot;png&quot;</span>
+g.render(<span class="st">&quot;tmp&quot;</span>)
+ax.imshow(imread(<span class="st">&quot;tmp.png&quot;</span>))
+plt.axis(<span class="st">&quot;off&quot;</span>)
+plt.show()</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-35-1.png" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.close()</code></pre></div>
 <ul>
-<li>木が沢山あるので森</li>
+<li>MLPは重み付き和の計算を繰り返す。中間ステップを<strong>隠れユニット</strong>と呼ぶ。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">ax <span class="op">=</span> plt.gca()
+g <span class="op">=</span> mglearn.plots.plot_single_hidden_layer_graph()
+g.<span class="bu">format</span> <span class="op">=</span> <span class="st">&quot;png&quot;</span>
+g.render(<span class="st">&quot;tmp&quot;</span>)
+ax.imshow(imread(<span class="st">&quot;tmp.png&quot;</span>))
+plt.axis(<span class="st">&quot;off&quot;</span>)
+plt.show()</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-36-1.png" /><!-- --></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.close()</code></pre></div>
+<ul>
+<li>重み付き和を単に連続して計算するのは、1つの重み付き和を計算するのと等価なので、もう少し工夫しないと線形モデルと変わらない。</li>
+<li>もう少しの工夫 = 重み付き和の計算結果に<strong>非線形関数</strong>を適用する。
+<ul>
+<li>relu(rectified linear unit: 正規化線形関数)
+<ul>
+<li>ゼロ以下の値を切り捨てる。</li>
+</ul></li>
+<li>tanh(hyperbolic tangent: 双極正接関数)
+<ul>
+<li>小さい値は-1、大きい値は+1に飽和。</li>
+</ul></li>
+<li>この工夫によって線形モデルよりはるかに複雑なモデルを学習可能となる。</li>
 </ul></li>
 </ul>
-<div id="ランダムフォレストの構築" class="section level4">
-<h4><span class="header-section-number">3.1.1.1</span> ランダムフォレストの構築</h4>
-<ul>
-<li><strong>少しずつ異なる決定木</strong>は次のように作成する。
-<ul>
-<li>元のデータセットから<strong>ブートストラップサンプリング</strong>(復元抽出)により新しいデータセット(ブートストラップサンプル)を作成する。</li>
-<li>新しいデータセットから決定木を作る。このとき、そのままではブートストラップサンプルから生成される決定木の相関が高くなるので、さらに一工夫することで木の多様性を高める。</li>
-<li>分割に使う特徴量を選択する前に、<span class="math inline">\(d\)</span>個の特徴量からランダムに<span class="math inline">\(d&#39;\)</span>個の特徴量を選ぶ。
-<ul>
-<li><span class="math inline">\(d&#39;=\lfloor\sqrt{d}\rfloor\)</span>が推奨されているが問題によって調整する必要がある。</li>
-<li>sklearnでは<code>max_features=</code>で指定する。</li>
-<li><code>max_features=</code>が大きいと木の間の相関が高まり、訓練データに適合しやすくなる。</li>
-<li><code>max_features=</code>が小さいと木の間の相関は減るが、深いところまで探索しないと訓練データに適合できなくなる。</li>
-</ul></li>
-<li>選択された<span class="math inline">\(d&#39;\)</span>個の特徴量から最適な分割を与える特徴量と分割点を定める。</li>
-<li>上記の手順を全てのノードで実行する。</li>
-</ul></li>
-<li>予測の際は全ての決定木に対して予測する。
-<ul>
-<li>回帰のとき: 平均値を予測結果とする。</li>
-<li>クラス分類のとき: ソフト投票(soft voting: 各木の予測確率の平均値が最大のクラスを予測クラスとする)でクラスを決める。
-<ul>
-<li>ソフト投票に対するハード投票(hard voting)は、各木に対する予測クラスを先に求め、その多数決で決めるもの。</li>
-</ul></li>
-</ul></li>
-</ul>
+<p>relu関数とtanh関数を示す。relu関数は0との間でmaxを取れば良い。tanh関数はNumPyに実装されている。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">line <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">100</span>)
+plt.plot(line, np.tanh(line), label<span class="op">=</span><span class="st">&quot;tanh&quot;</span>)
+plt.plot(line, np.maximum(line, <span class="dv">0</span>), label<span class="op">=</span><span class="st">&quot;relu&quot;</span>)
+plt.legend(loc<span class="op">=</span><span class="st">&quot;best&quot;</span>)
+plt.xlabel(<span class="st">&quot;x&quot;</span>)
+plt.ylabel(<span class="st">&quot;relu(x), tanh(x)&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-38-1.png" /><!-- --></p>
 </div>
-<div id="ランダムフォレストの解析" class="section level4">
-<h4><span class="header-section-number">3.1.1.2</span> ランダムフォレストの解析</h4>
-<p><strong>two_moons</strong>データセットにランダムフォレストを適用する。</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier
+<div id="ニューラルネットワークのチューニング" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> ニューラルネットワークのチューニング</h3>
+<p><strong>two_moons</strong>データセットを用いる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.neural_network <span class="im">import</span> MLPClassifier
 <span class="im">from</span> sklearn.datasets <span class="im">import</span> make_moons
-<span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split
-X, y <span class="op">=</span> make_moons(n_samples<span class="op">=</span><span class="dv">100</span>, noise<span class="op">=</span><span class="fl">0.25</span>, random_state<span class="op">=</span><span class="dv">3</span>)
-X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, stratify<span class="op">=</span>y, random_state<span class="op">=</span><span class="dv">42</span>)
-forest <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">2</span>)
-forest.fit(X_train, y_train)</code></pre></div>
-<p>それぞれの決定木は<code>estimator_</code>に格納されているので、最終的な予測とともに可視化してみよう。</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">10</span>))
-<span class="cf">for</span> i, (ax, tree) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(axes.ravel(), forest.estimators_)):
-  ax.set_title(<span class="st">&quot;Tree </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(i))
-  mglearn.plots.plot_tree_partition(X_train, y_train, tree, ax<span class="op">=</span>ax)
-  
-mglearn.plots.plot_2d_separator(forest, X_train, fill<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>axes[<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>], alpha<span class="op">=</span>.<span class="dv">4</span>)
-axes[<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>].set_title(<span class="st">&quot;ランダムフォレスト&quot;</span>)
-mglearn.discrete_scatter(X_train[:, <span class="dv">0</span>], X_train[:, <span class="dv">1</span>], y_train)</code></pre></div>
-<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-4-1.png" /><!-- --></p>
-<p>もう一つの例としてcancerにランダムフォレストを適用してみよう。今回は木の数は100とする。</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer
-cancer <span class="op">=</span> load_breast_cancer()
+X, y <span class="op">=</span> make_moons(n_samples<span class="op">=</span><span class="dv">100</span>, noise<span class="op">=</span>.<span class="dv">25</span>, random_state<span class="op">=</span><span class="dv">3</span>)
 X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(
-  cancer.data, cancer.target, random_state<span class="op">=</span><span class="dv">0</span>
+  X, y, stratify<span class="op">=</span>y, random_state<span class="op">=</span><span class="dv">42</span>
 )
-forest <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">0</span>)
-forest.fit(X_train, y_train)
-<span class="bu">print</span>(<span class="st">&quot;訓練セットの精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(forest.score(X_train, y_train)))
- <span class="co">## 訓練セットの精度: 1.000</span>
-<span class="bu">print</span>(<span class="st">&quot;テストセットの精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(forest.score(X_test, y_test)))
- <span class="co">## テストセットの精度: 0.972</span></code></pre></div>
-<p>ランダムフォレストはチューニングをしなくてもデフォルトのパラメータで十分に高い精度を出すことが多い。</p>
-<p>複数の木の平均として求めるため、特徴量の重要度の信頼性も高い。</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">n_features <span class="op">=</span> cancer.data.shape[<span class="dv">1</span>]
-plt.barh(<span class="bu">range</span>(n_features), forest.feature_importances_, align<span class="op">=</span><span class="st">&#39;center&#39;</span>)
-plt.yticks(np.arange(n_features), cancer.feature_names)
-plt.xlabel(<span class="st">&quot;特徴量の重要度&quot;</span>)
-plt.ylabel(<span class="st">&quot;特徴量&quot;</span>)</code></pre></div>
-<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-7-1.png" /><!-- --></p>
-</div>
-<div id="長所短所パラメータ-1" class="section level4">
-<h4><span class="header-section-number">3.1.1.3</span> 長所、短所、パラメータ</h4>
-<ul>
-<li>ランダムフォレストは現在最も広く使われている機械学習手法の一つ。
-<ul>
-<li>強力で、チューニングをさほど必要とせず、スケール変換も不要。</li>
-</ul></li>
-<li>複数の木を合成する関係上、モデルの解釈は決定木より難しくなる。簡単な解釈が欲しければ決定木を使うのも手。</li>
-<li>個々の木を作るプロセスは独立なので、並列化も容易にできる。使用コア数は<code>n_jobs</code>で指定し、-1を指定すれば全てのコアを使う。</li>
-<li>高次元で疎なデータに対しては上手く機能しない事が多い。線形モデルを使おう。</li>
-<li>訓練にも予測にも時間がかかり、メモリも多く使う。速度やメモリが重要な時は線形モデルを使おう。</li>
-<li><code>n_estimatros</code>と<code>max_features</code>、<code>max_depth</code>などの枝刈りパラメータは検討の余地がある。<code>n_estimator</code>は時間とメモリの許す限り大きくすべきだ。</li>
-<li><code>max_features</code>はデフォルトでは以下の設定になっており、大抵の場合はデフォルトでも問題はない。
-<ul>
-<li>クラス分類: <code>sqrt(n_features)</code></li>
-<li>回帰: <code>n_features</code></li>
-</ul></li>
-<li><code>max_features</code>や<code>max_leaf_nodes</code>を設定すると性能が上がったり、訓練と予測の時間が縮まることもある。</li>
-</ul>
+mlp <span class="op">=</span> MLPClassifier(solver<span class="op">=</span><span class="st">&#39;lbfgs&#39;</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(X_train, y_train)
+mglearn.plots.plot_2d_separator(mlp, X_train, fill<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span>.<span class="dv">3</span>)
+mglearn.discrete_scatter(X_train[:, <span class="dv">0</span>], X_train[:, <span class="dv">1</span>], y_train)
+plt.xlabel(<span class="st">&quot;特徴量0&quot;</span>)
+plt.ylabel(<span class="st">&quot;特徴量1&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-40-1.png" /><!-- --></p>
+<p>デフォルトではMLPは100の隠れ層を持ち、これは小さなデータセットに対しては大きすぎるので10に減らしてみる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mlp <span class="op">=</span> MLPClassifier(solver<span class="op">=</span><span class="st">&#39;lbfgs&#39;</span>, random_state<span class="op">=</span><span class="dv">0</span>, hidden_layer_sizes<span class="op">=</span>[<span class="dv">10</span>])
+mlp.fit(X_train, y_train)
+mglearn.plots.plot_2d_separator(mlp, X_train, fill<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span>.<span class="dv">3</span>)
+mglearn.discrete_scatter(X_train[:, <span class="dv">0</span>], X_train[:, <span class="dv">1</span>], y_train)
+plt.xlabel(<span class="st">&quot;特徴量0&quot;</span>)
+plt.ylabel(<span class="st">&quot;特徴量1&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-42-1.png" /><!-- --></p>
+
 </div>
 </div>
-<div id="勾配ブースティング回帰木勾配ブースティングマシン" class="section level3">
-<h3><span class="header-section-number">3.1.2</span> 勾配ブースティング回帰木(勾配ブースティングマシン)</h3>
-<ul>
-<li>1つ前の決定木を次の決定木で修正するように学習が進む。</li>
-<li>デフォルトでは乱数性は無い。</li>
-<li>深さ1〜5の浅い決定木が使われる。これによりメモリと計算時間を節約できる。</li>
-<li><strong>弱学習器</strong>(weak learner)を複数組み合わせる。
-<ul>
-<li>ひとつの学習器は限られた範囲で良い予測を与えるだけだが、組み合わせることで性能を向上させる。</li>
-</ul></li>
-<li>ランダムフォレストよりパラメータの影響をうけるが、きちんとチューニングをすればランダムフォレストを上回る性能を出せる。</li>
-<li>重要なパラメータとして<strong>learning_rate</strong>(学習率)がある。これは個々の決定木がどの程度補正を行うのかの強さを決定するパラメータで、大きいほど補正が強い = モデルが複雑になる。</li>
-</ul>
-<p>cancerデータで例を見る。</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingClassifier
-X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(
-  cancer.data, cancer.target, random_state<span class="op">=</span><span class="dv">0</span>
-)
-gbrt <span class="op">=</span> GradientBoostingClassifier(random_state<span class="op">=</span><span class="dv">0</span>)
-gbrt.fit(X_train, y_train)
-<span class="bu">print</span>(<span class="st">&quot;訓練セットに対する精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(gbrt.score(X_train, y_train)))
- <span class="co">## 訓練セットに対する精度: 1.000</span>
-<span class="bu">print</span>(<span class="st">&quot;テストセットに対する精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(gbrt.score(X_test, y_test)))
- <span class="co">## テストセットに対する精度: 0.958</span></code></pre></div>
-<p>過剰適合が疑われる(訓練セットの精度が高すぎる)ので、モデルを単純にする。</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co">## 枝刈りの深さを浅くする</span>
-gbrt <span class="op">=</span> GradientBoostingClassifier(random_state<span class="op">=</span><span class="dv">0</span>, max_depth<span class="op">=</span><span class="dv">1</span>)
-gbrt.fit(X_train, y_train)
-<span class="bu">print</span>(<span class="st">&quot;訓練セットに対する精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(gbrt.score(X_train, y_train)))
- <span class="co">## 訓練セットに対する精度: 0.991</span>
-<span class="bu">print</span>(<span class="st">&quot;テストセットに対する精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(gbrt.score(X_test, y_test)))
- <span class="co">## テストセットに対する精度: 0.972</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co">## 学習率を下げる</span>
-gbrt <span class="op">=</span> GradientBoostingClassifier(random_state<span class="op">=</span><span class="dv">0</span>, learning_rate<span class="op">=</span>.<span class="dv">01</span>)
-gbrt.fit(X_train, y_train)
-<span class="bu">print</span>(<span class="st">&quot;訓練セットに対する精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(gbrt.score(X_train, y_train)))
- <span class="co">## 訓練セットに対する精度: 0.988</span>
-<span class="bu">print</span>(<span class="st">&quot;テストセットに対する精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(gbrt.score(X_test, y_test)))
- <span class="co">## テストセットに対する精度: 0.965</span></code></pre></div>
-<p>この例では枝刈りを強くしたほうが汎化性能が上がった。パラメータを可視化してみる。</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">gbrt <span class="op">=</span> GradientBoostingClassifier(random_state<span class="op">=</span><span class="dv">0</span>, max_depth<span class="op">=</span><span class="dv">1</span>)
-gbrt.fit(X_train, y_train)
-n_features <span class="op">=</span> cancer.data.shape[<span class="dv">1</span>]
-plt.barh(<span class="bu">range</span>(n_features), gbrt.feature_importances_, align<span class="op">=</span><span class="st">&quot;center&quot;</span>)
-plt.yticks(np.arange(n_features), cancer.feature_names)
-plt.xlabel(<span class="st">&quot;特徴量の重要度&quot;</span>)
-plt.ylabel(<span class="st">&quot;特徴量&quot;</span>)</code></pre></div>
-<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-12-1.png" /><!-- --></p>
-<ul>
-<li>勾配ブースティングマシンの特徴量の重要度をランダムフォレストと比較すると、いくつかの特徴量が無視されていることがわかる。</li>
-<li>基本的にはランダムフォレストを先に試したほうが良い。</li>
-<li>予測時間を短くしたい、チューニングによってギリギリまで性能を高めたいという場合には勾配ブースティングを試す価値がある。</li>
-<li>勾配ブースティングマシンを大きな問題に試したければ、<code>xgboost</code>パッケージの利用を検討したほうが良い。</li>
-</ul>
-<div id="長所短所パラメータ-2" class="section level4">
-<h4><span class="header-section-number">3.1.2.1</span> 長所、短所、パラメータ</h4>
-<ul>
-<li>教師あり学習の中で最も強力なモデルの一つ。</li>
-<li>並列化できないので訓練にかかる時間を短くできない。</li>
-<li>パラメータに影響されやすいので、チューニングを注意深く行う必要がある。</li>
-<li>スケール変換の必要がない、疎なデータには上手く機能しないという点はランダムフォレストと同様。</li>
-<li>主なパラメータは<code>n_estimators</code>と<code>learning_rate</code>であるが、ランダムフォレストと異なり<code>n_estimators</code>は大きくすれば良いというものではない。大きいほど過学習のリスクが高まる。<code>n_estimators</code>をメモリや学習時間との兼ね合いから先に決めておき、<code>learning_rate</code>をチューニングするという方法がよくとられる。</li>
-<li><code>max_depth</code>は非常に小さく、5以下に設定される場合が多い。</li>
-</ul>
-</div>
-</div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="3-教師あり学習-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="3-2-アルゴリズム6-カーネル法を用いたサポートベクタマシン.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

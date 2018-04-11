@@ -25,7 +25,7 @@
 <meta name="author" content="R. Ito">
 
 
-<meta name="date" content="2018-03-23">
+<meta name="date" content="2018-04-11">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -47,6 +47,10 @@
 
 
 
+<script src="libs/htmlwidgets-1.0/htmlwidgets.js"></script>
+<script src="libs/viz-0.3/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.0/grViz.js"></script>
 
 
 <style type="text/css">
@@ -126,13 +130,9 @@ code > span. { color: #1f1c1b; } /* Normal */
 <li class="chapter" data-level="1.6.1" data-path="1-6-最初のアプリケーション-アイリスのクラス分類.html"><a href="1-6-最初のアプリケーション-アイリスのクラス分類.html#データを読む"><i class="fa fa-check"></i><b>1.6.1</b> データを読む</a></li>
 <li class="chapter" data-level="1.6.2" data-path="1-6-最初のアプリケーション-アイリスのクラス分類.html"><a href="1-6-最初のアプリケーション-アイリスのクラス分類.html#成功度合いの測定-訓練データとテストデータ"><i class="fa fa-check"></i><b>1.6.2</b> 成功度合いの測定: 訓練データとテストデータ</a></li>
 <li class="chapter" data-level="1.6.3" data-path="1-6-最初のアプリケーション-アイリスのクラス分類.html"><a href="1-6-最初のアプリケーション-アイリスのクラス分類.html#最初にすべきこと-データを良く観察する"><i class="fa fa-check"></i><b>1.6.3</b> 最初にすべきこと: データを良く観察する</a></li>
-</ul></li>
-<li class="chapter" data-level="1.7" data-path="1-7-dataframeへの変換.html"><a href="1-7-dataframeへの変換.html"><i class="fa fa-check"></i><b>1.7</b> DataFrameへの変換</a></li>
-<li class="chapter" data-level="1.8" data-path="1-8-プロット.html"><a href="1-8-プロット.html"><i class="fa fa-check"></i><b>1.8</b> プロット</a></li>
-<li class="chapter" data-level="1.9" data-path="1-9-表示.html"><a href="1-9-表示.html"><i class="fa fa-check"></i><b>1.9</b> 表示</a><ul>
-<li class="chapter" data-level="1.9.1" data-path="1-9-表示.html"><a href="1-9-表示.html#最初のモデル-k-最近傍法"><i class="fa fa-check"></i><b>1.9.1</b> 最初のモデル: k-最近傍法</a></li>
-<li class="chapter" data-level="1.9.2" data-path="1-9-表示.html"><a href="1-9-表示.html#予測を行う"><i class="fa fa-check"></i><b>1.9.2</b> 予測を行う</a></li>
-<li class="chapter" data-level="1.9.3" data-path="1-9-表示.html"><a href="1-9-表示.html#モデルの評価"><i class="fa fa-check"></i><b>1.9.3</b> モデルの評価</a></li>
+<li class="chapter" data-level="1.6.4" data-path="1-6-最初のアプリケーション-アイリスのクラス分類.html"><a href="1-6-最初のアプリケーション-アイリスのクラス分類.html#最初のモデル-k-最近傍法"><i class="fa fa-check"></i><b>1.6.4</b> 最初のモデル: k-最近傍法</a></li>
+<li class="chapter" data-level="1.6.5" data-path="1-6-最初のアプリケーション-アイリスのクラス分類.html"><a href="1-6-最初のアプリケーション-アイリスのクラス分類.html#予測を行う"><i class="fa fa-check"></i><b>1.6.5</b> 予測を行う</a></li>
+<li class="chapter" data-level="1.6.6" data-path="1-6-最初のアプリケーション-アイリスのクラス分類.html"><a href="1-6-最初のアプリケーション-アイリスのクラス分類.html#モデルの評価"><i class="fa fa-check"></i><b>1.6.6</b> モデルの評価</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="2-教師あり学習-1.html"><a href="2-教師あり学習-1.html"><i class="fa fa-check"></i><b>2</b> 教師あり学習 (1)</a><ul>
@@ -154,12 +154,10 @@ code > span. { color: #1f1c1b; } /* Normal */
 <li class="chapter" data-level="2.5.1" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#線形モデルによる回帰"><i class="fa fa-check"></i><b>2.5.1</b> 線形モデルによる回帰</a></li>
 <li class="chapter" data-level="2.5.2" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#線形回帰通常最小二乗法"><i class="fa fa-check"></i><b>2.5.2</b> 線形回帰(通常最小二乗法)</a></li>
 <li class="chapter" data-level="2.5.3" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#リッジ回帰"><i class="fa fa-check"></i><b>2.5.3</b> リッジ回帰</a></li>
-<li class="chapter" data-level="2.5.4" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#alphaを10倍にしてみる-パラメータはオブジェクト生成時に指定"><i class="fa fa-check"></i><b>2.5.4</b> alphaを10倍にしてみる パラメータはオブジェクト生成時に指定</a></li>
-<li class="chapter" data-level="2.5.5" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#alphaを0.1倍にしてみる-パラメータはオブジェクト生成時に指定"><i class="fa fa-check"></i><b>2.5.5</b> alphaを0.1倍にしてみる パラメータはオブジェクト生成時に指定</a></li>
-<li class="chapter" data-level="2.5.6" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#lasso"><i class="fa fa-check"></i><b>2.5.6</b> Lasso</a></li>
-<li class="chapter" data-level="2.5.7" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#クラス分類のための線形モデル"><i class="fa fa-check"></i><b>2.5.7</b> クラス分類のための線形モデル</a></li>
-<li class="chapter" data-level="2.5.8" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#線形モデルによる多クラス分類"><i class="fa fa-check"></i><b>2.5.8</b> 線形モデルによる多クラス分類</a></li>
-<li class="chapter" data-level="2.5.9" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#利点欠点パラメータ"><i class="fa fa-check"></i><b>2.5.9</b> 利点、欠点、パラメータ</a></li>
+<li class="chapter" data-level="2.5.4" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#lasso"><i class="fa fa-check"></i><b>2.5.4</b> Lasso</a></li>
+<li class="chapter" data-level="2.5.5" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#クラス分類のための線形モデル"><i class="fa fa-check"></i><b>2.5.5</b> クラス分類のための線形モデル</a></li>
+<li class="chapter" data-level="2.5.6" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#線形モデルによる多クラス分類"><i class="fa fa-check"></i><b>2.5.6</b> 線形モデルによる多クラス分類</a></li>
+<li class="chapter" data-level="2.5.7" data-path="2-5-アルゴリズム2-線形モデル.html"><a href="2-5-アルゴリズム2-線形モデル.html#利点欠点パラメータ"><i class="fa fa-check"></i><b>2.5.7</b> 利点、欠点、パラメータ</a></li>
 </ul></li>
 <li class="chapter" data-level="2.6" data-path="2-6-アルゴリズム3-ナイーブベイズクラス分類器.html"><a href="2-6-アルゴリズム3-ナイーブベイズクラス分類器.html"><i class="fa fa-check"></i><b>2.6</b> アルゴリズム3 ナイーブベイズクラス分類器</a><ul>
 <li class="chapter" data-level="2.6.1" data-path="2-6-アルゴリズム3-ナイーブベイズクラス分類器.html"><a href="2-6-アルゴリズム3-ナイーブベイズクラス分類器.html#利点欠点パラメータ-1"><i class="fa fa-check"></i><b>2.6.1</b> 利点、欠点、パラメータ</a></li>
@@ -169,9 +167,7 @@ code > span. { color: #1f1c1b; } /* Normal */
 <li class="chapter" data-level="2.7.2" data-path="2-7-アルゴリズム4-決定木.html"><a href="2-7-アルゴリズム4-決定木.html#決定木の複雑さの制御"><i class="fa fa-check"></i><b>2.7.2</b> 決定木の複雑さの制御</a></li>
 <li class="chapter" data-level="2.7.3" data-path="2-7-アルゴリズム4-決定木.html"><a href="2-7-アルゴリズム4-決定木.html#決定木の解析"><i class="fa fa-check"></i><b>2.7.3</b> 決定木の解析</a></li>
 <li class="chapter" data-level="2.7.4" data-path="2-7-アルゴリズム4-決定木.html"><a href="2-7-アルゴリズム4-決定木.html#決定木の特徴量の重要性"><i class="fa fa-check"></i><b>2.7.4</b> 決定木の特徴量の重要性</a></li>
-</ul></li>
-<li class="chapter" data-level="2.8" data-path="2-8-プロット-1.html"><a href="2-8-プロット-1.html"><i class="fa fa-check"></i><b>2.8</b> プロット</a><ul>
-<li class="chapter" data-level="2.8.1" data-path="2-8-プロット-1.html"><a href="2-8-プロット-1.html#長所短所パラメータ"><i class="fa fa-check"></i><b>2.8.1</b> 長所、短所、パラメータ</a></li>
+<li class="chapter" data-level="2.7.5" data-path="2-7-アルゴリズム4-決定木.html"><a href="2-7-アルゴリズム4-決定木.html#長所短所パラメータ"><i class="fa fa-check"></i><b>2.7.5</b> 長所、短所、パラメータ</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="3-教師あり学習-2.html"><a href="3-教師あり学習-2.html"><i class="fa fa-check"></i><b>3</b> 教師あり学習 (2)</a><ul>
@@ -190,6 +186,7 @@ code > span. { color: #1f1c1b; } /* Normal */
 <li class="chapter" data-level="3.3" data-path="3-3-ニューラルネットワークディープラーニング.html"><a href="3-3-ニューラルネットワークディープラーニング.html"><i class="fa fa-check"></i><b>3.3</b> ニューラルネットワーク(ディープラーニング)</a><ul>
 <li class="chapter" data-level="3.3.1" data-path="3-3-ニューラルネットワークディープラーニング.html"><a href="3-3-ニューラルネットワークディープラーニング.html#ニューラルネットワークモデル"><i class="fa fa-check"></i><b>3.3.1</b> ニューラルネットワークモデル</a></li>
 <li class="chapter" data-level="3.3.2" data-path="3-3-ニューラルネットワークディープラーニング.html"><a href="3-3-ニューラルネットワークディープラーニング.html#ニューラルネットワークのチューニング"><i class="fa fa-check"></i><b>3.3.2</b> ニューラルネットワークのチューニング</a></li>
+<li class="chapter" data-level="3.3.3" data-path="3-3-ニューラルネットワークディープラーニング.html"><a href="3-3-ニューラルネットワークディープラーニング.html#長所短所パラメータ-3"><i class="fa fa-check"></i><b>3.3.3</b> 長所、短所、パラメータ</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -226,30 +223,23 @@ Published with bookdown</a></li>
 <li>MLPは線形モデルを一般化して複数ステージで計算するもの。</li>
 <li>線形回帰は重み付きの和を計算している。</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> scipy.misc <span class="im">import</span> imread
-ax <span class="op">=</span> plt.gca()
-g <span class="op">=</span> mglearn.plots.plot_logistic_regression_graph()
-g.<span class="bu">format</span> <span class="op">=</span> <span class="st">&quot;png&quot;</span>
-g.render(<span class="st">&quot;tmp&quot;</span>)
-ax.imshow(imread(<span class="st">&quot;tmp.png&quot;</span>))
-plt.axis(<span class="st">&quot;off&quot;</span>)
-plt.show()</code></pre></div>
-<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-35-1.png" /><!-- --></p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.close()</code></pre></div>
+<div id="htmlwidget-4853b6d54230f7b2192d" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4853b6d54230f7b2192d">{"x":{"diagram":"\ndigraph  {\n  graph [rankdir=LR; splines=false]\n  ranksep = 1.4;\n  {\n    node [shape=circle, color=yellow, style = filled, fillcolor=yellow];\n    \"b[0]\";\n  }\n  {\n    node [shape=circle, color=chartreuse, style = filled, fillcolor=chartreuse];\n    \"x[0]\" \"x[1]\" \"x[2]\" \"x[3]\";\n  }\n  subgraph cluster0 {\n  node [style=solid, shape=circle, width=.6];\n  label = \"入力\";\n  penwidth = 0;\n  \"b[0]\" \"x[0]\" \"x[1]\" \"x[2]\" \"x[3]\";\n  }\n  subgraph cluster1 {\n  node [shape=circle, color=coral1, style=filled, fillcolor=coral1];\n  label = \"出力\";\n  penwidth = 0;\n  ŷ\n  }\n  \"b[0]\" -> ŷ;\n  \"x[0]\" -> ŷ [label = \"w[0]\"];\n  \"x[1]\" -> ŷ [label = \"w[1]\"];\n  \"x[2]\" -> ŷ [label = \"w[2]\"];\n  \"x[3]\" -> ŷ [label = \"w[3]\"];\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <ul>
 <li>MLPは重み付き和の計算を繰り返す。中間ステップを<strong>隠れユニット</strong>と呼ぶ。</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">ax <span class="op">=</span> plt.gca()
-g <span class="op">=</span> mglearn.plots.plot_single_hidden_layer_graph()
-g.<span class="bu">format</span> <span class="op">=</span> <span class="st">&quot;png&quot;</span>
-g.render(<span class="st">&quot;tmp&quot;</span>)
-ax.imshow(imread(<span class="st">&quot;tmp.png&quot;</span>))
-plt.axis(<span class="st">&quot;off&quot;</span>)
-plt.show()</code></pre></div>
-<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-36-1.png" /><!-- --></p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.close()</code></pre></div>
+<div id="htmlwidget-ac48dc0b5b28fd6acbf1" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ac48dc0b5b28fd6acbf1">{"x":{"diagram":"\ndigraph {\n  rankdir = LR;\n  splines = false;\n  edge[style=invis];\n  ranksep = 1.4;\n  {\n    node [shape=circle, color=yellow, style = filled, fillcolor=yellow];\n    \"b[0]\" \"b[1]\";\n  }\n  {\n    node [shape=circle, color=chartreuse, style = filled, fillcolor=chartreuse];\n    \"x[0]\" \"x[1]\" \"x[2]\" \"x[3]\";\n  }\n  {\n    node [shape=circle, color=dodgerblue, style = filled, fillcolor=dodgerblue];\n    \"h[0]\" \"h[1]\" \"h[2]\";\n  }\n  {\n    node [shape=circle, color=coral1, style=filled, fillcolor=coral1];\n    ŷ\n  }\n  { rank=same;\"b[0]\"->\"x[0]\"->\"x[1]\"->\"x[2]\"->\"x[3]\"}\n  { rank=same;\"b[1]\"->\"h[0]\"->\"h[1]\"->\"h[2]\"}\n  \"b[0]\"->\"b[1]\"\n  l0 [shape = plaintext, label = \"入力\"];\n  l0->\"b[0]\";\n  {rank=same; l0;\"b[0]\"}\n  l1 [shape = plaintext, label = \"隠れ層\"];\n  l1->\"b[1]\";\n  {rank=same; l1;\"b[1]\"}\n  l3 [shape = plaintext, label = \"出力\"];\n  l3->ŷ;\n  {rank=same; l3;ŷ}\n  edge[style=solid, tailport=e, headport=w];\n  {\"b[0]\"; \"x[0]\"; \"x[1]\"; \"x[2]\"; \"x[3]\"} -> {\"h[0]\"; \"h[1]\"; \"h[2]\"}\n  {\"b[1]\"; \"h[0]\"; \"h[1]\"; \"h[2]\"} ->  ŷ;\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <ul>
-<li>重み付き和を単に連続して計算するのは、1つの重み付き和を計算するのと等価なので、もう少し工夫しないと線形モデルと変わらない。</li>
+<li><p>重み付き和を単に連続して計算するのは、1つの重み付き和を計算するのと等価なので、もう少し工夫しないと線形モデルと変わらない。</p></li>
+<li>ざっくりとした説明:
+<ul>
+<li>入力から隠れ層への重みを<span class="math inline">\({\bf W}_1\)</span>、隠れ層から出力への重みを<span class="math inline">\({\bf W}_2\)</span>と行列で表す。</li>
+<li>このとき、隠れ層の値<span class="math inline">\({\bf h}\)</span>は、入力<span class="math inline">\({\bf x}\)</span>と重みの積として<span class="math inline">\({\bf h}={\bf W_1x}\)</span>として表せる。</li>
+<li>同様に、<span class="math inline">\(y={\bf W_2h}\)</span>。</li>
+<li>全体は<span class="math inline">\(y={\bf W_2 W_1 x}\)</span>のように表現できるが、ここで<span class="math inline">\({\bf W_3}={\bf W_2W_1}\)</span>を考えることができるので、結局2つの重み付き和を計算するのは1つの重み付き和を計算するのと変わらない。</li>
+<li>同様に、層を何層に増やしても途中の計算が線形である限り、必ず1層の等価な重み付き和が存在する。</li>
+</ul></li>
 <li>もう少しの工夫 = 重み付き和の計算結果に<strong>非線形関数</strong>を適用する。
 <ul>
 <li>relu(rectified linear unit: 正規化線形関数)
@@ -260,7 +250,10 @@ plt.show()</code></pre></div>
 <ul>
 <li>小さい値は-1、大きい値は+1に飽和。</li>
 </ul></li>
-<li>この工夫によって線形モデルよりはるかに複雑なモデルを学習可能となる。</li>
+</ul></li>
+<li>この工夫によって線形モデルよりはるかに複雑なモデルを学習可能となる。
+<ul>
+<li>重み付き和を出力する際に変換を行う関数は<strong>活性化関数</strong>(activation function)とも呼ばれる。</li>
 </ul></li>
 </ul>
 <p>relu関数とtanh関数を示す。relu関数は0との間でmaxを取れば良い。tanh関数はNumPyに実装されている。</p>
@@ -271,6 +264,12 @@ plt.legend(loc<span class="op">=</span><span class="st">&quot;best&quot;</span>)
 plt.xlabel(<span class="st">&quot;x&quot;</span>)
 plt.ylabel(<span class="st">&quot;relu(x), tanh(x)&quot;</span>)</code></pre></div>
 <p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-38-1.png" /><!-- --></p>
+<ul>
+<li>隠れ層を追加したり、隠れ層のノード数を増やしたりしてより複雑なニューラルネットを作成することができる。ノード数は時には10,000にもなる。</li>
+<li>このような計算層を多数持つニューラルネットから<strong>ディープラーニング</strong>という言葉が生まれた。</li>
+</ul>
+<div id="htmlwidget-3f5eae56b41d06b97bde" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3f5eae56b41d06b97bde">{"x":{"diagram":"\ndigraph {\n  rankdir = LR;\n  splines = false;\n  edge[style=invis];\n  ranksep = 1.4;\n  {\n    node [shape=circle, color=yellow, style = filled, fillcolor=yellow];\n    \"b[0]\" \"b[1]\" \"b[2]\";\n  }\n  {\n    node [shape=circle, color=chartreuse, style = filled, fillcolor=chartreuse];\n    \"x[0]\" \"x[1]\" \"x[2]\" \"x[3]\";\n  }\n  {\n    node [shape=circle, color=dodgerblue, style = filled, fillcolor=dodgerblue];\n    \"h1[0]\" \"h1[1]\" \"h1[2]\";\n    \"h2[0]\" \"h2[1]\" \"h2[2]\";\n  }\n  {\n    node [shape=circle, color=coral1, style=filled, fillcolor=coral1];\n    ŷ\n  }\n  { rank=same;\"b[0]\"->\"x[0]\"->\"x[1]\"->\"x[2]\"->\"x[3]\"}\n  { rank=same;\"b[1]\"->\"h1[0]\"->\"h1[1]\"->\"h1[2]\"}\n  { rank=same;\"b[2]\"->\"h2[0]\"->\"h2[1]\"->\"h2[2]\"}\n  \"b[0]\"->\"b[1]\"->\"b[2]\"\n  l0 [shape = plaintext, label = \"入力\"];\n  l0->\"b[0]\";\n  {rank=same; l0;\"b[0]\"}\n  l1 [shape = plaintext, label = \"隠れ層1\"];\n  l1->\"b[1]\";\n  {rank=same; l1;\"b[1]\"}\n  l2 [shape = plaintext, label = \"隠れ層2\"];\n  l2->\"b[2]\";\n  {rank=same; l2;\"b[2]\"}\n  l3 [shape = plaintext, label = \"出力\"];\n  l3->ŷ;\n  {rank=same; l3;ŷ}\n  edge[style=solid, tailport=e, headport=w];\n  {\"b[0]\"; \"x[0]\"; \"x[1]\"; \"x[2]\"; \"x[3]\"} -> {\"h1[0]\"; \"h1[1]\"; \"h1[2]\"}\n  {\"b[1]\"; \"h1[0]\"; \"h1[1]\"; \"h1[2]\"} ->  {\"h2[0]\"; \"h2[1]\"; \"h2[2]\"}\n  {\"b[2]\"; \"h2[0]\"; \"h2[1]\"; \"h2[2]\"} ->  ŷ;\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="ニューラルネットワークのチューニング" class="section level3">
 <h3><span class="header-section-number">3.3.2</span> ニューラルネットワークのチューニング</h3>
@@ -286,16 +285,186 @@ mglearn.plots.plot_2d_separator(mlp, X_train, fill<span class="op">=</span><span
 mglearn.discrete_scatter(X_train[:, <span class="dv">0</span>], X_train[:, <span class="dv">1</span>], y_train)
 plt.xlabel(<span class="st">&quot;特徴量0&quot;</span>)
 plt.ylabel(<span class="st">&quot;特徴量1&quot;</span>)</code></pre></div>
-<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-40-1.png" /><!-- --></p>
-<p>デフォルトではMLPは100の隠れ層を持ち、これは小さなデータセットに対しては大きすぎるので10に減らしてみる。</p>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-41-1.png" /><!-- --></p>
+<ul>
+<li>デフォルトではMLPは100のノードからなる単一の隠れ層を持つが、これは小さなデータセットに対しては大きすぎるので10に減らしてみる。</li>
+</ul>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mlp <span class="op">=</span> MLPClassifier(solver<span class="op">=</span><span class="st">&#39;lbfgs&#39;</span>, random_state<span class="op">=</span><span class="dv">0</span>, hidden_layer_sizes<span class="op">=</span>[<span class="dv">10</span>])
 mlp.fit(X_train, y_train)
 mglearn.plots.plot_2d_separator(mlp, X_train, fill<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span>.<span class="dv">3</span>)
 mglearn.discrete_scatter(X_train[:, <span class="dv">0</span>], X_train[:, <span class="dv">1</span>], y_train)
 plt.xlabel(<span class="st">&quot;特徴量0&quot;</span>)
 plt.ylabel(<span class="st">&quot;特徴量1&quot;</span>)</code></pre></div>
-<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-42-1.png" /><!-- --></p>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-43-1.png" /><!-- --></p>
+<ul>
+<li>上記の例で境界がギザギザなのは、デフォルトで活性化関数がrelu関数のため。</li>
+<li>層を増やしたり、活性化関数にtanhを用いることで境界を滑らかにできる。</li>
+</ul>
+<p>まず隠れ層を1層ふやしてみる。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># 10ユニットの隠れ層を2つ使う</span>
+mlp <span class="op">=</span> MLPClassifier(solver<span class="op">=</span><span class="st">&#39;lbfgs&#39;</span>, random_state<span class="op">=</span><span class="dv">0</span>, hidden_layer_sizes<span class="op">=</span>[<span class="dv">10</span>, <span class="dv">10</span>])
+mlp.fit(X_train, y_train)
+mglearn.plots.plot_2d_separator(mlp, X_train, fill<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span>.<span class="dv">3</span>)
+mglearn.discrete_scatter(X_train[:, <span class="dv">0</span>], X_train[:, <span class="dv">1</span>], y_train)
+plt.xlabel(<span class="st">&quot;特徴量0&quot;</span>)
+plt.ylabel(<span class="st">&quot;特徴量1&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-45-1.png" /><!-- --></p>
+<p>さらに活性化関数にtanhを指定する。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># 10ユニットの隠れ層を2つ使う+活性化関数にtanh</span>
+mlp <span class="op">=</span> MLPClassifier(solver<span class="op">=</span><span class="st">&#39;lbfgs&#39;</span>, activation<span class="op">=</span><span class="st">&#39;tanh&#39;</span>,
+                    random_state<span class="op">=</span><span class="dv">0</span>, hidden_layer_sizes<span class="op">=</span>[<span class="dv">10</span>, <span class="dv">10</span>])
+mlp.fit(X_train, y_train)
+mglearn.plots.plot_2d_separator(mlp, X_train, fill<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span>.<span class="dv">3</span>)
+mglearn.discrete_scatter(X_train[:, <span class="dv">0</span>], X_train[:, <span class="dv">1</span>], y_train)
+plt.xlabel(<span class="st">&quot;特徴量0&quot;</span>)
+plt.ylabel(<span class="st">&quot;特徴量1&quot;</span>)</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-47-1.png" /><!-- --></p>
+<ul>
+<li>ニューラルネットワークにはまだまだパラメータがある。</li>
+<li>重みに対してL2正則化を行うことができる。デフォルトでは正則化は非常に弱い。</li>
+</ul>
+<p>以下は10ノードと100ノードの2層の隠れ層を持つニューラルネットワークに対し、L2正則化の程度を調整するパラメータalphaを変えた効果を示している。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">8</span>))
+<span class="cf">for</span> axx, n_hidden_nodes <span class="kw">in</span> <span class="bu">zip</span>(axes, [<span class="dv">10</span>, <span class="dv">100</span>]):
+  <span class="cf">for</span> ax, alpha <span class="kw">in</span> <span class="bu">zip</span>(axx, [<span class="fl">0.0001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="dv">1</span>]):
+    mlp <span class="op">=</span> MLPClassifier(solver<span class="op">=</span><span class="st">&#39;lbfgs&#39;</span>, random_state<span class="op">=</span><span class="dv">0</span>,
+                        hidden_layer_sizes<span class="op">=</span>[n_hidden_nodes, n_hidden_nodes],
+                        alpha<span class="op">=</span>alpha)
+    mlp.fit(X_train, y_train)
+    mglearn.plots.plot_2d_separator(mlp, X_train, fill<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span>.<span class="dv">3</span>, ax<span class="op">=</span>ax)
+    mglearn.discrete_scatter(X_train[:, <span class="dv">0</span>], X_train[:, <span class="dv">1</span>], y_train ,ax<span class="op">=</span>ax)
+    ax.set_title(<span class="st">&quot;隠れ層=[</span><span class="sc">{}</span><span class="st">, </span><span class="sc">{}</span><span class="st">]</span><span class="ch">\n</span><span class="st">alpha=</span><span class="sc">{:.4f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(
+                 n_hidden_nodes, n_hidden_nodes, alpha))</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-49-1.png" /><!-- --></p>
+<ul>
+<li>ニューラルネットワークは重みの初期値を乱数で決めるが、この影響は小さいネットワークでは大きく現れることがある。</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">8</span>))
+<span class="cf">for</span> i, ax <span class="kw">in</span> <span class="bu">enumerate</span>(axes.ravel()):
+  mlp <span class="op">=</span> MLPClassifier(solver<span class="op">=</span><span class="st">&#39;lbfgs&#39;</span>, random_state<span class="op">=</span>i,
+                      hidden_layer_sizes<span class="op">=</span>[<span class="dv">100</span>, <span class="dv">100</span>])
+  mlp.fit(X_train, y_train)
+  mglearn.plots.plot_2d_separator(mlp, X_train, fill<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span>.<span class="dv">3</span>, ax<span class="op">=</span>ax)
+  mglearn.discrete_scatter(X_train[:, <span class="dv">0</span>], X_train[:, <span class="dv">1</span>], y_train, ax<span class="op">=</span>ax)</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-51-1.png" /><!-- --></p>
+<p>次に、実データとしてcancerを使ってニューラルネットワークを適用してみる。</p>
+<p>cancerはデータセットのレンジが非常に幅広いデータである。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(cancer.data.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>)) <span class="co"># 各データセットの最大値</span>
+ <span class="co">## [2.811e+01 3.928e+01 1.885e+02 2.501e+03 1.634e-01 3.454e-01 4.268e-01</span>
+ <span class="co">##  2.012e-01 3.040e-01 9.744e-02 2.873e+00 4.885e+00 2.198e+01 5.422e+02</span>
+ <span class="co">##  3.113e-02 1.354e-01 3.960e-01 5.279e-02 7.895e-02 2.984e-02 3.604e+01</span>
+ <span class="co">##  4.954e+01 2.512e+02 4.254e+03 2.226e-01 1.058e+00 1.252e+00 2.910e-01</span>
+ <span class="co">##  6.638e-01 2.075e-01]</span></code></pre></div>
+<p>まずはデータセットそのままでニューラルネットワークを適用する。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(
+  cancer.data, cancer.target, random_state<span class="op">=</span><span class="dv">0</span>
+)
+mlp <span class="op">=</span> MLPClassifier(random_state<span class="op">=</span><span class="dv">42</span>)
+mlp.fit(X_train, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練セットの精度: </span><span class="sc">{:.2f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(mlp.score(X_train, y_train)))
+ <span class="co">## 訓練セットの精度: 0.91</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットの精度: </span><span class="sc">{:.2f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(mlp.score(X_test, y_test)))
+ <span class="co">## テストセットの精度: 0.88</span></code></pre></div>
+<p>精度は良いもののさほどではない。MLPはデータのスケールが同じくらいであることが望ましい。また、<strong>平均が0で分散が1</strong>であれば理想的である。そのような変換をここでは手作業で行う(<code>StandardScaler</code>を使えばもっと簡単にできるが、これは後に説明される)。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mean_on_train <span class="op">=</span> X_train.mean(axis<span class="op">=</span><span class="dv">0</span>) <span class="co"># 各データセットの平均値</span>
+std_on_train <span class="op">=</span> X_train.std(axis<span class="op">=</span><span class="dv">0</span>) <span class="co"># 各データセットの標準偏差</span>
+<span class="co"># 平均を引いてスケーリングする</span>
+X_train_scaled <span class="op">=</span> (X_train <span class="op">-</span> mean_on_train) <span class="op">/</span> std_on_train
+X_test_scaled <span class="op">=</span> (X_test <span class="op">-</span> mean_on_train) <span class="op">/</span> std_on_train
+<span class="co"># MLPを適用</span>
+mlp <span class="op">=</span> MLPClassifier(random_state<span class="op">=</span><span class="dv">0</span>)
+mlp.fit(X_train_scaled, y_train)
+ <span class="co">## /usr/local/lib/python3.5/dist-packages/sklearn/neural_network/multilayer_perceptron.py:564: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn&#39;t converged yet.</span>
+ <span class="co">##   % self.max_iter, ConvergenceWarning)</span>
+<span class="bu">print</span>(<span class="st">&quot;訓練セットの精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(mlp.score(X_train_scaled, y_train)))
+ <span class="co">## 訓練セットの精度: 0.991</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットの精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(mlp.score(X_test_scaled, y_test)))
+ <span class="co">## テストセットの精度: 0.965</span></code></pre></div>
+<p>これで精度はグッと良くなったが、収束に関する警告が出ている。繰り返し数が不足しているので、<code>max_iter</code>パラメータを通じて繰り返し数を増やす。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mlp <span class="op">=</span> MLPClassifier(max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">0</span>)
+mlp.fit(X_train_scaled, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練セットの精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(mlp.score(X_train_scaled, y_train)))
+ <span class="co">## 訓練セットの精度: 0.993</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットの精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(mlp.score(X_test_scaled, y_test)))
+ <span class="co">## テストセットの精度: 0.972</span></code></pre></div>
+<p>訓練セットに対する精度は上がったが、汎化性能があまり変化しない。パラメータalphaを大きくして、正則化を強くし、モデルを単純にするともっと汎化性能が上がるかもしれない。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mlp <span class="op">=</span> MLPClassifier(max_iter<span class="op">=</span><span class="dv">1000</span>, alpha<span class="op">=</span><span class="dv">1</span>, random_state<span class="op">=</span><span class="dv">0</span>)
+mlp.fit(X_train_scaled, y_train)
+<span class="bu">print</span>(<span class="st">&quot;訓練セットの精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(mlp.score(X_train_scaled, y_train)))
+ <span class="co">## 訓練セットの精度: 0.988</span>
+<span class="bu">print</span>(<span class="st">&quot;テストセットの精度: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(mlp.score(X_test_scaled, y_test)))
+ <span class="co">## テストセットの精度: 0.972</span></code></pre></div>
+<p>ニューラルネットワークの解析は線形モデルや決定木に比べると難しい。</p>
+<p>隠れ層における重みを可視化するという手があるので以下に示す。</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plt.figure(figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">5</span>))
+plt.imshow(mlp.coefs_[<span class="dv">0</span>], interpolation<span class="op">=</span><span class="st">&#39;none&#39;</span>, cmap<span class="op">=</span><span class="st">&#39;viridis&#39;</span>)
+plt.yticks(<span class="bu">range</span>(<span class="dv">30</span>), cancer.feature_names)
+plt.xlabel(<span class="st">&quot;重み行列の列&quot;</span>)
+plt.ylabel(<span class="st">&quot;特徴量&quot;</span>)
+plt.colorbar()</code></pre></div>
+<p><img src="02_supervised_learning_2_files/figure-html/unnamed-chunk-58-1.png" /><!-- --></p>
+<p><strong>隠れ層の全てのノードで重みが少ない特徴量</strong>は、少なくともこのモデルにおいて重要ではないことが予想される。本当に重要でないのか、あるいは特徴量がニューラルネットワークが利用可能な形で表現されていなかったかのどちらかだ。</p>
+<ul>
+<li>ニューラルネットワークをより柔軟に、より大きなデータに適用したければディープラーニングライブラリを試すと良い。</li>
+<li><strong>keras</strong>、<strong>lasagne</strong>、<strong>tensor-flow</strong>が有名
+<ul>
+<li>theanoやtensor-flowはディープラーニングのライブラリで、kerasやlasagneはそれらライブラリ上で動作するディープラーニングのライブラリ。</li>
+<li>lasagneはラザニアの複数形でラザーニェとか読むらしい。テキストのlasagnaは誤字っぽい。Kaggleでよく使われてるとかいう記事が出るけど、2015年あたり以降流行ってないのかも。ラザニアのレシピがやたらヒットして検索しにくい。</li>
+</ul></li>
+</ul>
+</div>
+<div id="長所短所パラメータ-3" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> 長所、短所、パラメータ</h3>
+<ul>
+<li>大量のデータを使って非常に複雑なモデルを構築できること。</li>
+<li>時間とデータを費やし十分にパラメータ調整を行えば回帰でも分類でも他のアルゴリズムに勝てる可能性がある。</li>
+<li>訓練には時間がかかる。</li>
+<li>それぞれの特徴量のスケールが近くないと上手く動かない。</li>
+<li>パラメータのチューニングはそれ自体が技術となる程度に複雑で奥が深い。</li>
+</ul>
+<div id="ニューラルネットワークの複雑さ推定" class="section level4">
+<h4><span class="header-section-number">3.3.3.1</span> ニューラルネットワークの複雑さ推定</h4>
+<ul>
+<li>隠れ層と層あたりのノード数は最も重要なパラメータ。
+<ul>
+<li>層は1つか2つから初め、後で増やしていくとよい。</li>
+<li>ノード数は入力と同じくらいが多いが、数千より大きくすることは少ない。</li>
+</ul></li>
+<li>学習の対象である重みの数は複雑さの指標の一つとなる。
+<ul>
+<li>例1: 100の特徴量、隠れ層(100ノード)、出力1
+<ul>
+<li>入力から隠れ層: 100行100列の行列が必要 =&gt; 重みの数は10,000</li>
+<li>隠れ層から出力: 100列1行の行列が必要(入力が縦ベクトルの場合) =&gt; 重みの数は100</li>
+<li>合計10,100の重みを学習する必要がある。</li>
+</ul></li>
+<li>例2: 100の特徴量、隠れ層×2(1,000ノード2層)、出力1
+<ul>
+<li>入力から隠れ層1: 100行1000列の行列が必要</li>
+</ul></li>
+</ul></li>
+<li>パラメータ調整の定石
+<ul>
+<li>まず大きめのネットワークを作って過学習させる
+<ul>
+<li>そもそも訓練データを学習できるのかを確認</li>
+</ul></li>
+<li>ネットワークを小さくしたり、正則化パラメータを調整して汎化性能を上げる</li>
+</ul></li>
+<li>どのようにモデルを学習させるか？
+<ul>
+<li>言い換えると…→どのように損失関数=誤差の値を最小化するか？</li>
+<li><a href="http://ruder.io/optimizing-gradient-descent/index.html#visualizationofalgorithms">An overview of gradient descent optimization algorithms</a>のグラフを見るとイメージがつかみやすいと思います。</li>
+<li>初心者は’adam’か’lbfgs’を使っておくとよい。</li>
+</ul></li>
+<li>fitはモデルをリセットする…？
+<ul>
+<li>これは<code>MLPClassifier</code>をデフォルトでインスタンス化した場合の話で、パラメータ<code>warm_start</code>に<code>True</code>を指定すると前回の学習を引き継げるようになるようです。</li>
+<li>cf. <a href="https://spjai.com/neural-network-parameter/">ニューラルネットワークのパラメータ設定方法(scikit-learnのMLPClassifier)</a></li>
+</ul></li>
+</ul>
 
+</div>
 </div>
 </div>
 <!-- </div> -->

@@ -105,7 +105,7 @@ iris_dataset = load_iris()
 
 ```python
 print(iris_dataset.keys())
- ## dict_keys(['target', 'feature_names', 'target_names', 'data', 'DESCR'])
+ ## dict_keys(['target_names', 'data', 'target', 'DESCR', 'feature_names'])
 ```
 
 キー**DESCR**の中にデータセットの説明が入っている。

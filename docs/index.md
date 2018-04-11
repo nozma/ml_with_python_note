@@ -1,7 +1,7 @@
 ---
 title: "Pythonで始める機械学習の学習"
 author: "R. Ito"
-date: "2018-03-23"
+date: "2018-04-11"
 site: bookdown::bookdown_site
 documentclass: book
 ---

@@ -92,7 +92,7 @@ plt.ylabel("目的変数")
 from sklearn.datasets import load_breast_cancer
 cancer = load_breast_cancer()
 print(cancer.keys())
- ## dict_keys(['target_names', 'target', 'data', 'feature_names', 'DESCR'])
+ ## dict_keys(['target', 'data', 'DESCR', 'target_names', 'feature_names'])
 print(cancer.data.shape)
  ## (569, 30)
 print(cancer.target_names)
